@@ -1,0 +1,78 @@
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:id="@+id/txtBroadcastTitle_MiniPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="current broadcast title .. "
+        android:textSize="@dimen/_26ssp"/>
+
+    <ImageView
+        android:id="@+id/btnPlayPause_MiniPlayer"
+        android:src="@drawable/ic_play_circle_filled_white_black_48dp"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <ImageView
+        android:id="@+id/btnShuffle_MiniPlayer"
+        android:src="@drawable/ic_shuffle_black_48px"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/txtBroadcastTitle_MiniPlayer"
+        />
+
+    <ImageView
+        android:id="@+id/btnRepeat_MiniPlayer"
+        android:src="@drawable/ic_repeat_black_48px"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp" 
+        android:layout_toEndOf="@id/btnShuffle_MiniPlayer"
+        android:layout_below="@id/txtBroadcastTitle_MiniPlayer"
+    />
+
+    <ImageView
+        android:id="@+id/btnRepeatOne_MiniPlayer"
+        android:src="@drawable/ic_repeatone_black_48px"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_toEndOf="@id/btnRepeat_MiniPlayer"
+        android:layout_below="@id/txtBroadcastTitle_MiniPlayer"
+        />
+
+
+    <ImageView
+        android:id="@+id/btnPlaylistAdd_MiniPlayer"
+        android:src="@drawable/ic_playlist_add_black_48dp"
+        android:tint="@color/btn"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_toEndOf="@id/btnRepeatOne_MiniPlayer"
+        android:layout_below="@id/txtBroadcastTitle_MiniPlayer"
+        />
+
+    <ImageView
+        android:id="@+id/btnShare_MiniPlayer"
+        android:src="@drawable/ic_share_black_48dp"
+        android:tint="@color/btn"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_toEndOf="@id/btnPlaylistAdd_MiniPlayer"
+        android:layout_below="@id/txtBroadcastTitle_MiniPlayer"
+        />
+
+
+</RelativeLayout>

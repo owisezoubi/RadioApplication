@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- demo animation just to pass the time, until screen loads -->
+    <!-- to be changed -->
+
+    <translate
+        android:fromYDelta="0%p"
+        android:toXDelta="0%p"
+        android:duration="3500"
+        />
+
+</set>

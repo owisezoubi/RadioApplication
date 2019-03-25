@@ -1,0 +1,59 @@
+<RelativeLayout
+    android:id="@+id/layItemBroadcast"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/img_ItemBroadcast"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_album_white_48dp"
+        android:tint="@color/btn"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp" />
+
+    <TextView
+        android:id="@+id/txtBroadcastTitle_ItemBroadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="broadcast title ... "
+        android:textSize="@dimen/_14ssp"
+        android:layout_toEndOf="@+id/img_ItemBroadcast"
+        android:layout_alignTop="@id/img_ItemBroadcast"
+        android:layout_marginStart="@dimen/_10sdp"/>
+
+    <TextView
+        android:id="@+id/txtBroadcastDuration_ItemBroadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="h:mm:ss"
+        android:layout_below="@id/txtBroadcastTitle_ItemBroadcast"
+        android:layout_toEndOf="@id/img_ItemBroadcast"
+        android:layout_alignStart="@id/txtBroadcastTitle_ItemBroadcast"
+        android:layout_marginTop="@dimen/_10sdp"/>
+
+
+    <ProgressBar
+        android:id="@+id/progress_ItemBRoadcast"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/txtBroadcastDuration_ItemBroadcast"
+        android:layout_marginEnd="@dimen/_10sdp"/>
+
+    <TextView
+        android:id="@+id/status_ItemBroadcast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STATUS"
+        android:layout_toStartOf="@id/progress_ItemBRoadcast"
+        android:layout_alignTop="@id/progress_ItemBRoadcast"
+        android:layout_marginEnd="@dimen/_10sdp"/>
+
+
+
+</RelativeLayout>
+

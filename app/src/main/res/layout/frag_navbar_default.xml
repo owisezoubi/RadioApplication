@@ -1,0 +1,122 @@
+<LinearLayout
+    android:id="@+id/layNavBarDefault"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout
+        android:id="@+id/layHome_NavBarDefault"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/imgHome_NavBarDefault"
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtHome_NavBarDefault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="HOME"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="center"
+            android:layout_weight="3"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/laySearch_NavBarDefault"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/imgSearch_NavBarDefault"
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtSearch_NavBarDefault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SEARCH"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="center"
+            android:layout_weight="3"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/layLogInOut_NavBarDefault"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/imgLogIn_NavBarDefault"
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtLogIn_NavBarDefault"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="LOG IN"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="center"
+            android:layout_weight="3"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/layBTN4_NavBarDefault"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:src="@drawable/ic_account_circle_black_48dp"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="XXXXXXX"
+            android:textSize="@dimen/_16ssp"
+            android:gravity="center"
+            android:layout_weight="3"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
