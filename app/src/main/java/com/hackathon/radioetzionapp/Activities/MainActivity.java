@@ -22,3 +22,4 @@ public class MainActivity extends AppCompatActivity {
         // so that won't go back to splash screen
     }
 }
+
