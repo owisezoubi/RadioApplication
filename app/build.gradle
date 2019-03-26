@@ -9,7 +9,6 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = ['appIdRedirectScheme': android.defaultConfig.applicationId]
     }
 
     buildTypes {
@@ -36,10 +35,6 @@ dependencies {
     // ssp
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     ///////////////  IBM  ////////////////////
-    // mobileFirst
-    implementation 'com.ibm.mobilefirstplatform.clientsdk.android:core:3.1.6'
-    // app-id
-    implementation 'com.github.ibm-cloud-security:appid-clientsdk-android:4.0.2'
     // cloudAnt sync with encryption
     implementation 'com.cloudant:cloudant-sync-datastore-android-encryption:2.4.0'
     // cloudAnt client
