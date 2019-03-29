@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,8 @@ public class BroadcastListFrag extends Fragment {
         if(broadcastDataList == null)
         {
             Utils.displayMsg(getString(R.string.error_set_broadcastlist_1),rootView);
+            Log.e("errdata",context.getString(R.string.error_set_broadcastlist_1));
+
         }
         else
         {
@@ -75,6 +78,7 @@ public class BroadcastListFrag extends Fragment {
             if(dataList == null)
             {
                 Utils.displayMsg(getString(R.string.error_set_broadcastlist_2),rootView);
+                Log.e("errdata",context.getString(R.string.error_set_broadcastlist_2));
             }
             else  // set adapter to connect data list to list view
             {

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.cloudant.sync.documentstore.DocumentNotFoundException;
@@ -16,6 +17,7 @@ import com.cloudant.sync.replication.Replicator;
 import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,6 +51,7 @@ public class BroadcastDataList {   // SINGLETON
         if(!Utils.hasInternet(context)) // if no internet connection, no need to continue
         {
             Utils.displayMsg(context.getString(R.string.no_internet),rootView);
+            Log.e("errdata",context.getString(R.string.no_internet));
             return;
         }
 
@@ -84,6 +87,9 @@ public class BroadcastDataList {   // SINGLETON
         if(uri == null || ds == null)
         {
             Utils.displayMsg(context.getString(R.string.error_getting_docstore_1),rootView);
+            Log.e("errdata",context.getString(R.string.error_getting_docstore_1)+"\n"+
+            "uri:"+uri+"\n"+"ds:"+ds);
+
             return;
         }
 
@@ -113,6 +119,7 @@ public class BroadcastDataList {   // SINGLETON
                 if(result != Replicator.State.COMPLETE)
                 {
                     Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2),rootView);
+                    Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_2));
                 }
                 else
                 {
@@ -131,6 +138,7 @@ public class BroadcastDataList {   // SINGLETON
                     if(retrieved == null)
                     {
                         Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3),rootView);
+                        Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_3));
                         return;
                     }
                     setServerURL(retrieved);
