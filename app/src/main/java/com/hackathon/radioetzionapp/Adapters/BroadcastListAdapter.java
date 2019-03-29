@@ -1,26 +1,25 @@
 package com.hackathon.radioetzionapp.Adapters;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
-import com.hackathon.radioetzionapp.Data.BroadcastDataList;
 
 import java.util.List;
 
 public class BroadcastListAdapter extends BaseAdapter {
 
 
-    List<BroadcastDataClass> lst;
-    Context context;
 
-    public BroadcastListAdapter(Context context, List<BroadcastDataClass> dataList) {
+    private List<BroadcastDataClass> lst;
+    private Context context;
+
+    public BroadcastListAdapter(Context context,List<BroadcastDataClass> lst) {
         this.context=context;
-        this.lst = dataList;
+        this.lst = lst;
     }
 
 
@@ -45,6 +44,7 @@ public class BroadcastListAdapter extends BaseAdapter {
         // TODO modify adapter to make better looking list
         TextView txt = new TextView(context);
         txt.setText(lst.get(position).getTitle());
+
         return txt;
     }
 }

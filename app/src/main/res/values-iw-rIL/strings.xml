@@ -8,6 +8,4 @@
     <string name="error_getting_docstore_1">שגיאה בעת טעינת רשימת השידורים! - קוד:001</string>
     <string name="error_getting_docstore_2" >שגיאה בעת טעינת רשימת השידורים! - קוד:002</string>
     <string name="error_getting_docstore_3">שגיאה בעת טעינת רשימת השידורים! - קוד:003</string>
-    <string name="error_set_broadcastlist_1">שגיאה בהגדרת רשימת השידורים! - קוד:0041</string>
-    <string name="error_set_broadcastlist_2">שגיאה בהגדרת רשימת השידורים! - קוד:0042</string>
 </resources>
