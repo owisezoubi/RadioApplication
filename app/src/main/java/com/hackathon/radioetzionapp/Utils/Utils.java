@@ -19,10 +19,9 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static void displayMsg(String msg){
+    public static void displayMsg(String msg, View parentView){
         // display snackbar msg to user
-        View myView = (new MainActivity()).findViewById(android.R.id.content);
-        final Snackbar myMsg = Snackbar.make(myView,msg,Snackbar.LENGTH_LONG);
+        final Snackbar myMsg = Snackbar.make(parentView,msg,Snackbar.LENGTH_LONG);
         myMsg.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {

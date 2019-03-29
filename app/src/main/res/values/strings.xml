@@ -7,4 +7,6 @@
     <string name="error_getting_docstore_1" >Error in retrieving broadcast list! -- code:001</string>
     <string name="error_getting_docstore_2" >Error in retrieving broadcast list! -- code:002</string>
     <string name="error_getting_docstore_3" >Error in retrieving broadcast list! -- code:003</string>
+    <string name="error_set_broadcastlist_1" >Error setting up broadcastList! -- code:0041</string>
+    <string name="error_set_broadcastlist_2" >Error setting up broadcastList! -- code:0042</string>
 </resources>

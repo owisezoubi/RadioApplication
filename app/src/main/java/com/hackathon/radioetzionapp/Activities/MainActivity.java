@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.hackathon.radioetzionapp.Fragments.BroadcastListFrag;
 import com.hackathon.radioetzionapp.Fragments.FavoritesFragment;
 import com.hackathon.radioetzionapp.Fragments.HomeFragment;
 import com.hackathon.radioetzionapp.Fragments.CommentsFragment;
@@ -26,7 +27,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) context);
 
-        loadFragment(new HomeFragment());
+        // for check only
+        loadFragment(new BroadcastListFrag());
+
+        // TODO fix fragments transition in NavBar
+        // TODO fragments >> landscape option
+        // TODO add search
+
+        //loadFragment(new HomeFragment());
 
     }
 

@@ -1,8 +1,11 @@
 package com.hackathon.radioetzionapp.Data;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.cloudant.sync.documentstore.DocumentNotFoundException;
 import com.cloudant.sync.documentstore.DocumentRevision;
@@ -25,6 +28,7 @@ public class BroadcastDataList {   // SINGLETON
 
 // TODO
 
+    View rootView;
     private List<BroadcastDataClass> broadcastsList;
     private String serverURL;
     private DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
@@ -39,9 +43,12 @@ public class BroadcastDataList {   // SINGLETON
 
     private BroadcastDataList(Context context) {
 
+        rootView = ((AppCompatActivity)context).getWindow().
+                getDecorView().findViewById(android.R.id.content);
+
         if(!Utils.hasInternet(context)) // if no internet connection, no need to continue
         {
-            Utils.displayMsg(context.getString(R.string.no_internet));
+            Utils.displayMsg(context.getString(R.string.no_internet),rootView);
             return;
         }
 
@@ -76,7 +83,7 @@ public class BroadcastDataList {   // SINGLETON
 
         if(uri == null || ds == null)
         {
-            Utils.displayMsg(context.getString(R.string.error_getting_docstore_1));
+            Utils.displayMsg(context.getString(R.string.error_getting_docstore_1),rootView);
             return;
         }
 
@@ -105,7 +112,7 @@ public class BroadcastDataList {   // SINGLETON
                 super.onPostExecute(result);
                 if(result != Replicator.State.COMPLETE)
                 {
-                    Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2));
+                    Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2),rootView);
                 }
                 else
                 {
@@ -123,7 +130,7 @@ public class BroadcastDataList {   // SINGLETON
 
                     if(retrieved == null)
                     {
-                        Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3));
+                        Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3),rootView);
                         return;
                     }
                     setServerURL(retrieved);
@@ -158,7 +165,7 @@ public class BroadcastDataList {   // SINGLETON
                     (List<CommentDataClass>)item.get(Defaults.BroadcastDoc_Key_dataListItem_commentsList)
             ));
 
-            // TODO initialize CommentDataClass inside the map (current item)
+            // TODO: initialize CommentDataClass inside the map (current item)
             /*
             int itemIndex = broadcastsList.size()-1;
             for(CommentDataClass commentItem: broadcastsList.get(itemIndex).getCommentsList())
