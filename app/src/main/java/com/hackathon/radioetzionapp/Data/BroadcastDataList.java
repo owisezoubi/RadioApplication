@@ -31,10 +31,11 @@ public class BroadcastDataList {   // SINGLETON
 
 // TODO
 
-    View rootView;
+    private View rootView;
     private List<BroadcastDataClass> broadcastsList;
     private String serverURL;
     private DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
+
     private static BroadcastDataList broadcasts;
 
     public static BroadcastDataList getInstance(Context context) {
@@ -130,7 +131,7 @@ public class BroadcastDataList {   // SINGLETON
                 if(result != Replicator.State.COMPLETE)
                 {
                     Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2),rootView);
-                    Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_2));
+                    //Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_2));
                 }
                 else
                 {
@@ -149,12 +150,12 @@ public class BroadcastDataList {   // SINGLETON
                     if(retrieved == null)
                     {
                         Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3),rootView);
-                        Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_3));
+                        //Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_3));
                         return;
                     }
+
                     setServerURL(retrieved);
                     setDataList(retrieved);
-
                 }
             }
         }.execute();
@@ -165,8 +166,9 @@ public class BroadcastDataList {   // SINGLETON
     }
 
     private void setServerURL(DocumentRevision rev) {
-        Log.e("errdata","serverURL:"+(String)(rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL)));
         this.serverURL = (String)(rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL));
+
+        //Log.e("errdata","serverURL:"+this.serverURL);
     }
 
     private void setDataList(DocumentRevision rev) {
