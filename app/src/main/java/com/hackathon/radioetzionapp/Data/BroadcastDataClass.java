@@ -45,8 +45,28 @@ public class BroadcastDataClass {
         return broadcasters;
     }
 
+    public String getBroadcastersListFormatted(){
+        String tmp="";
+        String sep = " , ";
+        for (String broadcaster: broadcasters)
+        {
+            tmp += broadcaster+sep;
+        }
+        return tmp.substring(0,tmp.lastIndexOf(sep)==-1?tmp.length():tmp.lastIndexOf(sep));
+    }
+
     public List<String> getGuestsList() {
         return guests;
+    }
+
+    public String getGuestsListFormatted(){
+        String tmp="";
+        String sep = " , "+"\n";
+        for (String guest: guests)
+        {
+            tmp += guest+sep;
+        }
+        return tmp.substring(0,tmp.lastIndexOf(sep)==-1?tmp.length():tmp.lastIndexOf(sep));
     }
 
     public List<CommentDataClass> getCommentsList() {
