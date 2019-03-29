@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,7 @@ public class BroadcastDataList {   // SINGLETON
             return;
         }
 
-        setDocStore(context);
+        setDocStore(context); // prepares & starts AsyncTask to retrieve data
     }
 
 
@@ -113,13 +114,19 @@ public class BroadcastDataList {   // SINGLETON
                 Replicator pullReplicator = ReplicatorBuilder.pull().from(uriTmp).to(ds).build();
                 pullReplicator.start();
 
+                // while NOT {COMPLETE or ERROR} // stay in background task //
+                while(pullReplicator.getState() == Replicator.State.STARTED)
+                {
+                    SystemClock.sleep(100);
+                }
 
-                    return pullReplicator.getState();
+                return pullReplicator.getState();
             }
 
             @Override
             protected void onPostExecute(Replicator.State result) {
                 super.onPostExecute(result);
+                //Log.e("errdata",result.name());
                 if(result != Replicator.State.COMPLETE)
                 {
                     Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2),rootView);
@@ -147,13 +154,19 @@ public class BroadcastDataList {   // SINGLETON
                     }
                     setServerURL(retrieved);
                     setDataList(retrieved);
+
                 }
             }
         }.execute();
+
+
+
+
     }
 
     private void setServerURL(DocumentRevision rev) {
-        this.serverURL = (String)rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL);
+        Log.e("errdata","serverURL:"+(String)(rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL)));
+        this.serverURL = (String)(rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL));
     }
 
     private void setDataList(DocumentRevision rev) {
