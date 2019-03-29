@@ -62,7 +62,10 @@ public class BroadcastListAdapter extends BaseAdapter {
         TextView txtGuests = v.findViewById(R.id.txtBGuests_Check);
         TextView txtFilename = v.findViewById(R.id.txtBFileName_Check);
 
-        v.setBackgroundColor(pos%2==0? Color.WHITE:Color.GRAY);
+        v.setBackgroundColor(pos%2==0? Color.WHITE:Color.LTGRAY);
+        v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        v.setTextDirection(View.LAYOUT_DIRECTION_RTL);
+        v.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
         BroadcastDataClass current = lst.get(pos);
 

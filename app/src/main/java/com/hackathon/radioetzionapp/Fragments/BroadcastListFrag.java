@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.cloudant.sync.documentstore.DocumentNotFoundException;
 import com.cloudant.sync.documentstore.DocumentRevision;
@@ -45,6 +47,9 @@ public class BroadcastListFrag extends Fragment {
     ListView listViewBroadcasts; // view
     BroadcastListAdapter adapter; // adapter - controller
 
+    ProgressBar progressLoadingList;
+    TextView txtLoadingList;
+
     Context context;
     View rootView;
 
@@ -72,6 +77,8 @@ public class BroadcastListFrag extends Fragment {
 
         context = getActivity();
         listViewBroadcasts = rootView.findViewById(R.id.lstBroadcasts);
+        progressLoadingList = rootView.findViewById(R.id.progressLoadingBroadcasts);
+        txtLoadingList = rootView.findViewById(R.id.txtLoadingBroadcasts);
 
         setData(); // gets data from database (remote) to DocStore (local) & sets adapter afterwards
     }
@@ -169,6 +176,9 @@ public class BroadcastListFrag extends Fragment {
                     // data is ready, time to set ADAPTER
                     adapter = new BroadcastListAdapter(context,dataList);
                     listViewBroadcasts.setAdapter(adapter);
+                    // done loading
+                    txtLoadingList.setVisibility(View.INVISIBLE);
+                    progressLoadingList.setVisibility(View.INVISIBLE);
                 }
             }
         }.execute();
