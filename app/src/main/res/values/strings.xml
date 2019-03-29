@@ -3,4 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_comments">Comments</string>
+    <string name="no_internet">No Internet Connection! Cannot Load Broadcast List!</string>
+    <string name="error_getting_docstore_1" >Error in retrieving broadcast list! -- code:001</string>
+    <string name="error_getting_docstore_2" >Error in retrieving broadcast list! -- code:002</string>
+    <string name="error_getting_docstore_3" >Error in retrieving broadcast list! -- code:003</string>
 </resources>

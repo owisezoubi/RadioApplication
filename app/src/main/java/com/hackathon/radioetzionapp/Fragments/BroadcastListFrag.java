@@ -47,7 +47,8 @@ public class BroadcastListFrag extends Fragment {
 
         listViewBroadcasts = rootView.findViewById(R.id.lstBroadcasts);
         //listDataBroadcasts = BroadcastDataList.getBroadcastsDataList();
-        // TODO add dataList + set ADAPTER
+        // TODO  get dataList + set ADAPTER
+
 
     }
 }

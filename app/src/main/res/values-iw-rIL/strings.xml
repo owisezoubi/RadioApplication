@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">רדיו קול עציון</string>
+    <string name="no_internet">אין חיבור לאינטרנט! לא ניתן לטעון את רשימת השידורים!</string>
+    <string name="title_comments">תגובות</string>
+    <string name="title_favorites">מועדפים</string>
+    <string name="title_home">הבית</string>
+    <string name="error_getting_docstore_1">שגיאה בעת טעינת רשימת השידורים! - קוד:001</string>
+    <string name="error_getting_docstore_2" >שגיאה בעת טעינת רשימת השידורים! - קוד:002</string>
+    <string name="error_getting_docstore_3">שגיאה בעת טעינת רשימת השידורים! - קוד:003</string>
+</resources>
