@@ -75,7 +75,9 @@ public class BroadcastDataList {   // SINGLETON
         URI uri = null;
         try {
             uri = new URI(Defaults.CloudantURL + "/" + Defaults.RadioDBName);
-            ds = DocumentStore.getInstance(new File(Defaults.LOCAL_DS_PATH,Defaults.RadioDBName));
+            ds = DocumentStore.getInstance(new File(
+                    context.getDir(Defaults.LOCAL_DS_PATH,Context.MODE_PRIVATE),
+                    Defaults.RadioDBName));
         }
         catch (URISyntaxException use){
             use.printStackTrace();
@@ -87,8 +89,9 @@ public class BroadcastDataList {   // SINGLETON
         if(uri == null || ds == null)
         {
             Utils.displayMsg(context.getString(R.string.error_getting_docstore_1),rootView);
-            Log.e("errdata",context.getString(R.string.error_getting_docstore_1)+"\n"+
-            "uri:"+uri+"\n"+"ds:"+ds);
+
+            //Log.e("errdata",context.getString(R.string.error_getting_docstore_1)+"\n"+
+            //"uri:"+uri+"\n"+"ds:"+ds);
 
             return;
         }
@@ -110,7 +113,8 @@ public class BroadcastDataList {   // SINGLETON
                 Replicator pullReplicator = ReplicatorBuilder.pull().from(uriTmp).to(ds).build();
                 pullReplicator.start();
 
-                return pullReplicator.getState();
+
+                    return pullReplicator.getState();
             }
 
             @Override

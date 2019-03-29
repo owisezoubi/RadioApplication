@@ -3,7 +3,7 @@ package com.hackathon.radioetzionapp.Data;
 public class Defaults {
 
     // local
-    public static final String LOCAL_DS_PATH = "documentstore";
+    public static final String LOCAL_DS_PATH = "docstore";
 
 
     // cloudAnt section
