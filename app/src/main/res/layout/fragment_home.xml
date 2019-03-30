@@ -51,8 +51,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_3sdp"
-        android:background="@color/lightPrimaryColor" />
+        android:layout_height="@dimen/_5sdp"
+        android:background="@color/navbar_back_color" />
 
     <LinearLayout android:id="@+id/layoutMiniPlayer"
         android:layoutDirection="rtl"

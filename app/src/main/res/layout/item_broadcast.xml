@@ -24,12 +24,12 @@
         android:layout_height="wrap_content"
         android:textColor="@color/album_alternate_1"
         android:text="broadcast title ... "
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_10ssp"
         android:layout_toEndOf="@+id/img_ItemBroadcast"
         android:layout_alignTop="@id/img_ItemBroadcast"
         android:layout_toStartOf="@id/imgFav_ItemBroadcast"
         android:layout_marginEnd="@dimen/_10sdp"
-        android:textStyle="italic"
+        android:textStyle="bold"
         android:layout_marginStart="@dimen/_10sdp"/>
 
     <ImageView

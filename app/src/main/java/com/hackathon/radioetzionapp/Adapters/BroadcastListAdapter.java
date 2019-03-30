@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,16 +18,24 @@ import com.hackathon.radioetzionapp.R;
 
 import java.util.List;
 
-public class BroadcastListAdapter extends BaseAdapter {
+public class BroadcastListAdapter extends BaseAdapter implements Animation.AnimationListener {
 
 
 
     private List<BroadcastDataClass> lst;
     private Context context;
 
+    private Animation entryRight, entryLeft;
+
     public BroadcastListAdapter(Context context,List<BroadcastDataClass> lst) {
         this.context=context;
         this.lst = lst;
+
+        // animation initialize
+        entryRight = AnimationUtils.loadAnimation(context, R.anim.entry_from_right);
+        entryRight.setAnimationListener(this);
+        entryLeft = AnimationUtils.loadAnimation(context, R.anim.entry_from_left);
+        entryLeft.setAnimationListener(this);
     }
 
 
@@ -81,6 +91,12 @@ public class BroadcastListAdapter extends BaseAdapter {
         v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         v.setTextDirection(View.LAYOUT_DIRECTION_RTL);
         v.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
+        // set entry animation for text & image
+        txtTitle.setAnimation(entryRight);
+        imgAlbum.setAnimation(entryRight);
+        // set entry animation for fav icon
+        imgFav.setAnimation(entryLeft);
 
         return v;
 
@@ -139,5 +155,20 @@ public class BroadcastListAdapter extends BaseAdapter {
         txtGuests.setText(current.getGuestsListFormatted());
 
         return v;
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
     }
 }
