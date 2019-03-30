@@ -23,4 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+    <ImageButton
+        android:id="@+id/btnRefreshBList"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_above="@id/txtLoadingBroadcasts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:src="@drawable/ic_refresh"
+        android:scaleType="fitXY"
+        android:tint="@color/colorAccent"
+        android:background="#ffffff"
+        android:visibility="invisible"/>
 </RelativeLayout>

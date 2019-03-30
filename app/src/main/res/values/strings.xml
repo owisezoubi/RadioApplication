@@ -7,5 +7,6 @@
     <string name="error_getting_docstore_1" >Error in retrieving broadcast list! code:001</string>
     <string name="error_getting_docstore_2" >Error in retrieving broadcast list! code:002</string>
     <string name="error_getting_docstore_3" >Error in retrieving broadcast list! code:003</string>
-    <string name="loading_broadcasts">loading broadcasts list ...</string>
+    <string name="loading_broadcasts">loading broadcasts list &#8230;</string>
+    <string name="request_internet_connection">Please, connect to the internet and hit refresh button above to reload</string>
 </resources>

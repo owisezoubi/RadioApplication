@@ -2,6 +2,7 @@ package com.hackathon.radioetzionapp.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +48,19 @@ public class BroadcastListAdapter extends BaseAdapter {
 
         // TODO modify adapter to make better looking list
 
-        View checkView = getCheckView(position);
+        View view;
 
-        return checkView;
+        view = getCheckView(position);
+
+        //view = getBroadcastItemView(position);
+
+        return view;
     }
+/*
+    private View getBroadcastItemView(int position) {
+
+
+    }*/
 
     private View getCheckView(int pos) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_check_broadcast,null);
@@ -69,7 +79,9 @@ public class BroadcastListAdapter extends BaseAdapter {
 
         BroadcastDataClass current = lst.get(pos);
 
-        txtIndex.setText(new StringBuilder(current.getIndex()));
+        //Log.e("index:",current.getIndex()+"");
+
+        txtIndex.setText(new StringBuilder(current.getIndex()+""));
         txtTitle.setText(current.getTitle());
         txtDesc.setText(current.getDescription());
         txtFilename.setText(current.getFilename());

@@ -1,10 +1,12 @@
 package com.hackathon.radioetzionapp.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Defaults {
 
     // local
     public static final String LOCAL_DS_PATH = "docstore";
-
 
     // cloudAnt section
     // credentials, dbName, docName
@@ -24,7 +26,6 @@ public class Defaults {
     public static final String BroadcastDoc_Key_dataList = "data";
 
     // BroadcastDocument >> DataList >> Object/Item MapKeys
-
     public static final String BroadcastDoc_Key_dataListItem_index = "index";
     public static final String BroadcastDoc_Key_dataListItem_title = "title";
     public static final String BroadcastDoc_Key_dataListItem_description = "description";
@@ -33,5 +34,9 @@ public class Defaults {
     public static final String BroadcastDoc_Key_dataListItem_guestsList = "guests";
     public static final String BroadcastDoc_Key_dataListItem_commentsList = "comments";
 
+
+    // Global Static VARIABLES (to be accessed from every class / activity / fragment) //
+    public static List<BroadcastDataClass> dataList = new ArrayList<>();
+    public static String serverURL ="";
 
 }

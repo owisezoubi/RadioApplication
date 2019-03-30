@@ -2,7 +2,9 @@ package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -12,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,8 +44,6 @@ import java.util.Map;
 public class BroadcastListFrag extends Fragment {
 
 
-    String serverURL;
-    List<BroadcastDataClass> dataList; // data - model
     DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
 
     ListView listViewBroadcasts; // view
@@ -49,6 +51,7 @@ public class BroadcastListFrag extends Fragment {
 
     ProgressBar progressLoadingList;
     TextView txtLoadingList;
+    ImageButton btnRefreshList;
 
     Context context;
     View rootView;
@@ -71,6 +74,19 @@ public class BroadcastListFrag extends Fragment {
 
     private void setListeners() {
         // TODO
+
+        btnRefreshList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // reset txt & progress bar values
+                txtLoadingList.setText(R.string.loading_broadcasts);
+                progressLoadingList.setVisibility(View.VISIBLE);
+                // hide when clicked
+                btnRefreshList.setVisibility(View.INVISIBLE);
+                // reload list again
+                setData();
+            }
+        });
     }
 
     private void setPointers() {
@@ -79,8 +95,9 @@ public class BroadcastListFrag extends Fragment {
         listViewBroadcasts = rootView.findViewById(R.id.lstBroadcasts);
         progressLoadingList = rootView.findViewById(R.id.progressLoadingBroadcasts);
         txtLoadingList = rootView.findViewById(R.id.txtLoadingBroadcasts);
+        btnRefreshList = rootView.findViewById(R.id.btnRefreshBList);
 
-        setData(); // gets data from database (remote) to DocStore (local) & sets adapter afterwards
+        setData(); // AsyncTask to get data from database (remote) to DocStore (local) & set adapter afterwards
     }
 
 
@@ -92,7 +109,10 @@ public class BroadcastListFrag extends Fragment {
         if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
         {
             Utils.displayMsg(context.getString(R.string.no_internet), rootView);
-            Log.e("errdata", context.getString(R.string.no_internet));
+            //Log.e("errdata", context.getString(R.string.no_internet));
+
+            requestInternetConnection();
+
             return;
         }
 
@@ -136,7 +156,8 @@ public class BroadcastListFrag extends Fragment {
                 Replicator pullReplicator = ReplicatorBuilder.pull().from(uriTmp).to(ds).build();
                 pullReplicator.start();
 
-                // while NOT {COMPLETE or ERROR} // stay in background task //
+                // while NOT {COMPLETE or ERROR or else} // stay in background task //
+                // i.e. while replicating , stay in background  task //
                 while (pullReplicator.getState() == Replicator.State.STARTED) {
                     SystemClock.sleep(100);
                 }
@@ -174,7 +195,7 @@ public class BroadcastListFrag extends Fragment {
                     setDataList(retrieved);
 
                     // data is ready, time to set ADAPTER
-                    adapter = new BroadcastListAdapter(context,dataList);
+                    adapter = new BroadcastListAdapter(context,Defaults.dataList);
                     listViewBroadcasts.setAdapter(adapter);
                     // done loading
                     txtLoadingList.setVisibility(View.INVISIBLE);
@@ -184,8 +205,10 @@ public class BroadcastListFrag extends Fragment {
         }.execute();
     }
 
+
+
     private void setServerURL(DocumentRevision rev) {
-        this.serverURL = (String) (rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL));
+        Defaults.serverURL = (String) (rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL));
 
         //Log.e("errdata","serverURL:"+this.serverURL);
     }
@@ -197,10 +220,10 @@ public class BroadcastListFrag extends Fragment {
                 rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_dataList);
 
         // our data list to fill up
-        dataList = new ArrayList<>();
+        Defaults.dataList = new ArrayList<>();
 
         for (Map<String, Object> item : tmpDataList) {
-            dataList.add(new BroadcastDataClass(
+            Defaults.dataList.add(new BroadcastDataClass(
                     (int) item.get(Defaults.BroadcastDoc_Key_dataListItem_index),
                     (String) item.get(Defaults.BroadcastDoc_Key_dataListItem_title),
                     (String) item.get(Defaults.BroadcastDoc_Key_dataListItem_description),
@@ -222,4 +245,32 @@ public class BroadcastListFrag extends Fragment {
             */
         }
     }
+
+    private void requestInternetConnection() {
+        // previous data
+        //String prevText = txtLoadingList.getText().toString();
+        //final int prevColor = txtLoadingList.getCurrentTextColor(); // color value, NOT resID
+        //final float prevSize = txtLoadingList.getTextSize();
+
+        // change
+        txtLoadingList.setText(getString(R.string.request_internet_connection));
+        //txtLoadingList.setTextSize(22);
+        //setTextColor(txtLoadingList,R.color.request); // for version compatibility
+        progressLoadingList.setVisibility(View.INVISIBLE); // hide
+
+        // show refresh button
+        btnRefreshList.setVisibility(View.VISIBLE);
+
+    }
+
+    private void setTextColor(TextView txtView,int colorResID) {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            txtView.setTextColor(context.getColor(colorResID));
+        }
+        else {
+            txtView.setTextColor(getResources().getColor(colorResID));
+        }
+
+    }
+
 }
