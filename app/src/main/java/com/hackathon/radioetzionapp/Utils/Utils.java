@@ -27,7 +27,7 @@ public class Utils {
                 myMsg.dismiss();
             }
         });
-        myMsg.setActionTextColor(Color.RED);
+        myMsg.setActionTextColor(Color.GREEN);
         myMsg.show();
     }
 }

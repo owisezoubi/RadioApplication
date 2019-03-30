@@ -11,6 +11,7 @@
     <color name="btn">#d81b60</color>
     <color name="request">#ff9900</color>
     <color name="navbar_item_text">#ffffff</color>
+    <color name="navbar_item_text_selected">#ffdd00</color>
     <color name="navbar_back_color">#000000</color>
 
 </resources>
