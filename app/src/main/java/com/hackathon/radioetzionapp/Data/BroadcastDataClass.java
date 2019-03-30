@@ -46,11 +46,11 @@ public class BroadcastDataClass {
     }
 
     public String getBroadcastersListFormatted(){
-        String tmp="";
+        StringBuilder tmp = new StringBuilder(); // string builder is faster
         String sep = " , ";
         for (String broadcaster: broadcasters)
         {
-            tmp += broadcaster+sep;
+            tmp.append(broadcaster).append(sep);
         }
         return tmp.substring(0,tmp.lastIndexOf(sep)==-1?tmp.length():tmp.lastIndexOf(sep));
     }
@@ -60,11 +60,12 @@ public class BroadcastDataClass {
     }
 
     public String getGuestsListFormatted(){
-        String tmp="";
-        String sep = " , "+"\n";
+        StringBuilder tmp = new StringBuilder(); // string builder is faster
+        //String sep = " , "+"\n";
+        String sep = " , ";
         for (String guest: guests)
         {
-            tmp += guest+sep;
+            tmp.append(guest).append(sep);
         }
         return tmp.substring(0,tmp.lastIndexOf(sep)==-1?tmp.length():tmp.lastIndexOf(sep));
     }

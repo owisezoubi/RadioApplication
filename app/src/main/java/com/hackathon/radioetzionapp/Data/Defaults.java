@@ -35,7 +35,8 @@ public class Defaults {
     public static final String BroadcastDoc_Key_dataListItem_commentsList = "comments";
 
 
-    // Global Static VARIABLES (to be accessed from every class / activity / fragment) //
+    // GLOBAL Static VARIABLES
+    // (to be accessed & changed from every class / activity / fragment) as needed //
     public static List<BroadcastDataClass> dataList = new ArrayList<>();
     public static String serverURL ="";
 
