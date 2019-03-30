@@ -3,7 +3,6 @@ package com.hackathon.radioetzionapp.Fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -12,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
     Context context;
     View rootView;
 
+    // TODO mini-player
 
     @Nullable
     @Override
@@ -75,13 +76,18 @@ public class HomeFragment extends Fragment {
         btnRefreshList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // reset txt & progress bar values
-                txtLoadingList.setText(R.string.loading_broadcasts);
-                progressLoadingList.setVisibility(View.VISIBLE);
-                // hide when clicked
-                btnRefreshList.setVisibility(View.INVISIBLE);
+                startLoadingEffects(); // reset effects of loading list
+                btnRefreshList.setVisibility(View.INVISIBLE);  // hide when clicked
                 // reload list again
                 setData();
+            }
+        });
+
+
+        listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO
             }
         });
     }
@@ -94,9 +100,20 @@ public class HomeFragment extends Fragment {
         txtLoadingList = rootView.findViewById(R.id.txtLoadingBroadcasts);
         btnRefreshList = rootView.findViewById(R.id.btnRefreshBList);
 
-        setData(); // AsyncTask to get data from database (remote) to DocStore (local) & set adapter afterwards
+        loadData(); // load data if present locally , otherwise check remote
     }
 
+    private void loadData() {
+
+        if (Defaults.dataList.isEmpty()) {
+            setData(); // AsyncTask to get data from database (remote) to DocStore (local) & set adapter afterwards
+        } else {
+            // set adapter & effects of finished loading
+            setListAdapter();
+            finishLoadingEffects();
+        }
+
+    }
 
 
     @SuppressLint("StaticFieldLeak")
@@ -191,15 +208,29 @@ public class HomeFragment extends Fragment {
                     setServerURL(retrieved);
                     setDataList(retrieved);
 
+
                     // data is ready, time to set ADAPTER
-                    adapter = new BroadcastListAdapter(context,Defaults.dataList);
-                    listViewBroadcasts.setAdapter(adapter);
-                    // done loading
-                    txtLoadingList.setVisibility(View.INVISIBLE);
-                    progressLoadingList.setVisibility(View.INVISIBLE);
+                    setListAdapter();
+                    finishLoadingEffects();
                 }
             }
         }.execute();
+    }
+
+    private void finishLoadingEffects() {
+        txtLoadingList.setVisibility(View.INVISIBLE);
+        progressLoadingList.setVisibility(View.INVISIBLE);
+    }
+
+    private void startLoadingEffects() {
+        txtLoadingList.setText(R.string.loading_broadcasts);
+        txtLoadingList.setVisibility(View.VISIBLE);
+        progressLoadingList.setVisibility(View.VISIBLE);
+    }
+
+    private void setListAdapter() {
+        adapter = new BroadcastListAdapter(context, Defaults.dataList);
+        listViewBroadcasts.setAdapter(adapter);
     }
 
 
@@ -243,30 +274,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void requestInternetConnection() {
-        // previous data
-        //String prevText = txtLoadingList.getText().toString();
-        //final int prevColor = txtLoadingList.getCurrentTextColor(); // color value, NOT resID
-        //final float prevSize = txtLoadingList.getTextSize();
-
-        // change
-        txtLoadingList.setText(getString(R.string.request_internet_connection));
-        //txtLoadingList.setTextSize(22);
-        //setTextColor(txtLoadingList,R.color.request); // for version compatibility
+        txtLoadingList.setText(getString(R.string.request_internet_connection)); // request msg
         progressLoadingList.setVisibility(View.INVISIBLE); // hide
-
-        // show refresh button
-        btnRefreshList.setVisibility(View.VISIBLE);
-
+        btnRefreshList.setVisibility(View.VISIBLE); // show refresh button
     }
-
-    private void setTextColor(TextView txtView,int colorResID) {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            txtView.setTextColor(context.getColor(colorResID));
-        }
-        else {
-            txtView.setTextColor(getResources().getColor(colorResID));
-        }
-
-    }
-
 }

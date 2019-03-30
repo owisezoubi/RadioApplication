@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:textDirection="locale"
     android:layoutDirection="locale"
+    android:background="@color/lightPrimaryColor"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout android:id="@+id/layFragBroadcasts"
@@ -77,7 +78,20 @@
                 android:layout_height="wrap_content"
                 android:text="current broadcast title ... "
                 android:textColor="@color/navbar_item_text"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgLogoStart_MiniPlayer"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:tint="@color/lightPrimaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:src="@drawable/logo" />
         </LinearLayout>
 
         <RelativeLayout

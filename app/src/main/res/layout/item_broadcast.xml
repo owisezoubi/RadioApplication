@@ -3,15 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:id="@+id/img_ItemBroadcast"
-        android:layout_width="@dimen/_60sdp"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_alignParentStart="true"
-        android:src="@drawable/ic_album"
-        android:tint="@color/btn"
+        android:src="@drawable/ic_audiotrack"
+        android:tint="@color/album_alternate_1"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp" />
 
@@ -19,29 +22,45 @@
         android:id="@+id/txtBroadcastTitle_ItemBroadcast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/album_alternate_1"
         android:text="broadcast title ... "
-        android:textSize="@dimen/_14ssp"
+        android:textSize="@dimen/_12ssp"
         android:layout_toEndOf="@+id/img_ItemBroadcast"
         android:layout_alignTop="@id/img_ItemBroadcast"
+        android:layout_toStartOf="@id/imgFav_ItemBroadcast"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:textStyle="italic"
         android:layout_marginStart="@dimen/_10sdp"/>
+
+    <ImageView
+        android:id="@+id/imgFav_ItemBroadcast"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_favorite_border"
+        android:tint="@color/album_alternate_1"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp" />
 
 
 
     <ProgressBar
         android:id="@+id/progress_ItemBRoadcast"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_alignParentEnd="true"
+        android:visibility="invisible"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:layout_toStartOf="@id/imgFav_ItemBroadcast"
         android:layout_alignBottom="@id/img_ItemBroadcast"
         android:layout_marginEnd="@dimen/_10sdp"/>
 
     <TextView
         android:id="@+id/status_ItemBroadcast"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/request"
+        android:textSize="@dimen/_8ssp"
         android:text="STATUS"
         android:layout_toStartOf="@id/progress_ItemBRoadcast"
-        android:layout_alignTop="@id/progress_ItemBRoadcast"
+        android:layout_alignBottom="@id/progress_ItemBRoadcast"
         android:layout_marginEnd="@dimen/_10sdp"/>
 
 </RelativeLayout>

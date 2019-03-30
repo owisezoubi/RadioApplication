@@ -2,10 +2,13 @@ package com.hackathon.radioetzionapp.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
@@ -48,18 +51,66 @@ public class BroadcastListAdapter extends BaseAdapter {
 
         View view;
 
-        view = getCheckView(position);
+        //view = getCheckView(position);
 
-        //view = getBroadcastItemView(position);
+        view = getBroadcastItemView(position);
 
         return view;
     }
-/*
-    private View getBroadcastItemView(int position) {
 
+    private View getBroadcastItemView(int position) {
+        View v = LayoutInflater.from(context).inflate(R.layout.item_broadcast, null);
+
+        // link ids to pointers
+        ImageView imgAlbum = v.findViewById(R.id.img_ItemBroadcast);
+        ImageView imgFav = v.findViewById(R.id.imgFav_ItemBroadcast);
+        TextView txtTitle = v.findViewById(R.id.txtBroadcastTitle_ItemBroadcast);
+        ProgressBar progress = v.findViewById(R.id.progress_ItemBRoadcast);
+        TextView txtStatus = v.findViewById(R.id.status_ItemBroadcast);
+
+        // connect data & adjust views
+        txtStatus.setVisibility(View.INVISIBLE);
+        progress.setVisibility(View.INVISIBLE);
+        imgAlbum.setColorFilter(getAlternateColor(position));
+        txtTitle.setTextColor(getAlternateColor(position));
+        txtTitle.setText(lst.get(position).getTitle());
+        setFavoritesStatus(imgFav, position);
+
+
+        // adjust main view (parent)
+        v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        v.setTextDirection(View.LAYOUT_DIRECTION_RTL);
+        v.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
+        return v;
 
     }
-*/
+
+    private void setFavoritesStatus(ImageView imgFav, int position) {
+
+        // TODO based on saved shared preferences
+
+        // default
+        imgFav.setColorFilter(getAlternateColor(position));
+    }
+
+    private int getAlternateColor(int pos) {
+
+        int returnValue = Color.WHITE;
+
+        switch (pos % 2) {
+
+            case 0:
+                returnValue = ContextCompat.getColor(context, R.color.album_alternate_1);
+                break;
+            case 1:
+                returnValue = ContextCompat.getColor(context, R.color.album_alternate_2);
+                break;
+        }
+
+        return returnValue;
+    }
+
     private View getCheckView(int pos) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_check_broadcast,null);
 
