@@ -9,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.hackathon.radioetzionapp.Fragments.BroadcastListFrag;
+import com.hackathon.radioetzionapp.Fragments.CommentsFragment;
 import com.hackathon.radioetzionapp.Fragments.FavoritesFragment;
 import com.hackathon.radioetzionapp.Fragments.HomeFragment;
-import com.hackathon.radioetzionapp.Fragments.CommentsFragment;
 import com.hackathon.radioetzionapp.R;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -82,5 +82,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         return loadFragment(fragment);
     }
+
 }
 

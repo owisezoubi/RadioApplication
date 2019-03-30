@@ -1,12 +1,11 @@
 package com.hackathon.radioetzionapp.Utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-
-import com.hackathon.radioetzionapp.Activities.MainActivity;
 
 public class Utils {
 
@@ -28,6 +27,7 @@ public class Utils {
                 myMsg.dismiss();
             }
         });
+        myMsg.setActionTextColor(Color.RED);
         myMsg.show();
     }
 }

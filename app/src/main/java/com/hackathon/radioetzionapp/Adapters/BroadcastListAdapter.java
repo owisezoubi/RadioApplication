@@ -2,7 +2,6 @@ package com.hackathon.radioetzionapp.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
 import com.hackathon.radioetzionapp.R;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class BroadcastListAdapter extends BaseAdapter {
 
@@ -60,8 +58,8 @@ public class BroadcastListAdapter extends BaseAdapter {
     private View getBroadcastItemView(int position) {
 
 
-    }*/
-
+    }
+*/
     private View getCheckView(int pos) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_check_broadcast,null);
 

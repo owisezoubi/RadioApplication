@@ -10,7 +10,7 @@
         android:layout_width="@dimen/_60sdp"
         android:layout_height="@dimen/_60sdp"
         android:layout_alignParentStart="true"
-        android:src="@drawable/ic_album_white_48dp"
+        android:src="@drawable/ic_album"
         android:tint="@color/btn"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp" />

@@ -3,12 +3,14 @@
     <color name="colorPrimary">#0027FF</color>
     <color name="colorPrimaryDark">#091B7E</color>
     <color name="colorAccent">#19D257</color>
-    <color name="lightPrimaryColor">#03A9F4</color>
+    <color name="lightPrimaryColor">#2AA7DD</color>
     <color name="textIcons">#ffffff</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
     <color name="dividerColor">#BDBDBD</color>
     <color name="btn">#d81b60</color>
     <color name="request">#ff9900</color>
+    <color name="navbar_item_text">#ffffff</color>
+    <color name="navbar_back_color">#000000</color>
 
 </resources>

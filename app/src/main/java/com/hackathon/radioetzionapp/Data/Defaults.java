@@ -34,8 +34,9 @@ public class Defaults {
     public static final String BroadcastDoc_Key_dataListItem_guestsList = "guests";
     public static final String BroadcastDoc_Key_dataListItem_commentsList = "comments";
 
+    ///////////////////////////////////////////////////////////////////////////////////////
 
-    // GLOBAL Static VARIABLES
+    // GLOBAL Static VARIABLES //
     // (to be accessed & changed from every class / activity / fragment) as needed //
     public static List<BroadcastDataClass> dataList = new ArrayList<>();
     public static String serverURL ="";
