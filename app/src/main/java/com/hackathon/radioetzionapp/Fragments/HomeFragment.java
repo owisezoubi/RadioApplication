@@ -199,12 +199,26 @@ public class HomeFragment extends Fragment {
     private void finishTrackLoadingEffects() {
 
         // add track title to now playing top-bar
-        txtPlayingNow.setText(currentTrackTitle);
+        txtPlayingNow.setText(makeMarqueeable(currentTrackTitle));
         txtPlayingNow.setSelected(true);
         // hide track progress
         currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
 
+    }
 
+    private StringBuilder makeMarqueeable(String txt) {
+        StringBuilder str = new StringBuilder(txt);
+        StringBuilder result = new StringBuilder();
+        result.append(str);
+        for (int i = 0; i < (30 / str.length()); i += 1) {
+            result.append("\t \t \t \t \t ");
+        }
+        result.append("\t\t").append(str).append("\t\t");
+        for (int i = 0; i < (30 / str.length()); i += 1) {
+            result.append("\t \t \t \t \t ");
+        }
+        result.append("\t\t").append(str).append("\t\t");
+        return result;
     }
 
 
@@ -239,6 +253,7 @@ public class HomeFragment extends Fragment {
         btnShuffle = rootView.findViewById(R.id.btnShuffle_MiniPlayer);
         btnRepeatOne = rootView.findViewById(R.id.btnRepeatOne_MiniPlayer);
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
+        // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
 
         // load track-list data not loaded yet //
@@ -434,5 +449,6 @@ public class HomeFragment extends Fragment {
         progressLoadingList.setVisibility(View.INVISIBLE); // hide
         btnRefreshList.setVisibility(View.VISIBLE); // show refresh button
     }
+
 
 }

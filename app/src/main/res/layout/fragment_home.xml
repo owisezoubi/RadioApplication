@@ -26,6 +26,9 @@
         android:paddingStart="@dimen/_14ssp"
         android:paddingEnd="@dimen/_14ssp"
 
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+
         android:visibility="visible" />
 
     <RelativeLayout android:id="@+id/layFragBroadcasts"
