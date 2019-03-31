@@ -112,6 +112,59 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                String errMsg = genErrMsg(what, extra);// build error msg
+                // display error msg
+                Utils.displayMsg(errMsg, rootView);
+                return false; // keep false to go to on completion listener
+            }
+
+            private String genErrMsg(int what, int extra) {
+                String errMsg = "";
+                // line 1
+                switch (what) {
+                    case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                        errMsg += "Media Error Unknown";
+                        break;
+                    case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+                        errMsg += "Media Error: Server Died";
+                        break;
+                    default:
+                        errMsg = "";
+                }
+
+                errMsg += "\n";
+
+                // line 2
+                switch (extra) {
+                    case MediaPlayer.MEDIA_ERROR_IO:
+                        errMsg += "(IO) File or network related operation error";
+                        break;
+                    case MediaPlayer.MEDIA_ERROR_MALFORMED:
+                        errMsg += "Bitstream is not conforming to the related coding standard or file spec";
+                        break;
+                    case MediaPlayer.MEDIA_ERROR_UNSUPPORTED:
+                        errMsg += "The media framework does not support the the related coding standard or file spec";
+                        break;
+                    case MediaPlayer.MEDIA_ERROR_TIMED_OUT:
+                        errMsg += "operation timed out";
+                        break;
+                    default:
+                        errMsg += "Error: (-2147483648) - low-level system error";
+                }
+
+                return errMsg;
+            }
+        });
+
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // TODO play next automatically
+            }
+        });
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -7,11 +7,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hackathon.radioetzionapp.R;
 
 
 public class CommentsFragment extends Fragment {
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "showing me", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Nullable
     @Override

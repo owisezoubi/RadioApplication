@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -22,7 +21,6 @@ public class MainActivity extends AppCompatActivity
 
     // fragment stuff
     FragmentManager fm;
-    FragmentTransaction ft;
     HomeFragment homeFrag;
     FavoritesFragment favFrag;
     CommentsFragment commFrag;
@@ -47,21 +45,40 @@ public class MainActivity extends AppCompatActivity
         showFragment(homeFrag); // show only home frag at first
     }
 
+    private void setFragments() {
+        // our basic 3 fragments
+        homeFrag = new HomeFragment();
+        favFrag = new FavoritesFragment();
+        commFrag = new CommentsFragment();
+        // Fragment Manager
+        fm = getSupportFragmentManager();
+    }
+
     private void loadAllFragments() {
-        getSupportFragmentManager()
-                .beginTransaction()
+        fm.beginTransaction()
                 .add(R.id.fragment_container, homeFrag)
                 .add(R.id.fragment_container, favFrag)
                 .add(R.id.fragment_container, commFrag)
                 .commit();
     }
 
-    private void setFragments() {
-        // our basic 3 fragments
-        homeFrag = new HomeFragment();
-        favFrag = new FavoritesFragment();
-        commFrag = new CommentsFragment();
+    private boolean showFragment(Fragment fragment) {
+
+        // first , hide all 3
+        fm.beginTransaction()
+                .hide(favFrag)
+                .hide(commFrag)
+                .hide(homeFrag)
+                .commit();
+
+        // then, show selected
+        fm.beginTransaction()
+                .show(fragment)
+                .commit();
+
+        return true;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -70,18 +87,7 @@ public class MainActivity extends AppCompatActivity
         // so that won't go back to splash screen
     }
 
-    private boolean loadFragment (Fragment fragment){
-        if (fragment != null) {
 
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -108,24 +114,19 @@ public class MainActivity extends AppCompatActivity
         return showFragment(fragment);
     }
 
-    private boolean showFragment(Fragment fragment) {
 
-        // hide all 3
-        getSupportFragmentManager()
-                .beginTransaction()
-                .hide(favFrag)
-                .hide(commFrag)
-                .hide(homeFrag)
-                .commit();
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
 
-        // show selected
-        getSupportFragmentManager()
-                .beginTransaction()
-                .show(fragment)
-                .commit();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
 
-        return true;
+            return true;
+        }
+        return false;
     }
+
 
 }
 
