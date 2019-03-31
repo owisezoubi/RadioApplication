@@ -18,6 +18,15 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp" />
 
+    <ImageView
+        android:id="@+id/img_handclick"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@id/img_ItemBroadcast"
+        android:src="@drawable/img_hand"
+        android:visibility="invisible" />
+
     <TextView
         android:id="@+id/txtBroadcastTitle_ItemBroadcast"
         android:layout_width="wrap_content"

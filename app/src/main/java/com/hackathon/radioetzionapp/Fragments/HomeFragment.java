@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Animation.AnimationListener {
 
     /////  data to pass to fragment: BroadcastPlayerFrag ////////////////
 
@@ -68,6 +70,8 @@ public class HomeFragment extends Fragment {
 
     public static MediaPlayer mp; // to be used elsewhere (in BroadcastPlayerFrag)
     View currentTrackView;
+
+    Animation handClick;
 
     Context context;
     View rootView;
@@ -200,10 +204,12 @@ public class HomeFragment extends Fragment {
 
         // add track title to now playing top-bar
         txtPlayingNow.setText(makeMarqueeable(currentTrackTitle));
-        txtPlayingNow.setSelected(true);
+        txtPlayingNow.setSelected(true); // to start marquee effect
         // hide track progress
         currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
-
+        // show hand-click animation for audio-track image
+        (currentTrackView.findViewById(R.id.img_handclick)).setVisibility(View.VISIBLE);
+        (currentTrackView.findViewById(R.id.img_handclick)).setAnimation(handClick);
     }
 
     private StringBuilder makeMarqueeable(String txt) {
@@ -255,6 +261,10 @@ public class HomeFragment extends Fragment {
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
+
+        // hand click animation // load //
+        handClick = AnimationUtils.loadAnimation(context, R.anim.hand_show_hide);
+        handClick.setAnimationListener(this);
 
         // load track-list data not loaded yet //
         loadData();
@@ -451,4 +461,19 @@ public class HomeFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        // when animation ends, hide again
+        currentTrackView.findViewById(R.id.img_handclick).setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }
