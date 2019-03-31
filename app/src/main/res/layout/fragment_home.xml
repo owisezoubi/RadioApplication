@@ -45,7 +45,7 @@
             android:src="@drawable/ic_refresh"
             android:scaleType="fitXY"
             android:tint="@color/colorAccent"
-            android:background="#ffffff"
+            android:background="@color/lightPrimaryColor"
             android:visibility="invisible" />
     </RelativeLayout>
 

@@ -2,6 +2,8 @@ package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,14 +36,23 @@ import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
+    /////  data to pass to fragment: BroadcastPlayerFrag ////////////////
+
+    public static int currentTrackIndex; // current playing track index (in datalist)
+    public static String currentTrackTitle;
+    public static int currentTrackTimePosition; // current track's position in milliseconds
+
+    ////////////////////////////////////////////////////////////////////
 
     DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
 
@@ -47,13 +60,20 @@ public class HomeFragment extends Fragment {
     BroadcastListAdapter adapter; // adapter - controller
 
     ProgressBar progressLoadingList;
-    TextView txtLoadingList;
+    TextView txtLoadingList, txtCurrentTrack;
     ImageButton btnRefreshList;
+    LinearLayout layMiniPlayer;
+    ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne;
+    ImageView imgLogo;
+
+    MediaPlayer mp;
+    View currentTrackView;
 
     Context context;
     View rootView;
 
     // TODO mini-player
+
 
     @Nullable
     @Override
@@ -79,45 +99,118 @@ public class HomeFragment extends Fragment {
                 startLoadingEffects(); // reset effects of loading list
                 btnRefreshList.setVisibility(View.INVISIBLE);  // hide when clicked
                 // reload list again
-                setData();
+                getDataFromRemote();
             }
         });
 
+
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                finishTrackLoadingEffects();
+                mp.start();
+            }
+        });
 
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
+
+                // TODO check internet FIRST !!!
+
+                currentTrackView = view; // to use in other methods
+                loadTrackEffects(view);
+                loadTrack(position);
+                updateCurrentTrackInfo(position);
             }
         });
+    }
+
+    private void updateCurrentTrackInfo(int pos) {
+        currentTrackIndex = Defaults.dataList.get(pos).getIndex();
+        currentTrackTitle = Defaults.dataList.get(pos).getTitle();
+    }
+
+    private void finishTrackLoadingEffects() {
+
+        imgLogo.setVisibility(View.GONE); // hide logo // gone ! // as if not there
+        txtCurrentTrack.setVisibility(View.VISIBLE);
+        txtCurrentTrack.setText(currentTrackTitle); // trackTitle instead of logo
+
+        // hide track progress // show NOW PLAYING in status instead
+        currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
+        ((TextView) currentTrackView.findViewById(R.id.status_ItemBroadcast)).
+                setText(getString(R.string.track_nowplaying));
+        currentTrackView.findViewById(R.id.status_ItemBroadcast).setVisibility(View.VISIBLE);
+    }
+
+
+    private void loadTrack(int pos) {
+        try {
+            String url = Defaults.serverURL +
+                    URLEncoder.encode(Defaults.dataList.get(pos).getFilename(), "UTF-8");
+            mp.setDataSource(url);
+            mp.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTrackEffects(View v) {
+        v.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.VISIBLE);
     }
 
     private void setPointers() {
 
         context = getActivity();
+        // list layout & contents
         listViewBroadcasts = rootView.findViewById(R.id.lstBroadcasts);
         progressLoadingList = rootView.findViewById(R.id.progressLoadingBroadcasts);
         txtLoadingList = rootView.findViewById(R.id.txtLoadingBroadcasts);
         btnRefreshList = rootView.findViewById(R.id.btnRefreshBList);
+        // mini player layout & contents
+        layMiniPlayer = rootView.findViewById(R.id.layoutMiniPlayer);
+        btnPlay = rootView.findViewById(R.id.btnPlayPause_MiniPlayer);
+        btnNext = rootView.findViewById(R.id.btnNext_MiniPlayer);
+        btnPrev = rootView.findViewById(R.id.btnPrev_MiniPlayer);
+        btnShuffle = rootView.findViewById(R.id.btnShuffle_MiniPlayer);
+        btnRepeatOne = rootView.findViewById(R.id.btnRepeatOne_MiniPlayer);
+        imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
+        txtCurrentTrack = rootView.findViewById(R.id.txtBroadcastTitle_MiniPlayer);
 
-        loadData(); // load data if present locally , otherwise check remote
+        // load track-list data not loaded yet //
+        loadData();
+
+        //media player // initialize
+        mp = new MediaPlayer();
+        AudioAttributes attributes = new AudioAttributes.Builder().
+                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
+        mp.setAudioAttributes(attributes);
     }
+
 
     private void loadData() {
 
         if (Defaults.dataList.isEmpty()) {
-            setData(); // AsyncTask to get data from database (remote) to DocStore (local) & set adapter afterwards
+            // AsyncTask to get data from database (remote) to DocStore (local)
+            // & set adapter afterwards
+            getDataFromRemote();
+        } else {
+            //finishLoadingEffects();
+        }
+            /*
         } else {
             // set adapter & effects of finished loading
             setListAdapter();
             finishLoadingEffects();
         }
+        */
 
     }
 
 
     @SuppressLint("StaticFieldLeak")
-    private void setData() {
+    private void getDataFromRemote() {
 
         // part 0 // check if has internet connection //
         if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
@@ -278,4 +371,5 @@ public class HomeFragment extends Fragment {
         progressLoadingList.setVisibility(View.INVISIBLE); // hide
         btnRefreshList.setVisibility(View.VISIBLE); // show refresh button
     }
+
 }

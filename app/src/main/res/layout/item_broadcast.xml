@@ -57,10 +57,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/request"
+        android:textStyle="bold"
         android:textSize="@dimen/_8ssp"
         android:text="STATUS"
-        android:layout_toStartOf="@id/progress_ItemBRoadcast"
-        android:layout_alignBottom="@id/progress_ItemBRoadcast"
+        android:layout_toStartOf="@id/imgFav_ItemBroadcast"
+        android:layout_alignBottom="@id/img_ItemBroadcast"
         android:layout_marginEnd="@dimen/_10sdp"/>
 
 </RelativeLayout>

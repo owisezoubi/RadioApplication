@@ -1,4 +1,4 @@
-package com.hackathon.radioetzionapp.Activities;
+package com.hackathon.radioetzionapp.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
