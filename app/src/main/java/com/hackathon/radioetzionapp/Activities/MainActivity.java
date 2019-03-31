@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.hackathon.radioetzionapp.Fragments.CommentsFragment;
 import com.hackathon.radioetzionapp.Fragments.FavoritesFragment;
 import com.hackathon.radioetzionapp.Fragments.HomeFragment;
+import com.hackathon.radioetzionapp.Fragments.SearchFragment;
 import com.hackathon.radioetzionapp.R;
 
 public class MainActivity extends AppCompatActivity
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     HomeFragment homeFrag;
     FavoritesFragment favFrag;
     CommentsFragment commFrag;
+    SearchFragment searchFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setFragments() {
-        // our basic 3 fragments
+        // our basic 4 fragments
         homeFrag = new HomeFragment();
         favFrag = new FavoritesFragment();
         commFrag = new CommentsFragment();
+        searchFrag = new SearchFragment();
         // Fragment Manager
         fm = getSupportFragmentManager();
     }
@@ -59,16 +62,18 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.fragment_container, homeFrag)
                 .add(R.id.fragment_container, favFrag)
                 .add(R.id.fragment_container, commFrag)
+                .add(R.id.fragment_container, searchFrag)
                 .commit();
     }
 
     private boolean showFragment(Fragment fragment) {
 
-        // first , hide all 3
+        // first , hide all 4
         fm.beginTransaction()
                 .hide(favFrag)
                 .hide(commFrag)
                 .hide(homeFrag)
+                .hide(searchFrag)
                 .commit();
 
         // then, show selected
@@ -98,19 +103,17 @@ public class MainActivity extends AppCompatActivity
             case R.id.navigation_home:
                 fragment = homeFrag;
                 break;
-
-            case R.id.navigation_dashboard:
+            case R.id.navigation_favorites:
                 fragment = favFrag;
                 break;
-
-            case R.id.navigation_notifications:
+            case R.id.navigation_comments:
                 fragment = commFrag;
                 break;
-
+            case R.id.navigation_search:
+                fragment = searchFrag;
+                break;
         }
-
         //return loadFragment(fragment);
-
         return showFragment(fragment);
     }
 
@@ -126,7 +129,5 @@ public class MainActivity extends AppCompatActivity
         }
         return false;
     }
-
-
 }
 

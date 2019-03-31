@@ -6,6 +6,28 @@
     android:background="@color/lightPrimaryColor"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <TextView
+        android:id="@+id/txtPlayingNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=". . . . ."
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="italic|bold"
+        android:textColor="@android:color/holo_orange_light"
+        android:background="@color/navbar_back_color"
+
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+
+        android:paddingStart="@dimen/_14ssp"
+        android:paddingEnd="@dimen/_14ssp"
+
+        android:visibility="visible" />
+
     <RelativeLayout android:id="@+id/layFragBroadcasts"
         android:layout_marginBottom="@dimen/_3sdp"
         android:layout_marginStart="@dimen/_10sdp"
@@ -15,6 +37,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
 
         <TextView
             android:id="@+id/txtLoadingBroadcasts"
@@ -32,6 +55,10 @@
 
         <ListView
             android:id="@+id/lstBroadcasts"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -69,17 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:orientation="vertical"
-            android:layout_weight="1">
-
-
-            <TextView
-                android:id="@+id/txtBroadcastTitle_MiniPlayer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="current broadcast title ... "
-                android:textColor="@color/navbar_item_text"
-                android:textSize="@dimen/_14ssp"
-                android:visibility="gone" />
+            android:layout_weight="2">
 
             <ImageView
                 android:id="@+id/imgLogoStart_MiniPlayer"
@@ -90,8 +107,9 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:tint="@color/lightPrimaryColor"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:src="@drawable/logo" />
+
         </LinearLayout>
 
         <RelativeLayout
@@ -109,7 +127,8 @@
                 android:tint="@android:color/holo_orange_dark"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_centerHorizontal="true" />
+                android:layout_toEndOf="@id/btnPrev_MiniPlayer"
+                android:layout_marginStart="@dimen/_5sdp" />
 
             <ImageButton
                 android:id="@+id/btnNext_MiniPlayer"
@@ -121,7 +140,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
                 android:layout_toEndOf="@id/btnPlayPause_MiniPlayer"
-                android:layout_marginStart="@dimen/_10sdp" />
+                android:layout_marginStart="@dimen/_5sdp" />
 
             <ImageButton
                 android:id="@+id/btnPrev_MiniPlayer"
@@ -132,8 +151,7 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
-                android:layout_toStartOf="@id/btnPlayPause_MiniPlayer"
-                android:layout_marginEnd="@dimen/_10sdp" />
+                android:layout_alignParentStart="true" />
 
             <ImageButton
                 android:id="@+id/btnShuffle_MiniPlayer"
@@ -143,9 +161,9 @@
                 android:tint="@drawable/selector_miniplayer_icons_color"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_below="@id/btnPrev_MiniPlayer"
-                android:layout_alignStart="@id/btnPrev_MiniPlayer" />
+                android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_toEndOf="@id/btnNext_MiniPlayer" />
 
             <ImageButton
                 android:id="@+id/btnRepeatOne_MiniPlayer"
@@ -156,8 +174,7 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_alignTop="@id/btnShuffle_MiniPlayer"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_below="@id/btnNext_MiniPlayer"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_toEndOf="@id/btnShuffle_MiniPlayer" />
 
 

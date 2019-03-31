@@ -76,10 +76,8 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
         ImageView imgFav = v.findViewById(R.id.imgFav_ItemBroadcast);
         TextView txtTitle = v.findViewById(R.id.txtBroadcastTitle_ItemBroadcast);
         ProgressBar progress = v.findViewById(R.id.progress_ItemBRoadcast);
-        TextView txtStatus = v.findViewById(R.id.status_ItemBroadcast);
 
         // connect data & adjust views
-        txtStatus.setVisibility(View.INVISIBLE);
         progress.setVisibility(View.INVISIBLE);
         imgAlbum.setColorFilter(getAlternateColor(position));
         txtTitle.setTextColor(getAlternateColor(position));

@@ -60,13 +60,13 @@ public class HomeFragment extends Fragment {
     BroadcastListAdapter adapter; // adapter - controller
 
     ProgressBar progressLoadingList;
-    TextView txtLoadingList, txtCurrentTrack;
+    TextView txtLoadingList, txtPlayingNow;
     ImageButton btnRefreshList;
     LinearLayout layMiniPlayer;
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne;
     ImageView imgLogo;
 
-    MediaPlayer mp;
+    public static MediaPlayer mp; // to be used elsewhere (in BroadcastPlayerFrag)
     View currentTrackView;
 
     Context context;
@@ -74,6 +74,18 @@ public class HomeFragment extends Fragment {
 
     // TODO mini-player
 
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
+
+            // update current track index , title &
+        } else {
+            //Toast.makeText(getActivity(), "showing me", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Nullable
     @Override
@@ -186,15 +198,13 @@ public class HomeFragment extends Fragment {
 
     private void finishTrackLoadingEffects() {
 
-        imgLogo.setVisibility(View.GONE); // hide logo // gone ! // as if not there
-        txtCurrentTrack.setVisibility(View.VISIBLE);
-        txtCurrentTrack.setText(currentTrackTitle); // trackTitle instead of logo
-
-        // hide track progress // show NOW PLAYING in status instead
+        // add track title to now playing top-bar
+        txtPlayingNow.setText(currentTrackTitle);
+        txtPlayingNow.setSelected(true);
+        // hide track progress
         currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
-        ((TextView) currentTrackView.findViewById(R.id.status_ItemBroadcast)).
-                setText(getString(R.string.track_nowplaying));
-        currentTrackView.findViewById(R.id.status_ItemBroadcast).setVisibility(View.VISIBLE);
+
+
     }
 
 
@@ -229,7 +239,7 @@ public class HomeFragment extends Fragment {
         btnShuffle = rootView.findViewById(R.id.btnShuffle_MiniPlayer);
         btnRepeatOne = rootView.findViewById(R.id.btnRepeatOne_MiniPlayer);
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
-        txtCurrentTrack = rootView.findViewById(R.id.txtBroadcastTitle_MiniPlayer);
+        txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
 
         // load track-list data not loaded yet //
         loadData();

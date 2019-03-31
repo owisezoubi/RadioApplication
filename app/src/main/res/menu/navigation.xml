@@ -7,14 +7,18 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_favorites"
         android:icon="@drawable/ic_favorite"
         android:title="@string/title_favorites" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_comments"
         android:icon="@drawable/ic_comment"
         android:title="@string/title_comments" />
 
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search_"
+        android:title="@string/title_search" />
 
 </menu>

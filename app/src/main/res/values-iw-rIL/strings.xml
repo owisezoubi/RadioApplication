@@ -11,4 +11,5 @@
     <string name="loading_broadcasts">טוען רשימת שידורים …</string>
     <string name="request_internet_connection">בבקשה, להתחבר לאינטרנט וללחוץ כפתור רענון לטעינה מחדש</string>
     <string name="track_nowplaying">מתנגן כעת</string>
+    <string name="title_search">חיפוש</string>
 </resources>
