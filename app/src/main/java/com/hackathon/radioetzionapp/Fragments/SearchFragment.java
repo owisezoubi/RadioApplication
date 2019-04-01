@@ -1,6 +1,7 @@
 package com.hackathon.radioetzionapp.Fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,8 +43,8 @@ public class SearchFragment extends Fragment {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             toolbar.setTitle(getString(R.string.title_search));
 
-            //toolbar.setBackgroundColor(Color.GREEN);
-            //toolbar.setTitleTextColor(Color.WHITE);
+            toolbar.setBackgroundColor(Color.BLACK);
+            toolbar.setTitleTextColor(Color.WHITE);
             //toolbar.setTextDirection(View.TEXT_DIRECTION_LOCALE);
 
         }
@@ -71,7 +72,10 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                // TODO
+                // start playing item in HOME fragment
+                // ONLY AFTER stopping everything else (mp.reset())
+                // check example in 4 - screen fragments app (soccer, brazil photos)
             }
         });
     }
@@ -137,7 +141,7 @@ public class SearchFragment extends Fragment {
 
         // settings to make search menu open directly on entry
         // less taps the better
-        item.expandActionView();
+        mMaterialSearchView.showSearch();
         mMaterialSearchView.setFocusable(true);
         mMaterialSearchView.setFocusableInTouchMode(true);
         mMaterialSearchView.requestFocus();
