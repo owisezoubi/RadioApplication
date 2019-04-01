@@ -76,7 +76,9 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     Context context;
     View rootView;
 
-    // TODO mini-player
+    // TODO mini-player, with all buttons, and list interactions
+    // TODO seekbar + volume bar (vertical, hide, show)
+    // TODO audiotrack image onclick --> show track data (desc + guests ... etc )
 
 
     @Override
@@ -451,6 +453,16 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 );
             }
             */
+        }
+
+        // after done loading data, add titles to searchSuggestions list // "sub-list" //
+        setSearchSuggestions();
+    }
+
+    private void setSearchSuggestions() {
+
+        for (BroadcastDataClass item : Defaults.dataList) {
+            Defaults.searchSuggestions.add(item.getTitle());
         }
     }
 

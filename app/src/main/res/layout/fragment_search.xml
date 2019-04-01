@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
 
-    <TextView
-        android:layout_width="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+
+    tools:context=".Activities.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/searchToolbar"
+        android:background="@color/navbar_back_color" />
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SEARCH ..."
-        android:layout_centerInParent="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        android:id="@+id/searchView"
+        app:searchBackground="?colorPrimary"
+        app:searchBackIcon="@drawable/ic_arrow_back"
+        app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
+        app:searchSuggestionIcon="@drawable/ic_suggestion"
+        android:textColor="@color/navbar_item_text"
+        android:textColorHint="@color/navbar_item_text"
+        android:hint="@string/title_search" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchToolbar"
+        android:id="@+id/listSearchItems" />
 
 </RelativeLayout>

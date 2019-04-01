@@ -40,5 +40,6 @@ public class Defaults {
     // (to be accessed & changed from every class / activity / fragment) as needed //
     public static List<BroadcastDataClass> dataList = new ArrayList<>();
     public static String serverURL ="";
+    public static List<String> searchSuggestions = new ArrayList<>();
 
 }

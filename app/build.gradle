@@ -40,4 +40,6 @@ dependencies {
     // cloudAnt client
     implementation 'com.cloudant:cloudant-client:2.15.0'
     /////////////////////////////////////////
+    // search view
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 }
