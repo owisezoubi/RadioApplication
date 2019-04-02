@@ -2,7 +2,6 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- demo animation just to pass the time, until screen loads -->
-    <!-- to be changed -->
 
     <translate
         android:fromYDelta="0%p"

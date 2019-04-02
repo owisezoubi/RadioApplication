@@ -49,8 +49,9 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment implements Animation.AnimationListener {
 
-    public static int currentTrackIndex; // current playing track index (in datalist)
+    public static int currentTrackIndex; // current playing track index [in datalist: 0 - (last-1)]
     public static String currentTrackTitle;
+    boolean isPaused, atStart;
 
     ////////////////////////////////////////////////////////////////////
 
@@ -139,21 +140,18 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
             private String genErrMsg(int what, int extra) {
                 String errMsg = "";
-                // line 1
+                // main
                 switch (what) {
                     case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                        errMsg += "Media Error Unknown";
+                        errMsg += "Media Error Unknown.\t";
                         break;
                     case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                        errMsg += "Media Error: Server Died";
+                        errMsg += "Media Error: Server Died.\t";
                         break;
                     default:
                         errMsg = "";
                 }
-
-                errMsg += "\n";
-
-                // line 2
+                // extra // more details //
                 switch (extra) {
                     case MediaPlayer.MEDIA_ERROR_IO:
                         errMsg += "(IO) File or network related operation error";
@@ -168,8 +166,10 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                         errMsg += "operation timed out";
                         break;
                     default:
-                        errMsg += "Error: (-2147483648) - low-level system error";
+                        errMsg += "Error:(-2147483648), low-level system error";
                 }
+
+                Log.e("MPError", errMsg);
 
                 return errMsg;
             }
@@ -196,6 +196,36 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 updateCurrentTrackInfo(position);
             }
         });
+
+        // play - pause
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                if (Defaults.dataList.isEmpty()) return; // do nothing & exit
+
+                if (atStart) // at beginning, nothing loaded yet into media player !
+                {
+                    // load first track in list
+                    currentTrackView = adapter.getView(0, null, listViewBroadcasts);
+                    loadTrackEffects(currentTrackView);
+                    loadTrack(0);
+                    updateCurrentTrackInfo(0);
+                    atStart = false;
+                } else // a track is loaded into m.p.  but either paused or is playing
+                {
+                    if (isPaused) {
+                        mp.start();
+                        btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
+                        isPaused = false;
+                    } else {
+                        mp.pause();
+                        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+                        isPaused = true;
+                    }
+                }
+            }
+        });
     }
 
     private void updateCurrentTrackInfo(int pos) {
@@ -213,6 +243,8 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         // show hand-click animation for audio-track image
         (currentTrackView.findViewById(R.id.img_handclick)).setVisibility(View.VISIBLE);
         (currentTrackView.findViewById(R.id.img_handclick)).setAnimation(handClick);
+        // change icon of play to pause
+        btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
     }
 
     private StringBuilder makeMarqueeable(String txt) {
@@ -244,6 +276,9 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     }
 
     private void loadTrackEffects(View v) {
+        // change icon of pause to play
+        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+        // show progress for the current item loading ...
         v.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.VISIBLE);
     }
 
@@ -265,39 +300,31 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
-
         // hand click animation // load //
         handClick = AnimationUtils.loadAnimation(context, R.anim.hand_show_hide);
         handClick.setAnimationListener(this);
 
-        // load track-list data not loaded yet //
+        ////////// load track-list data /////////
         loadData();
+        ////////////////////////////////////////
 
-        //media player // initialize
+        //media player // instantiate & set audio attributes & initial boolean states
         mp = new MediaPlayer();
         AudioAttributes attributes = new AudioAttributes.Builder().
                 setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
         mp.setAudioAttributes(attributes);
+        isPaused = true;
+        atStart = true;
     }
 
 
     private void loadData() {
-
+        // in case data is not loaded yet to list >> load it from remote
         if (Defaults.dataList.isEmpty()) {
             // AsyncTask to get data from database (remote) to DocStore (local)
             // & set adapter afterwards
             getDataFromRemote();
-        } else {
-            //finishLoadingEffects();
         }
-            /*
-        } else {
-            // set adapter & effects of finished loading
-            setListAdapter();
-            finishLoadingEffects();
-        }
-        */
-
     }
 
 
@@ -384,7 +411,6 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                     setExtras(retrieved);
                     setServerURL(retrieved);
                     setDataList(retrieved);
-
 
                     // data is ready, time to set ADAPTER
                     setListAdapter();
@@ -484,7 +510,6 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     public void onAnimationStart(Animation animation) {
 
     }
-
     @Override
     public void onAnimationEnd(Animation animation) {
         // when animation ends, hide again
@@ -494,5 +519,15 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     @Override
     public void onAnimationRepeat(Animation animation) {
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mp != null) {
+            mp.stop();
+            mp.release();
+        }
     }
 }

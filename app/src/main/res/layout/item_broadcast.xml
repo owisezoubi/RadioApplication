@@ -45,6 +45,7 @@
     <ImageView
         android:id="@+id/imgFav_ItemBroadcast"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_favorite_border"
         android:tint="@color/album_alternate_1"
         android:layout_width="@dimen/_25sdp"
@@ -54,7 +55,12 @@
 
     <ProgressBar
         android:id="@+id/progress_ItemBRoadcast"
-        android:visibility="invisible"
+
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@android:color/holo_orange_dark"
+
+        android:visibility="visible"
         android:layout_width="@dimen/_15sdp"
         android:layout_height="@dimen/_15sdp"
         android:layout_toStartOf="@id/imgFav_ItemBroadcast"

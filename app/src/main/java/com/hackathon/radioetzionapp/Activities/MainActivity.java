@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity
 
 
         // TODO fix fragments transition in NavBar >> check again when done ! //
-        // TODO add search
 
         setFragments(); // initialize
         loadAllFragments(); // load all to view-group
@@ -87,9 +86,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        // override to do nothing
-        // i.e. not to finish the activity
-        // so that won't go back to splash screen
+        moveTaskToBack(true); // hide activity // home button functionality
+        // override to hide activity (not finish)
+        // so that won't go back to splash screen [previous activity]
     }
 
 

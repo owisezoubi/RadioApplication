@@ -25,14 +25,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private void runSplash() {
 
-        // TODO choose one or more ...
-        // Add Animation  ?
-        // Background Sound ?
-        //  personal logo / random logo ?
 
-
-        // animation to pass time only // does nothing
-        // add animation maybe // TO BE DECIDED ?!?!? //
+        // animation to pass time only // does nothing else //
         laySplash = findViewById(R.id.laySplash);
         anim = AnimationUtils.loadAnimation(getBaseContext(),R.anim.splash_anim);
         anim.setAnimationListener(new Animation.AnimationListener() {
