@@ -38,15 +38,10 @@ public class SearchFragment extends Fragment {
             // clear action bar // hide //
             ((AppCompatActivity) getActivity()).setSupportActionBar(null);
         } else {
-            // show action bar
-            toolbar = rootView.findViewById(R.id.searchToolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            toolbar.setTitle(getString(R.string.title_search));
 
-            toolbar.setBackgroundColor(Color.BLACK);
-            toolbar.setTitleTextColor(Color.WHITE);
-            //toolbar.setTextDirection(View.TEXT_DIRECTION_LOCALE);
-
+            context = getActivity();
+            setSearch();
+            setListView();
         }
     }
 
@@ -62,9 +57,7 @@ public class SearchFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        context = getActivity();
-        setSearch();
-        setListView();
+
     }
 
     private void setListView() {
@@ -81,6 +74,20 @@ public class SearchFragment extends Fragment {
     }
 
     private void setSearch() {
+
+        // TODO add voice search
+        // source:  https://github.com/MiguelCatalan/MaterialSearchView
+
+
+        // show action bar
+        toolbar = rootView.findViewById(R.id.searchToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle(getString(R.string.title_search));
+
+        toolbar.setBackgroundColor(Color.BLACK);
+        toolbar.setTitleTextColor(Color.WHITE);
+        //toolbar.setTextDirection(View.TEXT_DIRECTION_LOCALE);
+
 
         mMaterialSearchView = rootView.findViewById(R.id.searchView);
         //mMaterialSearchView.setSuggestions(SUGGESTION);

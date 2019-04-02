@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:textDirection="locale"
     android:layoutDirection="locale"
-    android:background="@color/lightPrimaryColor"
+    android:background="@drawable/background_broadcasts"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -69,14 +69,14 @@
             android:id="@+id/btnRefreshBList"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_above="@id/txtLoadingBroadcasts"
+            android:layout_above="@id/progressLoadingBroadcasts"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
             android:src="@drawable/ic_refresh"
             android:scaleType="fitXY"
             android:tint="@color/colorAccent"
-            android:background="@color/lightPrimaryColor"
-            android:visibility="invisible" />
+            android:background="@null"
+            android:visibility="visible" />
     </RelativeLayout>
 
     <LinearLayout

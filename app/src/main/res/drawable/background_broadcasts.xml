@@ -2,9 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
-        android:endColor="@color/lightPrimaryColor"
-        android:startColor="@color/colorPrimaryDark"
-        android:angle="0" />
+        android:endColor="@color/navbar_item_text"
+        android:startColor="@color/lightPrimaryColor"
+        android:angle="90" />
 
     <!--
     <stroke
