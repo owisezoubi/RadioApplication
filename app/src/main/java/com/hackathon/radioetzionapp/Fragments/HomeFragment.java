@@ -186,23 +186,23 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // check internet connection / in case disconnected after loading list items
-                if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
-                {
-                    Utils.displayMsg(getString(R.string.no_internet_mp), rootView);
-                    return;
-                }
+
+                if (noInternet_mp()) return;
 
                 if (position == currentTrackIndex) // if current track is clicked again
                 {
                     changePlayPause();
                 } else // different track is selected >> load & play //
                 {
-                    currentTrackView = view; // to use in other methods
-                    loadTrackEffects(view);
-                    loadTrack(position);
-                    updateCurrentTrackInfo(position);
+                    loadTrack_at(position, view);
                 }
+            }
+
+            private void loadTrack_at(int pos, View v) {
+                currentTrackView = v; // to use in other methods
+                loadTrackEffects(v);
+                loadTrack(pos);
+                updateCurrentTrackInfo(pos);
             }
         });
 
@@ -227,18 +227,10 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
                 if (atStart) // at beginning, nothing loaded yet into media player !
                 {
-                    // check internet connection / in case disconnected after loading list items
-                    if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
-                    {
-                        Utils.displayMsg(getString(R.string.no_internet_mp), rootView);
-                        return;
-                    }
+                    if (noInternet_mp()) return;
+
                     // load first track in list
-                    currentTrackView = adapter.getView(0, null,
-                            (ViewGroup) listViewBroadcasts.getChildAt(0));
-                    loadTrackEffects(currentTrackView);
-                    loadTrack(0);
-                    updateCurrentTrackInfo(0);
+                    loadTrack_at(0);
                     atStart = false;
                 } else // a track is loaded into m.p.  but either paused or is playing
                 {
@@ -247,6 +239,50 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
             }
 
         });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                // in case no internet (after loading list) //
+                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
+                int nextTrackIndex = (currentTrackIndex + 1) % (Defaults.dataList.size());
+                loadTrack_at(nextTrackIndex);
+            }
+        });
+
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                // in case no internet (after loading list) //
+                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
+                int prevTrackIndex = currentTrackIndex < 1 ?
+                        Defaults.dataList.size() - 1 : currentTrackIndex - 1;
+                loadTrack_at(prevTrackIndex);
+            }
+        });
+    }
+
+    private void loadTrack_at(int trackIndex) {
+
+        // TODO solve getView issue !!
+
+        currentTrackView = adapter.getView(trackIndex, null,
+                (ViewGroup) listViewBroadcasts.getChildAt(trackIndex));
+        loadTrackEffects(currentTrackView);
+        loadTrack(trackIndex);
+        updateCurrentTrackInfo(trackIndex);
+    }
+
+    private boolean noInternet_mp() {
+        // check internet connection / in case disconnected after loading items list
+        if (!Utils.hasInternet(context)) // if NO internet connection, return true
+        {
+            Utils.displayMsg(getString(R.string.no_internet_mp), rootView);
+            return true;
+        }
+        return false;
     }
 
     private void changePlayPause() {
