@@ -49,8 +49,6 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment implements Animation.AnimationListener {
 
-    /////  data to pass to fragment: BroadcastPlayerFrag ////////////////
-
     public static int currentTrackIndex; // current playing track index (in datalist)
     public static String currentTrackTitle;
 
@@ -68,7 +66,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne;
     ImageView imgLogo;
 
-    public static MediaPlayer mp; // to be used elsewhere (in BroadcastPlayerFrag)
+    MediaPlayer mp;
     View currentTrackView;
 
     Animation handClick;
@@ -183,11 +181,14 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 // TODO play next automatically
             }
         });
+
+
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO check internet FIRST !!!
+                // TODO add check internet FIRST !!!
+                // in case if OFF / disconnected  after list is loaded
 
                 currentTrackView = view; // to use in other methods
                 loadTrackEffects(view);
@@ -216,21 +217,22 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
     private StringBuilder makeMarqueeable(String txt) {
         StringBuilder str = new StringBuilder(txt);
+        StringBuilder space = new StringBuilder();
         StringBuilder result = new StringBuilder();
-        result.append(str);
-        for (int i = 0; i < (30 / str.length()); i += 1) {
-            result.append("\t \t \t \t \t ");
+        // space string // tabX10 //
+        for (int i = 0; i < 10; i += 1) {
+            space.append("\t");
         }
-        result.append("\t\t").append(str).append("\t\t");
-        for (int i = 0; i < (30 / str.length()); i += 1) {
-            result.append("\t \t \t \t \t ");
+        // result string // [str + space] X 3 //
+        for (int i = 0; i < 3; i += 1) {
+            result.append(str).append(space);
         }
-        result.append("\t\t").append(str).append("\t\t");
         return result;
     }
 
 
     private void loadTrack(int pos) {
+        mp.reset(); // in any case, reset first , then load
         try {
             String url = Defaults.serverURL +
                     URLEncoder.encode(Defaults.dataList.get(pos).getFilename(), "UTF-8");
