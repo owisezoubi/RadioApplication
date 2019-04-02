@@ -4,7 +4,7 @@
     <gradient
         android:endColor="@color/navbar_item_text"
         android:startColor="@color/lightPrimaryColor"
-        android:angle="90" />
+        android:angle="45" />
 
     <!--
     <stroke

@@ -17,4 +17,6 @@
     <color name="album_alternate_1">#B93716</color>
     <color name="album_alternate_2">#3344B9</color>
 
+    <color name="clear">#00000000</color>
+
 </resources>

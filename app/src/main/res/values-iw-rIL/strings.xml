@@ -9,7 +9,8 @@
     <string name="error_getting_docstore_2" >שגיאה בעת טעינת רשימת השידורים! - קוד:002</string>
     <string name="error_getting_docstore_3">שגיאה בעת טעינת רשימת השידורים! - קוד:003</string>
     <string name="loading_broadcasts">טוען רשימת שידורים …</string>
-    <string name="request_internet_connection">בבקשה, להתחבר לאינטרנט וללחוץ כפתור רענון לטעינה מחדש</string>
+    <string name="request_internet_connection">בבקשה, להתחבר לאינטרנט וללחוץ על רענון לטעינה מחדש</string>
     <string name="track_nowplaying">מתנגן כעת</string>
     <string name="title_search">חיפוש</string>
+    <string name="no_internet_mp">אין חיבור לאינטרנט! לא ניתן לטעון את השידור הנבחר ... נא להתחבר ולנסות שוב</string>
 </resources>

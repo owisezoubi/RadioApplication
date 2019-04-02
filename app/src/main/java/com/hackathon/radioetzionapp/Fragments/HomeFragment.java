@@ -49,8 +49,8 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment implements Animation.AnimationListener {
 
-    public static int currentTrackIndex; // current playing track index [in datalist: 0 - (last-1)]
-    public static String currentTrackTitle;
+    public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
+    public static String currentTrackTitle = "";
     boolean isPaused, atStart;
 
     ////////////////////////////////////////////////////////////////////
@@ -186,14 +186,35 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // check internet connection / in case disconnected after loading list items
+                if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
+                {
+                    Utils.displayMsg(getString(R.string.no_internet_mp), rootView);
+                    return;
+                }
 
-                // TODO add check internet FIRST !!!
-                // in case if OFF / disconnected  after list is loaded
+                if (position == currentTrackIndex) // if current track is clicked again
+                {
+                    changePlayPause();
+                } else // different track is selected >> load & play //
+                {
+                    currentTrackView = view; // to use in other methods
+                    loadTrackEffects(view);
+                    loadTrack(position);
+                    updateCurrentTrackInfo(position);
+                }
+            }
+        });
 
-                currentTrackView = view; // to use in other methods
-                loadTrackEffects(view);
-                loadTrack(position);
-                updateCurrentTrackInfo(position);
+
+        listViewBroadcasts.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // TODO clicked track info on dialog
+
+                // showTrackInfoDialog();
+
+                return true;  // to make short click work ok ...
             }
         });
 
@@ -206,30 +227,42 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
                 if (atStart) // at beginning, nothing loaded yet into media player !
                 {
+                    // check internet connection / in case disconnected after loading list items
+                    if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
+                    {
+                        Utils.displayMsg(getString(R.string.no_internet_mp), rootView);
+                        return;
+                    }
                     // load first track in list
-                    currentTrackView = adapter.getView(0, null, listViewBroadcasts);
+                    currentTrackView = adapter.getView(0, null,
+                            (ViewGroup) listViewBroadcasts.getChildAt(0));
                     loadTrackEffects(currentTrackView);
                     loadTrack(0);
                     updateCurrentTrackInfo(0);
                     atStart = false;
                 } else // a track is loaded into m.p.  but either paused or is playing
                 {
-                    if (isPaused) {
-                        mp.start();
-                        btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
-                        isPaused = false;
-                    } else {
-                        mp.pause();
-                        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
-                        isPaused = true;
-                    }
+                    changePlayPause();
                 }
             }
+
         });
     }
 
+    private void changePlayPause() {
+        if (isPaused) {
+            mp.start();
+            btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
+            isPaused = false;
+        } else {
+            mp.pause();
+            btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+            isPaused = true;
+        }
+    }
+
     private void updateCurrentTrackInfo(int pos) {
-        currentTrackIndex = Defaults.dataList.get(pos).getIndex();
+        currentTrackIndex = pos;
         currentTrackTitle = Defaults.dataList.get(pos).getTitle();
     }
 
