@@ -1,7 +1,6 @@
 package com.hackathon.radioetzionapp.Fragments;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +28,7 @@ public class SearchFragment extends Fragment {
     Toolbar toolbar;
     Context context;
     ListView listView;
+    ArrayAdapter<String> arrayAdapter;
     MaterialSearchView mMaterialSearchView;
 
     @Override
@@ -38,10 +38,11 @@ public class SearchFragment extends Fragment {
             // clear action bar // hide //
             ((AppCompatActivity) getActivity()).setSupportActionBar(null);
         } else {
-
-            context = getActivity();
-            setSearch();
-            setListView();
+            // show action bar //
+            toolbar = rootView.findViewById(R.id.searchToolbar);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            // refresh/reset adapter  // in case there was no internet at onStart //
+            setSearchPointers();
         }
     }
 
@@ -57,7 +58,9 @@ public class SearchFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
+        context = getActivity();
+        setSearch();
+        setListView();
     }
 
     private void setListView() {
@@ -79,24 +82,19 @@ public class SearchFragment extends Fragment {
         // source:  https://github.com/MiguelCatalan/MaterialSearchView
 
 
-        // show action bar
-        toolbar = rootView.findViewById(R.id.searchToolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle(getString(R.string.title_search));
+        setSearchPointers();
+        setSearchListeners();
+    }
 
-        toolbar.setBackgroundColor(Color.BLACK);
-        toolbar.setTitleTextColor(Color.WHITE);
-        //toolbar.setTextDirection(View.TEXT_DIRECTION_LOCALE);
-
-
+    private void setSearchPointers() {
         mMaterialSearchView = rootView.findViewById(R.id.searchView);
-        //mMaterialSearchView.setSuggestions(SUGGESTION);
-
         listView = rootView.findViewById(R.id.listSearchItems);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_1, Defaults.searchSuggestions);
+        arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,
+                Defaults.searchSuggestions);
         listView.setAdapter(arrayAdapter);
+    }
 
+    private void setSearchListeners() {
         mMaterialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
@@ -135,9 +133,9 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-
-
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -36,10 +36,13 @@ public class Defaults {
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    // GLOBAL Static VARIABLES //
+    // GLOBAL Static VARIABLES // which store data cached from cloudAnt db //
     // (to be accessed & changed from every class / activity / fragment) as needed //
     public static List<BroadcastDataClass> dataList = new ArrayList<>();
-    public static String serverURL ="";
-    public static List<String> searchSuggestions = new ArrayList<>();
+    public static String serverURL = ""; // where media is stored
+    public static List<String> searchSuggestions = new ArrayList<>(); // sub-list of dataList
+    public static String docname = ""; // extra
+    public static List<String> notesList = new ArrayList<>(); // extras
+
 
 }

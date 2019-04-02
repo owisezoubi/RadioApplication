@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightPrimaryColor"
+    android:background="@color/navbar_back_color"
 
     android:layoutDirection="rtl"
     android:textDirection="rtl"
@@ -15,18 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:id="@+id/searchToolbar"
-        android:background="@color/navbar_back_color" />
+        android:background="@color/navbar_back_color"
+        app:titleTextColor="@color/navbar_item_text"
+        app:title="@string/title_search" />
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/MaterialSearchViewStyle"
         android:id="@+id/searchView"
-        app:searchBackground="?colorPrimary"
-        app:searchBackIcon="@drawable/ic_arrow_back"
-        app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
-        app:searchSuggestionIcon="@drawable/ic_suggestion"
-        android:textColor="@color/navbar_item_text"
-        android:textColorHint="@color/navbar_item_text"
         android:hint="@string/title_search" />
 
     <ListView

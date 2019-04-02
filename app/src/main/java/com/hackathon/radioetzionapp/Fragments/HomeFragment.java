@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,6 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
     public static int currentTrackIndex; // current playing track index (in datalist)
     public static String currentTrackTitle;
-    public static int currentTrackTimePosition; // current track's position in milliseconds
 
     ////////////////////////////////////////////////////////////////////
 
@@ -306,10 +306,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
         {
             Utils.displayMsg(context.getString(R.string.no_internet), rootView);
-            //Log.e("errdata", context.getString(R.string.no_internet));
-
             requestInternetConnection();
-
             return;
         }
 
@@ -329,10 +326,6 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
         if (uri == null || ds == null) {
             Utils.displayMsg(context.getString(R.string.error_getting_docstore_1), rootView);
-
-            //Log.e("errdata",context.getString(R.string.error_getting_docstore_1)+"\n"+
-            //"uri:"+uri+"\n"+"ds:"+ds);
-
             return;
         }
 
@@ -365,13 +358,11 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
             @Override
             protected void onPostExecute(Replicator.State result) {
                 super.onPostExecute(result);
-                //Log.e("errdata",result.name());
                 if (result != Replicator.State.COMPLETE) {
                     Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2), rootView);
-                    //Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_2));
                 } else {
                     // all is ok, we have local DocStore
-                    // time to set serverURL && fill up data list
+                    // time to set serverURL && fill up data list && extras
 
                     DocumentRevision retrieved = null;
                     try {
@@ -384,10 +375,11 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
                     if (retrieved == null) {
                         Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3), rootView);
-                        //Log.e("errdata",contextTmp.getString(R.string.error_getting_docstore_3));
                         return;
                     }
 
+                    // storing db data into local objects & lists
+                    setExtras(retrieved);
                     setServerURL(retrieved);
                     setDataList(retrieved);
 
@@ -399,6 +391,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
             }
         }.execute();
     }
+
 
     private void finishLoadingEffects() {
         txtLoadingList.setVisibility(View.INVISIBLE);
@@ -417,10 +410,22 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     }
 
 
+    private void setExtras(DocumentRevision rev) {
+        // internal use //
+        Defaults.docname = (String) (rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_docname));
+        Defaults.notesList.add((String) rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_note01));
+        Defaults.notesList.add((String) rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_note02));
+        Defaults.notesList.add((String) rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_note03));
+    }
+
     private void setServerURL(DocumentRevision rev) {
         Defaults.serverURL = (String) (rev.getBody().asMap().get(Defaults.BroadcastDoc_Key_serverURL));
 
-        //Log.e("errdata","serverURL:"+this.serverURL);
+        Log.e("some info ... ", "\n" + Defaults.serverURL +
+                "\n" + Defaults.docname +
+                "\n" + Defaults.notesList.get(0) +
+                "\n" + Defaults.notesList.get(1) +
+                "\n" + Defaults.notesList.get(2));
     }
 
     private void setDataList(DocumentRevision rev) {
