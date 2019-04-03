@@ -52,7 +52,8 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
     public static String currentTrackTitle = "";
     boolean isPaused, atStart;
-
+    int errorCounter;
+    final int ERR_MAX_RELOADS = 3;
     ////////////////////////////////////////////////////////////////////
 
     DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
@@ -132,53 +133,72 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         mp.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                String errMsg = genErrMsg(what, extra);// build error msg
-                // display error msg
-                Utils.displayMsg(errMsg, rootView);
-                return false; // keep false to go to on completion listener
+                return handleError(mp, what, extra);
+                // false: goto onCompletion listener (play next track)
+                // true: error was handled here (mp resources released and re-loaded same track again)
             }
 
-            private String genErrMsg(int what, int extra) {
-                String errMsg = "";
+            private boolean handleError(MediaPlayer mp, int what, int extra) {
+                genDevErrMsg(what, extra); // for developer use
+
+                // handling strategy:
+                // try (ERR_MAX_RELOADS) times to load same track (current)
+                // if unsuccessful, load next ... and so on ...
+
+                mp.release(); // release mp resources
+                mp_Initialize(); // re-create mp instance
+                if (errorCounter < ERR_MAX_RELOADS) {
+                    // display error msg to user
+                    Utils.displayMsg(getString(R.string.err_mp_reloading), rootView);
+                    loadTrack_at(currentTrackIndex); // re-load current track
+                    errorCounter = +1;
+                    return true;
+                } else {
+                    Utils.displayMsg(getString(R.string.err_mp_loading_next), rootView);
+                    errorCounter = 0;
+                    return false; // goto onCompletion listener, to load next track in list
+                }
+            }
+
+            private void genDevErrMsg(int what, int extra) {
+                String errMsgDev = ""; // error msg for developer
                 // main
                 switch (what) {
                     case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                        errMsg += "Media Error Unknown.\t";
+                        errMsgDev += "Media Error Unknown.\t";
                         break;
                     case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                        errMsg += "Media Error: Server Died.\t";
+                        errMsgDev += "Media Error: Server Died.\t";
                         break;
                     default:
-                        errMsg = "";
+                        errMsgDev = "";
                 }
                 // extra // more details //
                 switch (extra) {
                     case MediaPlayer.MEDIA_ERROR_IO:
-                        errMsg += "(IO) File or network related operation error";
+                        errMsgDev += "(IO) File or network related operation error";
                         break;
                     case MediaPlayer.MEDIA_ERROR_MALFORMED:
-                        errMsg += "Bitstream is not conforming to the related coding standard or file spec";
+                        errMsgDev += "Bitstream is not conforming to the related coding standard or file spec";
                         break;
                     case MediaPlayer.MEDIA_ERROR_UNSUPPORTED:
-                        errMsg += "The media framework does not support the the related coding standard or file spec";
+                        errMsgDev += "The media framework does not support the the related coding standard or file spec";
                         break;
                     case MediaPlayer.MEDIA_ERROR_TIMED_OUT:
-                        errMsg += "operation timed out";
+                        errMsgDev += "operation timed out";
                         break;
                     default:
-                        errMsg += "Error:(-2147483648), low-level system error";
+                        errMsgDev += "Error:(-2147483648), low-level system error";
                 }
 
-                Log.e("MPError", errMsg);
-
-                return errMsg;
+                Log.e("MPErr: ", errMsgDev); // for developer use
             }
         });
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                // TODO play next automatically
+                btnNext.performClick();
             }
         });
 
@@ -257,7 +277,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 // in case track list is not loaded yet >> nothing to play //
                 // in case no internet (after loading list) //
                 if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
-                int prevTrackIndex = currentTrackIndex < 1 ?
+                int prevTrackIndex = currentTrackIndex < 1 ? // 0 or -1 //
                         Defaults.dataList.size() - 1 : currentTrackIndex - 1;
                 loadTrack_at(prevTrackIndex);
             }
@@ -268,8 +288,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
         // TODO solve getView issue !!
 
-        currentTrackView = adapter.getView(trackIndex, null,
-                (ViewGroup) listViewBroadcasts.getChildAt(trackIndex));
+        currentTrackView = adapter.getView(trackIndex, null, null);
         loadTrackEffects(currentTrackView);
         loadTrack(trackIndex);
         updateCurrentTrackInfo(trackIndex);
@@ -377,6 +396,11 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         loadData();
         ////////////////////////////////////////
 
+        mp_Initialize();
+        errorCounter = 0;
+    }
+
+    private void mp_Initialize() {
         //media player // instantiate & set audio attributes & initial boolean states
         mp = new MediaPlayer();
         AudioAttributes attributes = new AudioAttributes.Builder().

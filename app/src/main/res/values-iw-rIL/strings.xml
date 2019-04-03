@@ -13,4 +13,6 @@
     <string name="track_nowplaying">מתנגן כעת</string>
     <string name="title_search">חיפוש</string>
     <string name="no_internet_mp">אין חיבור לאינטרנט! לא ניתן לטעון את השידור הנבחר ... נא להתחבר ולנסות שוב</string>
+    <string name="err_mp_reloading">איחור בטעינת השידור ... טוען מחדש ...</string>
+    <string name="err_mp_loading_next">טעינת השידור נכשלה .. טוען שידור הבא ...</string>
 </resources>
