@@ -107,6 +107,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void setListeners() {
+
         // TODO
 
         btnRefreshList.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +120,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        mediaPlayerListeners();
+        mediaButtonsListeners();
+        listListeners();
+    }
+
+
+    private void mediaPlayerListeners() {
 
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -193,10 +201,84 @@ public class HomeFragment extends Fragment {
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                btnNext.performClick();
+                btnNext.performClick(); // play next track in line ...
             }
         });
 
+
+    }
+
+
+    private void mediaButtonsListeners() {
+
+
+        // play - pause
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                if (Defaults.dataList.isEmpty()) return; // do nothing & exit
+
+                if (atStart) // at beginning, nothing loaded yet into media player !
+                {
+                    if (noInternet_mp()) return;
+
+                    // load first track in list
+                    loadTrack_at(0);
+                    atStart = false;
+                } else // a track is loaded into m.p.  but either paused or is playing
+                {
+                    changePlayPause();
+                }
+            }
+
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                // in case no internet (after loading list) //
+                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
+                playNextTrack();
+            }
+        });
+
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // in case track list is not loaded yet >> nothing to play //
+                // in case no internet (after loading list) //
+                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
+                playPrevTrack();
+            }
+        });
+
+
+        btnShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            }
+        });
+
+        btnRepeatOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            }
+        });
+
+        imgLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO  color blink animation ?!?!
+            }
+        });
+    }
+
+
+    private void listListeners() {
 
         listViewBroadcasts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -245,48 +327,6 @@ public class HomeFragment extends Fragment {
                 // showTrackInfoDialog();
 
                 return true;  // to make short click work ok ...
-            }
-        });
-
-        // play - pause
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // in case track list is not loaded yet >> nothing to play //
-                if (Defaults.dataList.isEmpty()) return; // do nothing & exit
-
-                if (atStart) // at beginning, nothing loaded yet into media player !
-                {
-                    if (noInternet_mp()) return;
-
-                    // load first track in list
-                    loadTrack_at(0);
-                    atStart = false;
-                } else // a track is loaded into m.p.  but either paused or is playing
-                {
-                    changePlayPause();
-                }
-            }
-
-        });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // in case track list is not loaded yet >> nothing to play //
-                // in case no internet (after loading list) //
-                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
-                playNextTrack();
-            }
-        });
-
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // in case track list is not loaded yet >> nothing to play //
-                // in case no internet (after loading list) //
-                if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
-                playPrevTrack();
             }
         });
     }
