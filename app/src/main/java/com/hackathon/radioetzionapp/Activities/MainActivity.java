@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true); // hide activity // home button functionality
+        moveTaskToBack(true); // hide activity // home button_back functionality
         // override to hide activity (not finish)
         // so that won't go back to splash screen [previous activity]
     }

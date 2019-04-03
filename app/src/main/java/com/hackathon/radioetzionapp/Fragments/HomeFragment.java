@@ -2,6 +2,7 @@ package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -10,12 +11,11 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment implements Animation.AnimationListener {
+public class HomeFragment extends Fragment {
 
     public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
     public static String currentTrackTitle = "";
@@ -69,16 +69,14 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     ImageView imgLogo;
 
     MediaPlayer mp;
-    View currentTrackView;
-
-    Animation handClick;
 
     Context context;
     View rootView;
 
     // TODO mini-player, with all buttons, and list interactions
     // TODO seekbar + volume bar (vertical, hide, show)
-    // TODO audiotrack image onclick --> show track data (desc + guests ... etc )
+    // TODO audiotrack image onclick + long click (item) --> show track data (desc + guests ... etc )
+    // >>> in DIALOG
 
 
     @Override
@@ -148,13 +146,12 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 mp.release(); // release mp resources
                 mp_Initialize(); // re-create mp instance
                 if (errorCounter < ERR_MAX_RELOADS) {
-                    // display error msg to user
-                    Utils.displayMsg(getString(R.string.err_mp_reloading), rootView);
+                    Utils.displayMsg(getString(R.string.err_mp_reloading), rootView); // display msg to user
                     loadTrack_at(currentTrackIndex); // re-load current track
                     errorCounter = +1;
                     return true;
                 } else {
-                    Utils.displayMsg(getString(R.string.err_mp_loading_next), rootView);
+                    Utils.displayMsg(getString(R.string.err_mp_loading_next), rootView); // display msg to user
                     errorCounter = 0;
                     return false; // goto onCompletion listener, to load next track in list
                 }
@@ -162,8 +159,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
             private void genDevErrMsg(int what, int extra) {
                 String errMsgDev = ""; // error msg for developer
-                // main
-                switch (what) {
+                switch (what) { // main
                     case MediaPlayer.MEDIA_ERROR_UNKNOWN:
                         errMsgDev += "Media Error Unknown.\t";
                         break;
@@ -173,8 +169,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                     default:
                         errMsgDev = "";
                 }
-                // extra // more details //
-                switch (extra) {
+                switch (extra) { // extra // more details //
                     case MediaPlayer.MEDIA_ERROR_IO:
                         errMsgDev += "(IO) File or network related operation error";
                         break;
@@ -209,21 +204,36 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
 
                 if (noInternet_mp()) return;
 
+                itemBlinkEffect(view, Color.WHITE, 750);
+
                 if (position == currentTrackIndex) // if current track is clicked again
                 {
                     changePlayPause();
                 } else // different track is selected >> load & play //
                 {
-                    loadTrack_at(position, view);
+                    loadTrack_at(position);
                 }
+
+                atStart = false; // in case first time played // to sync with play-pause button_back //
             }
 
-            private void loadTrack_at(int pos, View v) {
-                currentTrackView = v; // to use in other methods
-                loadTrackEffects(v);
-                loadTrack(pos);
-                updateCurrentTrackInfo(pos);
+            private void itemBlinkEffect(final View v, int color, final int delayMsec) {
+                v.setBackgroundColor(color); // set blink color
+                new Thread(new Runnable() { // generate delay in background thread
+                    @Override
+                    public void run() {
+                        SystemClock.sleep(delayMsec);
+                        getActivity().runOnUiThread(new Runnable() { // clear blink color after delay
+                            @Override
+                            public void run() {
+                                v.setBackgroundColor(ContextCompat.getColor(context, R.color.clear));
+                            }
+                        });
+                    }
+                }).start();
             }
+
+
         });
 
 
@@ -266,8 +276,7 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 // in case track list is not loaded yet >> nothing to play //
                 // in case no internet (after loading list) //
                 if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
-                int nextTrackIndex = (currentTrackIndex + 1) % (Defaults.dataList.size());
-                loadTrack_at(nextTrackIndex);
+                playNextTrack();
             }
         });
 
@@ -277,19 +286,26 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
                 // in case track list is not loaded yet >> nothing to play //
                 // in case no internet (after loading list) //
                 if (Defaults.dataList.isEmpty() || noInternet_mp()) return;
-                int prevTrackIndex = currentTrackIndex < 1 ? // 0 or -1 //
-                        Defaults.dataList.size() - 1 : currentTrackIndex - 1;
-                loadTrack_at(prevTrackIndex);
+                playPrevTrack();
             }
         });
     }
 
+
+    private void playPrevTrack() {
+        int prevTrackIndex = currentTrackIndex < 1 ? // 0 or -1 //
+                Defaults.dataList.size() - 1 : currentTrackIndex - 1;
+        loadTrack_at(prevTrackIndex);
+    }
+
+    private void playNextTrack() {
+        int nextTrackIndex = (currentTrackIndex + 1) % (Defaults.dataList.size());
+        loadTrack_at(nextTrackIndex);
+    }
+
     private void loadTrack_at(int trackIndex) {
 
-        // TODO solve getView issue !!
-
-        currentTrackView = adapter.getView(trackIndex, null, null);
-        loadTrackEffects(currentTrackView);
+        //loadTrackEffects();
         loadTrack(trackIndex);
         updateCurrentTrackInfo(trackIndex);
     }
@@ -327,15 +343,14 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         txtPlayingNow.setText(makeMarqueeable(currentTrackTitle));
         txtPlayingNow.setSelected(true); // to start marquee effect
         // hide track progress
-        currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
-        // show hand-click animation for audio-track image
-        (currentTrackView.findViewById(R.id.img_handclick)).setVisibility(View.VISIBLE);
-        (currentTrackView.findViewById(R.id.img_handclick)).setAnimation(handClick);
+        //currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
         // change icon of play to pause
         btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
     }
 
     private StringBuilder makeMarqueeable(String txt) {
+        // duplicates title and adds spaces so that long enough
+        // to start marquee effect in the top text view (now playing)
         StringBuilder str = new StringBuilder(txt);
         StringBuilder space = new StringBuilder();
         StringBuilder result = new StringBuilder();
@@ -364,10 +379,15 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     }
 
     private void loadTrackEffects(View v) {
-        // change icon of pause to play
-        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
-        // show progress for the current item loading ...
-        v.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.VISIBLE);
+
+        // TODO
+        // change icon of play/pause >> INVISIBLE
+        btnPlay.setVisibility(View.INVISIBLE);
+        // add progress instead (show) of above >> VISIBLE
+        // .......
+        // show progress
+        // ...
+        //v.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.VISIBLE);
     }
 
     private void setPointers() {
@@ -388,10 +408,8 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
-        // hand click animation // load //
-        handClick = AnimationUtils.loadAnimation(context, R.anim.hand_show_hide);
-        handClick.setAnimationListener(this);
 
+        /////////////////////////////////////////
         ////////// load track-list data /////////
         loadData();
         ////////////////////////////////////////
@@ -595,25 +613,8 @@ public class HomeFragment extends Fragment implements Animation.AnimationListene
     private void requestInternetConnection() {
         txtLoadingList.setText(getString(R.string.request_internet_connection)); // request msg
         progressLoadingList.setVisibility(View.INVISIBLE); // hide
-        btnRefreshList.setVisibility(View.VISIBLE); // show refresh button
+        btnRefreshList.setVisibility(View.VISIBLE); // show refresh button_back
     }
-
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-
-    }
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        // when animation ends, hide again
-        currentTrackView.findViewById(R.id.img_handclick).setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
-    }
-
 
     @Override
     public void onDestroy() {

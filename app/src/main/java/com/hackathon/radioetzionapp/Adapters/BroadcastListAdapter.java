@@ -10,7 +10,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
@@ -73,14 +72,10 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
 
         // link ids to pointers
         ImageView imgAlbum = v.findViewById(R.id.img_ItemBroadcast);
-        ImageView imgHand = v.findViewById(R.id.img_handclick);
         ImageView imgFav = v.findViewById(R.id.imgFav_ItemBroadcast);
         TextView txtTitle = v.findViewById(R.id.txtBroadcastTitle_ItemBroadcast);
-        ProgressBar progress = v.findViewById(R.id.progress_ItemBRoadcast);
 
         // connect data & adjust views
-        progress.setVisibility(View.INVISIBLE);
-        imgHand.setVisibility(View.INVISIBLE);
         imgAlbum.setColorFilter(getAlternateColor(position));
         txtTitle.setTextColor(getAlternateColor(position));
         txtTitle.setText(lst.get(position).getTitle());

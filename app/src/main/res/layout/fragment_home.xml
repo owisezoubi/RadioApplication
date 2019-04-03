@@ -125,37 +125,38 @@
 
             <ImageButton
                 android:id="@+id/btnPlayPause_MiniPlayer"
-                android:background="@color/navbar_back_color"
+                android:background="@drawable/button_back"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_play_circle_outline"
-                android:tint="@android:color/holo_orange_dark"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_toEndOf="@id/btnPrev_MiniPlayer"
+                android:tint="@color/navbar_item_text"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/_5sdp" />
 
             <ImageButton
                 android:id="@+id/btnNext_MiniPlayer"
-                android:background="@color/navbar_back_color"
+                android:background="@drawable/button_back"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_next"
-                android:tint="@android:color/holo_orange_dark"
-                android:layout_width="@dimen/_40sdp"
+                android:tint="@color/navbar_item_text"
+                android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/btnPlayPause_MiniPlayer"
-                android:layout_marginStart="@dimen/_5sdp" />
+                android:layout_marginStart="@dimen/_10sdp" />
 
             <ImageButton
                 android:id="@+id/btnPrev_MiniPlayer"
-                android:background="@color/navbar_back_color"
+                android:background="@drawable/button_back"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_previous"
-                android:tint="@android:color/holo_orange_dark"
-                android:layout_width="@dimen/_40sdp"
+                android:tint="@color/navbar_item_text"
+                android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
-                android:layout_alignParentStart="true" />
+                android:layout_toStartOf="@id/btnPlayPause_MiniPlayer"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_centerVertical="true" />
 
             <ImageButton
                 android:id="@+id/btnShuffle_MiniPlayer"
@@ -166,8 +167,8 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_alignBottom="@id/btnPlayPause_MiniPlayer"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toEndOf="@id/btnNext_MiniPlayer" />
+                android:layout_toStartOf="@id/btnPrev_MiniPlayer"
+                android:layout_marginEnd="@dimen/_5sdp" />
 
             <ImageButton
                 android:id="@+id/btnRepeatOne_MiniPlayer"
@@ -178,8 +179,8 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_alignTop="@id/btnShuffle_MiniPlayer"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_toEndOf="@id/btnShuffle_MiniPlayer" />
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_toEndOf="@id/btnNext_MiniPlayer" />
 
 
         </RelativeLayout>
