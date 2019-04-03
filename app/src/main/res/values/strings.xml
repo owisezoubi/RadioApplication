@@ -14,4 +14,5 @@
     <string name="no_internet_mp"><![CDATA[No Internet! Cannot load broadcast please connect & try again]]></string>
     <string name="err_mp_reloading">loading track delay.. RELOADING ...</string>
     <string name="err_mp_loading_next">loading track failed, LOADING NEXT ...</string>
+    <string name="ok">OK</string>
 </resources>

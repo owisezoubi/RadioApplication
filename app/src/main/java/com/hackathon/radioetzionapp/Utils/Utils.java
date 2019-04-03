@@ -1,11 +1,12 @@
 package com.hackathon.radioetzionapp.Utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import com.hackathon.radioetzionapp.R;
 
 public class Utils {
 
@@ -21,13 +22,12 @@ public class Utils {
     public static void displayMsg(String msg, View parentView){
         // display snackbar msg to user
         final Snackbar myMsg = Snackbar.make(parentView,msg,Snackbar.LENGTH_LONG);
-        myMsg.setAction("OK", new View.OnClickListener() {
+        myMsg.setAction(R.string.ok, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myMsg.dismiss();
             }
         });
-        myMsg.setActionTextColor(Color.GREEN);
         myMsg.show();
     }
 }
