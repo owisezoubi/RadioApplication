@@ -37,6 +37,7 @@ import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment {
     BroadcastListAdapter adapter; // adapter - controller
 
     ProgressBar progressLoadingList;
+    AVLoadingIndicatorView indicatorLoadingBroadcast;
     TextView txtLoadingList, txtPlayingNow;
     ImageButton btnRefreshList;
     LinearLayout layMiniPlayer;
@@ -344,8 +346,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadTrack_at(int trackIndex) {
-
-        //loadTrackEffects();
+        loadTrackEffects();
         loadTrack(trackIndex);
         updateCurrentTrackInfo(trackIndex);
     }
@@ -382,8 +383,8 @@ public class HomeFragment extends Fragment {
         // add track title to now playing top-bar
         txtPlayingNow.setText(makeMarqueeable(currentTrackTitle));
         txtPlayingNow.setSelected(true); // to start marquee effect
-        // hide track progress
-        //currentTrackView.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.INVISIBLE);
+        // hide indicator animation
+        indicatorLoadingBroadcast.smoothToHide();
         // change icon of play to pause
         btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
     }
@@ -418,16 +419,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void loadTrackEffects(View v) {
-
-        // TODO
-        // change icon of play/pause >> INVISIBLE
-        btnPlay.setVisibility(View.INVISIBLE);
-        // add progress instead (show) of above >> VISIBLE
-        // .......
-        // show progress
-        // ...
-        //v.findViewById(R.id.progress_ItemBRoadcast).setVisibility(View.VISIBLE);
+    private void loadTrackEffects() {
+        indicatorLoadingBroadcast.smoothToShow();
+        txtPlayingNow.setText(getString(R.string.loading_selected_track));
     }
 
     private void setPointers() {
@@ -435,9 +429,11 @@ public class HomeFragment extends Fragment {
         context = getActivity();
         // list layout & contents
         listViewBroadcasts = rootView.findViewById(R.id.lstBroadcasts);
-        progressLoadingList = rootView.findViewById(R.id.progressLoadingBroadcasts);
+        progressLoadingList = rootView.findViewById(R.id.progressLoadingList);
         txtLoadingList = rootView.findViewById(R.id.txtLoadingBroadcasts);
         btnRefreshList = rootView.findViewById(R.id.btnRefreshBList);
+        indicatorLoadingBroadcast = rootView.findViewById(R.id.indicatorLoadingBroadcast);
+        indicatorLoadingBroadcast.hide(); // hidden on list loading
         // mini player layout & contents
         layMiniPlayer = rootView.findViewById(R.id.layoutMiniPlayer);
         btnPlay = rootView.findViewById(R.id.btnPlayPause_MiniPlayer);

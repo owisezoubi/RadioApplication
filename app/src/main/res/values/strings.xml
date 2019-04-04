@@ -15,4 +15,5 @@
     <string name="err_mp_reloading">loading track delay.. RELOADING ...</string>
     <string name="err_mp_loading_next">loading track failed, LOADING NEXT ...</string>
     <string name="ok">OK</string>
+    <string name="loading_selected_track">loading broadcast ...</string>
 </resources>

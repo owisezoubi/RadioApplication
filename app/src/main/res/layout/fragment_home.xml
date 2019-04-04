@@ -1,5 +1,6 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:textDirection="locale"
     android:layoutDirection="locale"
@@ -51,9 +52,14 @@
             android:layout_centerInParent="true" />
 
         <ProgressBar
-            android:id="@+id/progressLoadingBroadcasts"
+            android:id="@+id/progressLoadingList"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
+
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/colorPrimaryDark"
+
             android:layout_below="@id/txtLoadingBroadcasts"
             android:layout_centerHorizontal="true" />
 
@@ -70,7 +76,7 @@
             android:id="@+id/btnRefreshBList"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_above="@id/progressLoadingBroadcasts"
+            android:layout_above="@id/progressLoadingList"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/_25sdp"
             android:src="@drawable/ic_refresh"
@@ -78,6 +84,35 @@
             android:tint="@color/colorAccent"
             android:background="@color/clear"
             android:visibility="invisible" />
+
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/indicatorLoadingBroadcast"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            style="@style/AVLoadingIndicatorView.Large"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_30sdp"
+            android:visibility="visible"
+            app:indicatorName="LineScalePulseOutIndicator"
+            app:indicatorColor="@color/request" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_share_black"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:rippleColor="@color/lightPrimaryColor"
+            android:scaleType="center"
+            android:tint="@color/navbar_item_text"
+
+
+            />
     </RelativeLayout>
 
     <LinearLayout
@@ -144,6 +179,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/btnPlayPause_MiniPlayer"
+                android:padding="@dimen/_2sdp"
                 android:layout_marginStart="@dimen/_8sdp" />
 
             <ImageButton
@@ -156,6 +192,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_toStartOf="@id/btnPlayPause_MiniPlayer"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:padding="@dimen/_2sdp"
                 android:layout_centerVertical="true" />
 
             <ImageButton

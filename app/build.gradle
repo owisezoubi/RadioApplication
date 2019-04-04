@@ -42,4 +42,7 @@ dependencies {
     /////////////////////////////////////////
     // search view
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    /////////////////////////////////////////
+    // progress indicator animation
+    implementation 'com.wang.avi:library:2.1.3'
 }
