@@ -113,9 +113,12 @@ public class HomeFragment extends Fragment {
 
         // TODO
 
+        // grouped into subgroups for ease of use ....
         mediaPlayerListeners();
         mediaButtonsListeners();
         listListeners();
+
+        // other listeners ...
 
         btnRefreshList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,7 +328,8 @@ public class HomeFragment extends Fragment {
 
                 itemBlinkEffect(view, Color.WHITE, 750);
 
-                if (position == currentTrackIndex) // if current track is clicked again
+                if (position == currentTrackIndex && isPrepared) // if current track is clicked again
+                // added isPrepared check, in case tapped more than once before is loaded !
                 {
                     changePlayPause();
                 } else // different track is selected >> load & play //
