@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         gotoPrevFrag(); // to switch to previous fragment in line (by nav_bar order)
 
         // the code below is replaced by the above option ...
-        //moveTaskToBack(true); // hide activity // home button_back functionality
+        //moveTaskToBack(true); // hide activity // i.e. home button functionality
         // override to hide activity (not finish)
         // so that won't go back to splash screen [previous activity]
     }

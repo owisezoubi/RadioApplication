@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
     public static String currentTrackTitle = "";
     boolean isPaused, isPrepared;
     int errorCounter;
-    final int ERR_MAX_RELOADS = 3;
+    final int ERR_MAX_RELOADS = 2;
     ////////////////////////////////////////////////////////////////////
 
     DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
@@ -113,6 +113,10 @@ public class HomeFragment extends Fragment {
 
         // TODO
 
+        mediaPlayerListeners();
+        mediaButtonsListeners();
+        listListeners();
+
         btnRefreshList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,16 +127,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        mediaPlayerListeners();
-        mediaButtonsListeners();
-        listListeners();
-
-
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if list is empty, or track not selected yet , do nothing // nothing to share //
-                if (Defaults.dataList.isEmpty() || currentTrackIndex == -1) return;
+                // if list is empty, do nothing // nothing to share //
+                if (Defaults.dataList.isEmpty()) return;
+                // if no track has been selected yet ... request user to ...
+                if (currentTrackIndex == -1) {
+                    Utils.displayMsg(getString(R.string.select_track_to_share), rootView);
+                    return;
+                }
 
                 share(Defaults.serverURL + Defaults.dataList.get(currentTrackIndex).getFilename(),
                         currentTrackTitle);

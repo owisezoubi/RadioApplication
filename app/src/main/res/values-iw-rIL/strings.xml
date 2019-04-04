@@ -18,4 +18,5 @@
     <string name="ok">אוקי</string>
     <string name="loading_selected_track">טוען שידור ...</string>
     <string name="sharing_choice">בחר דרך שיתוף ...</string>
+    <string name="select_track_to_share">"נא לבחור שידור לשיתוף "</string>
 </resources>
