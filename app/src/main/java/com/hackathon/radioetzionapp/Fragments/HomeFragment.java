@@ -168,9 +168,7 @@ public class HomeFragment extends Fragment {
             public void onPrepared(MediaPlayer mp) {
                 isPrepared = true;
                 finishTrackLoadingEffects();
-                mp.start();
-                btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
-                isPaused = false;
+                mpStart();
             }
         });
 
@@ -260,14 +258,11 @@ public class HomeFragment extends Fragment {
                 if (currentTrackIndex == -1) // at beginning, nothing loaded yet into media player !
                 {
                     if (noInternet_mp()) return;
-
-                    // load first track in list
-                    loadTrack_at(0);
-                } else if (isPrepared) // a track is DONE loading / loaded into m.p.  but either paused or is playing
+                    loadTrack_at(0); // load first track in list
+                } else if (isPrepared) // a track is DONE loading/loaded into m.p.  but either paused or is playing
                 {
                     finishTrackLoadingEffects();
                     changePlayPause();
-
                 }
                 // if track is NOT prepared [currently loading] >>> do nothing on click //
             }
@@ -400,14 +395,22 @@ public class HomeFragment extends Fragment {
 
     private void changePlayPause() {
         if (isPaused) {
-            mp.start();
-            btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
-            isPaused = false;
+            mpStart();
         } else {
-            mp.pause();
-            btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
-            isPaused = true;
+            mpPause();
         }
+    }
+
+    private void mpPause() {
+        mp.pause();
+        btnPlay.setImageResource(R.drawable.ic_play_circle_outline);
+        isPaused = true;
+    }
+
+    private void mpStart() {
+        mp.start();
+        btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
+        isPaused = false;
     }
 
     private void updateCurrentTrackInfo(int pos) {
