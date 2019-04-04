@@ -27,6 +27,11 @@ public class MainActivity extends AppCompatActivity
     CommentsFragment commFrag;
     SearchFragment searchFrag;
 
+
+    enum frag {HOME, FAVORITES, COMMENTS, SEARCH}
+
+    int currentFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity
         setFragments(); // initialize
         loadAllFragments(); // load all to view-group
         showFragment(homeFrag); // show only home frag at first
+        currentFrag = frag.HOME.ordinal(); // initial value
     }
 
     private void setFragments() {
@@ -65,6 +71,34 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        Fragment fragment = null;
+
+        switch (menuItem.getItemId()) {
+            case R.id.navigation_home:
+                fragment = homeFrag;
+                currentFrag = frag.HOME.ordinal();
+                break;
+            case R.id.navigation_favorites:
+                fragment = favFrag;
+                currentFrag = frag.FAVORITES.ordinal();
+                break;
+            case R.id.navigation_comments:
+                fragment = commFrag;
+                currentFrag = frag.COMMENTS.ordinal();
+                break;
+            case R.id.navigation_search:
+                fragment = searchFrag;
+                currentFrag = frag.SEARCH.ordinal();
+                break;
+        }
+        //return loadFragment(fragment);
+        return showFragment(fragment);
+    }
+
     private boolean showFragment(Fragment fragment) {
 
         // first , hide all 4
@@ -83,37 +117,36 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true); // hide activity // home button_back functionality
+
+        gotoPrevFrag(); // to switch to previous fragment in line (by nav_bar order)
+
+        // the code below is replaced by the above option ...
+        //moveTaskToBack(true); // hide activity // home button_back functionality
         // override to hide activity (not finish)
         // so that won't go back to splash screen [previous activity]
     }
 
+    private void gotoPrevFrag() {
+        currentFrag = currentFrag == 0 ? 3 : currentFrag - 1; // change order
+        showFragmentByOrder(currentFrag); // goto fragment with this ordinal
+    }
 
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-        Fragment fragment = null;
-
-        switch (menuItem.getItemId()) {
-            case R.id.navigation_home:
-                fragment = homeFrag;
+    private void showFragmentByOrder(int fragOrder) {
+        switch (fragOrder) {
+            case 1:
+                showFragment(favFrag);
                 break;
-            case R.id.navigation_favorites:
-                fragment = favFrag;
+            case 2:
+                showFragment(commFrag);
                 break;
-            case R.id.navigation_comments:
-                fragment = commFrag;
+            case 3:
+                showFragment(searchFrag);
                 break;
-            case R.id.navigation_search:
-                fragment = searchFrag;
-                break;
+            default:
+                showFragment(homeFrag);
         }
-        //return loadFragment(fragment);
-        return showFragment(fragment);
     }
 
 
