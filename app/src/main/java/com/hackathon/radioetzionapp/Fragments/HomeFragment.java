@@ -160,6 +160,8 @@ public class HomeFragment extends Fragment {
             public void onPrepared(MediaPlayer mp) {
                 finishTrackLoadingEffects();
                 mp.start();
+                btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
+                isPaused = false;
             }
         });
 
