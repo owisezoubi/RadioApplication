@@ -19,4 +19,9 @@
     <string name="loading_selected_track">טוען שידור ...</string>
     <string name="sharing_choice">בחר דרך שיתוף ...</string>
     <string name="select_track_to_share">"נא לבחור שידור לשיתוף "</string>
+    <string name="dialog_share_download_title">לשתף קישור או להוריד ?</string>
+    <string name="dialog_share_download_message">לשתף את הקישור ? או לשמור את הקובץ למכשיר לשימוש \"אופליין\"?</string>
+    <string name="dialog_button_share">שתף קישור</string>
+    <string name="dialog_button_download">שמור למכשיר</string>
+    <string name="dialog_button_cancel">ביטול</string>
 </resources>

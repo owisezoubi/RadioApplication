@@ -18,4 +18,9 @@
     <string name="loading_selected_track">loading broadcast ...</string>
     <string name="sharing_choice">choose sharing method ...</string>
     <string name="select_track_to_share">please select a broadcast to share</string>
+    <string name="dialog_share_download_title">Share URL or Download?</string>
+    <string name="dialog_share_download_message">share the link ?  or download the file to device for offline use ?</string>
+    <string name="dialog_button_share">share link</string>
+    <string name="dialog_button_download">download for offline</string>
+    <string name="dialog_button_cancel">cancel</string>
 </resources>

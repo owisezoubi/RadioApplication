@@ -1,9 +1,12 @@
 package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -141,11 +144,76 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-                share(Defaults.serverURL + Defaults.dataList.get(currentTrackIndex).getFilename(),
-                        currentTrackTitle);
+                dialog_ShareOrDownload();
             }
 
-            private void share(String url, String name) {
+            private void dialog_ShareOrDownload() {
+
+                AlertDialog alert = new AlertDialog.Builder(context, R.style.Theme_MaterialComponents_Dialog_Alert)
+                        .setTitle(getString(R.string.dialog_share_download_title))
+                        .setIcon(R.drawable.ic_share_orange)
+                        .setMessage(getString(R.string.dialog_share_download_message))
+                        .setPositiveButton(getString(R.string.dialog_button_share), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                shareURL(Defaults.serverURL + Defaults.dataList.
+                                        get(currentTrackIndex).getFilename(), currentTrackTitle);
+
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.dialog_button_download), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                downloadURL(Defaults.serverURL + Defaults.dataList.
+                                        get(currentTrackIndex).getFilename(), currentTrackTitle);
+                            }
+                        })
+                        .setNeutralButton(getString(R.string.dialog_button_cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+
+                alert_addIconsToButtons(alert);  // add icons to buttons of dialog
+                alert.setCanceledOnTouchOutside(false);
+                alert.show();  // show the dialog
+            }
+
+            private void alert_addIconsToButtons(AlertDialog alert) {
+
+                // positive button: SHARE
+                Drawable drawablePositive = getActivity().getResources().getDrawable(
+                        R.drawable.ic_share_blue);
+                drawablePositive.setBounds((int) (drawablePositive.getIntrinsicWidth() * 0.5),
+                        0, (int) (drawablePositive.getIntrinsicWidth() * 1.5),
+                        drawablePositive.getIntrinsicHeight());
+                alert.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawables(drawablePositive,
+                        null, null, null);
+
+                // negative button: DOWNLOAD
+                Drawable drawableNegative = getActivity().getResources().getDrawable(
+                        R.drawable.ic_file_download_green);
+                drawableNegative.setBounds((int) (drawableNegative.getIntrinsicWidth() * 0.5),
+                        0, (int) (drawableNegative.getIntrinsicWidth() * 1.5),
+                        drawableNegative.getIntrinsicHeight());
+                alert.getButton(DialogInterface.BUTTON_NEGATIVE).setCompoundDrawables(drawableNegative,
+                        null, null, null);
+
+                // NEUTRAL button:  CANCEL
+                Drawable drawableNeutral = getActivity().getResources().getDrawable(
+                        R.drawable.ic_cancel_red);
+                drawableNeutral.setBounds((int) (drawableNeutral.getIntrinsicWidth() * 0.5),
+                        0, (int) (drawableNeutral.getIntrinsicWidth() * 1.5),
+                        drawableNeutral.getIntrinsicHeight());
+                alert.getButton(DialogInterface.BUTTON_NEGATIVE).setCompoundDrawables(drawableNeutral,
+                        null, null, null);
+            }
+
+
+            private void shareURL(String url, String name) {
                 try {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
@@ -156,6 +224,10 @@ public class HomeFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+
+            private void downloadURL(String url, String name) {
+                // TODO
             }
         });
     }
