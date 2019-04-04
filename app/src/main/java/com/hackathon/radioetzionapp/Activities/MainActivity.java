@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     Context context;
+    BottomNavigationView navigation;
 
     // fragment stuff
     FragmentManager fm;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity
 
         this.context = this;
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(
                 (BottomNavigationView.OnNavigationItemSelectedListener) context);
 
@@ -137,15 +138,19 @@ public class MainActivity extends AppCompatActivity
         switch (fragOrder) {
             case 1:
                 showFragment(favFrag);
+                navigation.setSelectedItemId(R.id.navigation_favorites);
                 break;
             case 2:
                 showFragment(commFrag);
+                navigation.setSelectedItemId(R.id.navigation_comments);
                 break;
             case 3:
                 showFragment(searchFrag);
+                navigation.setSelectedItemId(R.id.navigation_search);
                 break;
             default:
                 showFragment(homeFrag);
+                navigation.setSelectedItemId(R.id.navigation_home);
         }
     }
 
