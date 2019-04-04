@@ -2,6 +2,7 @@ package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -69,6 +71,7 @@ public class HomeFragment extends Fragment {
     LinearLayout layMiniPlayer;
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne;
     ImageView imgLogo;
+    FloatingActionButton btnShare;
 
     MediaPlayer mp;
 
@@ -125,6 +128,29 @@ public class HomeFragment extends Fragment {
         mediaPlayerListeners();
         mediaButtonsListeners();
         listListeners();
+
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO share action
+
+                // if list is empty, or no track selected yet , do nothing //
+                if (Defaults.dataList.isEmpty() || currentTrackIndex == -1) return;
+
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "broadcastURL");
+                    String shareMessage = Defaults.serverURL +
+                            Defaults.dataList.get(currentTrackIndex).getFilename();
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "choose one"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -379,7 +405,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void finishTrackLoadingEffects() {
-
         // add track title to now playing top-bar
         txtPlayingNow.setText(makeMarqueeable(currentTrackTitle));
         txtPlayingNow.setSelected(true); // to start marquee effect
@@ -444,6 +469,8 @@ public class HomeFragment extends Fragment {
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
+        // share
+        btnShare = rootView.findViewById(R.id.btnShare);
 
         /////////////////////////////////////////
         ////////// load track-list data /////////
@@ -569,6 +596,10 @@ public class HomeFragment extends Fragment {
 
 
     private void finishLoadingEffects() {
+        // show media player layout & share button
+        layMiniPlayer.setVisibility(View.VISIBLE);
+        btnShare.show();
+        // hide loading text & progress
         txtLoadingList.setVisibility(View.INVISIBLE);
         progressLoadingList.setVisibility(View.INVISIBLE);
     }
