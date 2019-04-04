@@ -134,15 +134,13 @@ public class HomeFragment extends Fragment {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO share action
-
                 // if list is empty, or no track selected yet , do nothing //
                 if (Defaults.dataList.isEmpty() || currentTrackIndex == -1) return;
 
                 try {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "broadcastURL");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, currentTrackTitle);
                     String shareMessage = Defaults.serverURL +
                             Defaults.dataList.get(currentTrackIndex).getFilename();
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
@@ -256,6 +254,7 @@ public class HomeFragment extends Fragment {
                     loadTrack_at(0);
                 } else // a track is loaded into m.p.  but either paused or is playing
                 {
+                    finishTrackLoadingEffects();
                     changePlayPause();
                 }
             }
@@ -593,9 +592,6 @@ public class HomeFragment extends Fragment {
 
 
     private void finishLoadingEffects() {
-        // show media player layout & share button
-        layMiniPlayer.setVisibility(View.VISIBLE);
-        btnShare.show();
         // hide loading text & progress
         txtLoadingList.setVisibility(View.INVISIBLE);
         progressLoadingList.setVisibility(View.INVISIBLE);
