@@ -3,7 +3,7 @@
     android:textDirection="locale"
     android:layoutDirection="locale"
 
-    android:background="@drawable/background_dialog_share_download"
+    android:background="@drawable/background_alert_share"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -45,7 +45,7 @@
         android:padding="@dimen/_10sdp"
         android:textColor="@color/navbar_item_text"
         android:text="@string/dialog_button_download"
-        android:drawableStart="@drawable/ic_file_download_red"
+        android:drawableStart="@drawable/ic_file_download_green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

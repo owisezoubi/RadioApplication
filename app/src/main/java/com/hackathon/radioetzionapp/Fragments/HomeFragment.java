@@ -3,10 +3,8 @@ package com.hackathon.radioetzionapp.Fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -22,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -359,74 +358,45 @@ public class HomeFragment extends Fragment {
             private void dialog_ShareOrDownload() {
 
                 View v = LayoutInflater.from(context).inflate(R.layout.alert_share_or_download, null);
+                Button share = v.findViewById(R.id.btnDialogShare);
+                Button download = v.findViewById(R.id.btnDialogDownload);
+                Button cancel = v.findViewById(R.id.btnDialogCancel);
 
                 final AlertDialog alert = new AlertDialog.Builder(context)
                         .setView(v)
                         .setTitle(getString(R.string.dialog_share_download_title))
                         .setIcon(R.drawable.ic_share_orange)
-                        .setMessage(getString(R.string.dialog_share_download_message))
-                        .setPositiveButton(getString(R.string.dialog_button_share), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                shareURL(Defaults.serverURL + Defaults.dataList.
-                                        get(currentTrackIndex).getFilename(), currentTrackTitle);
+                        .create();
 
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.dialog_button_download), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                downloadURL(Defaults.serverURL + Defaults.dataList.
-                                        get(currentTrackIndex).getFilename(), currentTrackTitle);
-                            }
-                        })
-                        .setNeutralButton(getString(R.string.dialog_button_cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
-
-                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                share.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onShow(DialogInterface dialog) {
-                        alert_addIconsToButtons(alert);  // add icons to buttons of dialog
+                    public void onClick(View v) {
+                        alert.dismiss();
+                        shareURL(Defaults.serverURL + Defaults.dataList.
+                                get(currentTrackIndex).getFilename(), currentTrackTitle);
                     }
                 });
+
+                download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                        downloadURL(Defaults.serverURL + Defaults.dataList.
+                                get(currentTrackIndex).getFilename(), currentTrackTitle);
+
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+
+
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();  // show the dialog
-            }
-
-            private void alert_addIconsToButtons(AlertDialog alert) {
-
-                // positive button: SHARE
-                Drawable drawablePositive = getActivity().getResources().getDrawable(
-                        R.drawable.ic_share_blue);
-                drawablePositive.setBounds((int) (drawablePositive.getIntrinsicWidth() * 0.5),
-                        0, (int) (drawablePositive.getIntrinsicWidth() * 1.5),
-                        drawablePositive.getIntrinsicHeight());
-                alert.getButton(DialogInterface.BUTTON_POSITIVE).setCompoundDrawables(null,
-                        null, drawablePositive, null);
-
-                // negative button: DOWNLOAD
-                Drawable drawableNegative = getActivity().getResources().getDrawable(
-                        R.drawable.ic_file_download_green);
-                drawableNegative.setBounds((int) (drawableNegative.getIntrinsicWidth() * 0.5),
-                        0, (int) (drawableNegative.getIntrinsicWidth() * 1.5),
-                        drawableNegative.getIntrinsicHeight());
-                alert.getButton(DialogInterface.BUTTON_NEGATIVE).setCompoundDrawables(null,
-                        null, drawableNegative, null);
-
-                // NEUTRAL button:  CANCEL
-                Drawable drawableNeutral = getActivity().getResources().getDrawable(
-                        R.drawable.ic_cancel_red);
-                drawableNeutral.setBounds((int) (drawableNeutral.getIntrinsicWidth() * 0.5),
-                        0, (int) (drawableNeutral.getIntrinsicWidth() * 1.5),
-                        drawableNeutral.getIntrinsicHeight());
-                alert.getButton(DialogInterface.BUTTON_NEGATIVE).setCompoundDrawables(null,
-                        null, drawableNeutral, null);
             }
 
             private void shareURL(String url, String name) {
