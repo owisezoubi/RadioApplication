@@ -293,23 +293,35 @@ public class HomeFragment extends Fragment {
         btnShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                shuffleToggle();
             }
         });
 
         btnRepeatOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
+                repeatOneToggle();
             }
         });
 
         imgLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO  color blink animation ?!?!
+                logoColorBlinkEffect();
             }
         });
+    }
+
+    private void logoColorBlinkEffect() {
+        // TODO  color blink animation ?!?!
+    }
+
+    private void shuffleToggle() {
+        // TODO
+    }
+
+    private void repeatOneToggle() {
+        // TODO
     }
 
 
