@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
     // -1 is initial condition!
     public static String currentTrackTitle = "";
-    boolean isPaused;
+    boolean isPaused, isPrepared;
     int errorCounter;
     final int ERR_MAX_RELOADS = 3;
     ////////////////////////////////////////////////////////////////////
@@ -90,10 +90,7 @@ public class HomeFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (hidden) {
             //Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
-
-            // update current track index , title &
         } else {
-            //Toast.makeText(getActivity(), "showing me", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -162,6 +159,7 @@ public class HomeFragment extends Fragment {
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                isPrepared = true;
                 finishTrackLoadingEffects();
                 mp.start();
                 btnPlay.setImageResource(R.drawable.ic_pause_circle_outline);
@@ -258,11 +256,13 @@ public class HomeFragment extends Fragment {
 
                     // load first track in list
                     loadTrack_at(0);
-                } else // a track is loaded into m.p.  but either paused or is playing
+                } else if (isPrepared) // a track is DONE loading / loaded into m.p.  but either paused or is playing
                 {
                     finishTrackLoadingEffects();
                     changePlayPause();
+
                 }
+                // if track is NOT prepared [currently loading] >>> do nothing on click //
             }
 
         });
@@ -437,6 +437,7 @@ public class HomeFragment extends Fragment {
 
     private void loadTrack(int pos) {
         mp.reset(); // in any case, reset first , then load
+        isPrepared = false;
         try {
             String url = Defaults.serverURL +
                     URLEncoder.encode(Defaults.dataList.get(pos).getFilename(), "UTF-8");
@@ -485,12 +486,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void mp_Initialize() {
+        if (mp != null) return; // in case coming back after closing app
         //media player // instantiate & set audio attributes & initial boolean states
         mp = new MediaPlayer();
         AudioAttributes attributes = new AudioAttributes.Builder().
                 setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
         mp.setAudioAttributes(attributes);
         isPaused = true;
+        isPrepared = false;
     }
 
 
