@@ -53,8 +53,9 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
+    // -1 is initial condition!
     public static String currentTrackTitle = "";
-    boolean isPaused, atStart;
+    boolean isPaused;
     int errorCounter;
     final int ERR_MAX_RELOADS = 3;
     ////////////////////////////////////////////////////////////////////
@@ -145,7 +146,7 @@ public class HomeFragment extends Fragment {
                     String shareMessage = Defaults.serverURL +
                             Defaults.dataList.get(currentTrackIndex).getFilename();
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-                    startActivity(Intent.createChooser(shareIntent, "choose one"));
+                    startActivity(Intent.createChooser(shareIntent, getString(R.string.sharing_choice)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -247,13 +248,12 @@ public class HomeFragment extends Fragment {
                 // in case track list is not loaded yet >> nothing to play //
                 if (Defaults.dataList.isEmpty()) return; // do nothing & exit
 
-                if (atStart) // at beginning, nothing loaded yet into media player !
+                if (currentTrackIndex == -1) // at beginning, nothing loaded yet into media player !
                 {
                     if (noInternet_mp()) return;
 
                     // load first track in list
                     loadTrack_at(0);
-                    atStart = false;
                 } else // a track is loaded into m.p.  but either paused or is playing
                 {
                     changePlayPause();
@@ -323,8 +323,6 @@ public class HomeFragment extends Fragment {
                 {
                     loadTrack_at(position);
                 }
-
-                atStart = false; // in case first time played // to sync with play-pause button_back //
             }
 
             private void itemBlinkEffect(final View v, int color, final int delayMsec) {
@@ -488,7 +486,6 @@ public class HomeFragment extends Fragment {
                 setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
         mp.setAudioAttributes(attributes);
         isPaused = true;
-        atStart = true;
     }
 
 

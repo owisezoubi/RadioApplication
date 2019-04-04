@@ -17,4 +17,5 @@
     <string name="err_mp_loading_next">טעינת השידור נכשלה .. טוען שידור הבא ...</string>
     <string name="ok">אוקי</string>
     <string name="loading_selected_track">טוען שידור ...</string>
+    <string name="sharing_choice">בחר דרך שיתוף ...</string>
 </resources>
