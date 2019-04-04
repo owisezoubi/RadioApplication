@@ -394,7 +394,6 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
-
                 alert.setCanceledOnTouchOutside(false);
                 alert.show();  // show the dialog
             }

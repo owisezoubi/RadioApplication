@@ -11,14 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="italic|bold"
+        android:textSize="@dimen/_14ssp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp"
 
-        android:textColor="@color/navbar_item_text"
+        android:textColor="@color/navbar_back_color"
         android:text="@string/dialog_share_download_message" />
 
     <Button
@@ -27,6 +26,7 @@
         android:layout_alignStart="@id/txtDialogMsg"
         android:drawablePadding="@dimen/_10sdp"
         android:textAllCaps="true"
+        android:textSize="@dimen/_12ssp"
         android:background="@color/lightPrimaryColor"
         android:padding="@dimen/_10sdp"
         android:textColor="@color/navbar_item_text"
@@ -40,6 +40,7 @@
         android:layout_below="@id/txtDialogMsg"
         android:layout_alignEnd="@id/txtDialogMsg"
         android:drawablePadding="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
         android:textAllCaps="true"
         android:background="@color/colorPrimaryDark"
         android:padding="@dimen/_10sdp"
@@ -56,6 +57,7 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:drawablePadding="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_20sdp"
+        android:textSize="@dimen/_12ssp"
         android:textAllCaps="true"
         android:background="@color/navbar_back_color"
         android:padding="@dimen/_10sdp"
