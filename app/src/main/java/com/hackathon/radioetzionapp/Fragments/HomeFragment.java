@@ -134,16 +134,20 @@ public class HomeFragment extends Fragment {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if list is empty, or no track selected yet , do nothing //
+                // if list is empty, or track not selected yet , do nothing // nothing to share //
                 if (Defaults.dataList.isEmpty() || currentTrackIndex == -1) return;
 
+                share(Defaults.serverURL + Defaults.dataList.get(currentTrackIndex).getFilename(),
+                        currentTrackTitle);
+            }
+
+            private void share(String url, String name) {
                 try {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, currentTrackTitle);
-                    String shareMessage = Defaults.serverURL +
-                            Defaults.dataList.get(currentTrackIndex).getFilename();
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    shareIntent.putExtra(Intent.EXTRA_TITLE, name); // share title-name
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, name); // share subject-name // for emails
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, url); // share message
                     startActivity(Intent.createChooser(shareIntent, getString(R.string.sharing_choice)));
                 } catch (Exception e) {
                     e.printStackTrace();
