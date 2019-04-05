@@ -1,9 +1,7 @@
 package com.hackathon.radioetzionapp.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -11,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,10 +23,6 @@ import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 public class SearchFragment extends Fragment {
 
@@ -125,10 +118,6 @@ public class SearchFragment extends Fragment {
 
     private void setSearch() {
 
-        // TODO add voice search
-        // source:  https://github.com/MiguelCatalan/MaterialSearchView
-
-
         setSearchPointers();
         setSearchListeners();
     }
@@ -206,46 +195,6 @@ public class SearchFragment extends Fragment {
         mMaterialSearchView.requestFocus();
 
     }
-/*
-    private void promptSpeechInput() {
-        //create new intent of speech recognize
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        //put extra setting of extra language and free form language (english)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
-        //put extra add additional language of the system language (hebrew, russian, arabic)
-        Locale hebrew = Locale.
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.get);
-        //put extra for speech prompt (what that will be displayed to the user...
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,getString(R.string.speech_prompt));
-        //start the activity but handle the exception if we getting one.
-        try{
-            //start the activity but wait for result when activity is done.
-            startActivityForResult(intent,MaterialSearchView.REQUEST_VOICE);
-        } catch (ActivityNotFoundException e){
-            //in case that our device does not recognize the activity (android tv, android wearable,etc..) display an error message
-            Toast.makeText(this, getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            if (matches != null && matches.size() > 0) {
-                String searchWrd = matches.get(0);
-                if (!TextUtils.isEmpty(searchWrd)) {
-                    mMaterialSearchView.setQuery(searchWrd, false);
-                }
-            }
-
-            return;
-        }
-
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

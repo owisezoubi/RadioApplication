@@ -55,7 +55,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 
 public class HomeFragment extends Fragment implements View.OnTouchListener {
 
@@ -86,11 +85,10 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     ImageView btnVolume;
     TextView timeLabel;
     int totalTime;
-    Timer timer;
 
     // media player (aka: mini-player) and related fields  ...
     MediaPlayer mp;
-    boolean isPaused, isPrepared;
+    boolean isPaused, isPrepared, isShuffled;
     int errorCounter;
     final int ERR_MAX_RELOADS = 2;
 
@@ -100,9 +98,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     // variables used for "share" button to be movable/draggable
     float dX, dY;
     int lastAction;
-
-    // TODO mini-player: SHUFFLE + REPEAT ONE buttons
-    // TODO seekbar + volume bar
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -141,7 +136,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
     private void setListeners() {
 
-        // TODO
 
         // grouped into subgroups for ease of use ....
         mediaPlayerListeners();
@@ -563,10 +557,19 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void repeatOneToggle() {
-        // TODO
+
+        // if not initialized or is loading , get out
+        if (mp == null || !isPrepared) return;
+
+        if (mp.isLooping()) // on
+        {   // turn off
+            mp.setLooping(false);
+            btnRepeatOne.setColorFilter(ContextCompat.getColor(context, R.color.lightPrimaryColor));
+        } else {   // turn on
+            mp.setLooping(true);
+            btnRepeatOne.setColorFilter(ContextCompat.getColor(context, R.color.navbar_item_text_selected));
+        }
     }
-
-
 
     private void playPrevTrack() {
         int prevTrackIndex = currentTrackIndex < 1 ? // 0 or -1 //
@@ -720,6 +723,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         mp.setAudioAttributes(attributes);
         isPaused = true;
         isPrepared = false;
+        isShuffled = false;
     }
 
 
