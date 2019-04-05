@@ -55,12 +55,13 @@ import java.util.Map;
 
 public class HomeFragment extends Fragment implements View.OnTouchListener {
 
-    public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
-    // -1 is initial condition!
+    // public & static so that can be accessed and changed from other fragments ... //
+
+    // current playing track index [in datalist: 0 - (last-1)]  // -1 is initial condition!
+    public static int currentTrackIndex = -1;
     public static String currentTrackTitle = "";
-    boolean isPaused, isPrepared;
-    int errorCounter;
-    final int ERR_MAX_RELOADS = 2;
+
+
     ////////////////////////////////////////////////////////////////////
 
     DocumentStore ds;  // ds object to store cloudAnt DB data from remote to local
@@ -68,16 +69,20 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     ListView listViewBroadcasts; // view
     BroadcastListAdapter adapter; // adapter - controller
 
-    ProgressBar progressLoadingList;
-    AVLoadingIndicatorView indicatorLoadingBroadcast;
+    ProgressBar progressLoadingList; // progress for list view items while loading from remote
+    AVLoadingIndicatorView indicatorLoadingBroadcast; // progress for track while loading/preparing
     TextView txtLoadingList, txtPlayingNow;
-    ImageButton btnRefreshList;
+    ImageButton btnRefreshList; // refresh button , shown when no internet connection at startup ..
     LinearLayout layMiniPlayer;
-    ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne;
-    ImageView imgLogo;
-    FloatingActionButton btnShare;
+    ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne; // mini-player buttons
+    ImageView imgLogo; // logo inside mini-player
+    FloatingActionButton btnShare; // floating (& movable) share button
 
+    // media player (aka: mini-player) and related fields  ...
     MediaPlayer mp;
+    boolean isPaused, isPrepared;
+    int errorCounter;
+    final int ERR_MAX_RELOADS = 2;
 
     Context context;
     View rootView;

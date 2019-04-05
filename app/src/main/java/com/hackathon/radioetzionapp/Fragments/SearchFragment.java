@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -30,6 +32,8 @@ public class SearchFragment extends Fragment {
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
     MaterialSearchView mMaterialSearchView;
+
+    Fragment HomeFrag, SearchFrag;
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -59,6 +63,8 @@ public class SearchFragment extends Fragment {
         super.onStart();
 
         context = getActivity();
+        HomeFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("home");
+        SearchFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("search");
         setSearch();
         setListView();
     }
@@ -72,6 +78,26 @@ public class SearchFragment extends Fragment {
                 // start playing item in HOME fragment
                 // ONLY AFTER stopping everything else (mp.reset())
                 // check example in 4 - screen fragments app (soccer, brazil photos)
+
+                // step1
+                // set vari
+
+
+                // step 2
+
+
+                // step 3
+                // hide this fragment and show home fragment
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .hide(SearchFrag)
+                        .show(HomeFrag)
+                        .commit();
+
+                // step 4
+                // adjust navigation bar below to change selection to home
+                BottomNavigationView navBar = getActivity().findViewById(R.id.navigation);
+                navBar.setSelectedItemId(R.id.navigation_home);
+
 
             }
         });

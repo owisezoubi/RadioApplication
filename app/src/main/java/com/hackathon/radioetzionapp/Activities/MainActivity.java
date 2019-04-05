@@ -64,11 +64,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadAllFragments() {
+
+        // load all fragments to container, adding tags for access later
+
         fm.beginTransaction()
-                .add(R.id.fragment_container, homeFrag)
-                .add(R.id.fragment_container, favFrag)
-                .add(R.id.fragment_container, commFrag)
-                .add(R.id.fragment_container, searchFrag)
+                .add(R.id.fragment_container, homeFrag, "home")
+                .add(R.id.fragment_container, favFrag, "fav")
+                .add(R.id.fragment_container, commFrag, "comm")
+                .add(R.id.fragment_container, searchFrag, "search")
                 .commit();
     }
 
