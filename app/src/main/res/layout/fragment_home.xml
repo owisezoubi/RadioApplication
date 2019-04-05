@@ -119,23 +119,29 @@
 
             />
 
-        <SeekBar
-            android:id="@+id/volumeBar"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/_12sdp"
+        <!--
+         PROBLEMATIC STUFF
+                <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_height="@dimen/_100sdp">
+                    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                        android:visibility="visible"
+                        android:id="@+id/volumeBar"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:background="@color/lightPrimaryColor"
+                        android:progressBackgroundTint="@color/navbar_back_color"
+                        android:progressTint="@color/navbar_item_text"
+                        android:thumbTint="@color/navbar_back_color"
+                        android:splitTrack="false"
+                        app:seekBarRotation="CW90" />
+                </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
 
-            android:background="@color/lightPrimaryColor"
-            android:progressBackgroundTint="@color/navbar_back_color"
-            android:progressTint="@color/navbar_item_text"
+            -->
 
-            android:backgroundTintMode="src_over"
-            android:thumbTintMode="src_over"
-            android:thumbTint="@color/navbar_back_color"
-            android:visibility="visible"
-            android:rotation="0" />
     </RelativeLayout>
 
     <RelativeLayout
