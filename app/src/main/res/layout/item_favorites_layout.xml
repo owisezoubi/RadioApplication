@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/img_ItemFavorite"
         android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_favorite"
@@ -39,8 +39,8 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ic_remove_circle_outline_black"
         android:tint="@color/av_red"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp" />
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp" />
 
 
 </RelativeLayout>

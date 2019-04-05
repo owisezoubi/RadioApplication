@@ -9,6 +9,8 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -75,13 +77,14 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     AVLoadingIndicatorView indicatorLoadingBroadcast; // progress for track while loading/preparing
     TextView txtLoadingList, txtPlayingNow;
     ImageButton btnRefreshList; // refresh button , shown when no internet connection at startup ..
-    LinearLayout layMiniPlayer;
+    LinearLayout layoutSeekbars;
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne; // mini-player buttons
     ImageView imgLogo; // logo inside mini-player
     FloatingActionButton btnShare; // floating (& movable) share button
     SeekBar positionBar, volumeBar;
     ImageView btnVolume;
     TextView timeLabel;
+    int totalTime;
 
     // media player (aka: mini-player) and related fields  ...
     MediaPlayer mp;
@@ -97,8 +100,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     int lastAction;
 
     // TODO mini-player: SHUFFLE + REPEAT ONE buttons
-    // TODO seekbar + volume bar (vertical, hide, show)
-
+    // TODO seekbar + volume bar
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -135,7 +137,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         // grouped into subgroups for ease of use ....
         mediaPlayerListeners();
         mediaButtonsListeners();
-        seekbarsListeners();
         listListeners();
         otherListeners();
     }
@@ -149,6 +150,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             public void onPrepared(MediaPlayer mp) {
                 isPrepared = true;
                 finishTrackLoadingEffects();
+                seekbars_initialize();
                 mpStart();
             }
         });
@@ -225,7 +227,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
     }
 
-
     private void mediaButtonsListeners() {
 
 
@@ -292,26 +293,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
         });
     }
-
-    private void seekbarsListeners() {
-
-        btnVolume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (volumeBar.getVisibility() == View.VISIBLE) {
-                    volumeBar.setVisibility(View.INVISIBLE);
-                    positionBar.setVisibility(View.VISIBLE);
-                } else {
-                    volumeBar.setVisibility(View.VISIBLE);
-                    positionBar.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-
-    }
-
-
 
     private void listListeners() {
 
@@ -447,11 +428,121 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
         });
 
+        btnVolume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (volumeBar.getVisibility() == View.VISIBLE) {
+                    volumeBar.setVisibility(View.INVISIBLE);
+                    positionBar.setVisibility(View.VISIBLE);
+                } else {
+                    volumeBar.setVisibility(View.VISIBLE);
+                    positionBar.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
 
     }
 
     private void logoColorBlinkEffect() {
         // TODO  color blink animation ?!?!
+    }
+
+
+    private void seekbars_initialize() {
+
+        mp.seekTo(0);
+        mp.setVolume(0.5f, 0.5f);
+        totalTime = mp.getDuration();
+        positionBar.setMax(totalTime);
+        positionBar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (fromUser) {
+                            mp.seekTo(progress);
+                            positionBar.setProgress(progress);
+                        }
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                }
+        );
+
+        volumeBar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        float volumeNum = progress / 100f;
+                        mp.setVolume(volumeNum, volumeNum);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                }
+        );
+
+        updatePositionBar();
+    }
+
+    private void updatePositionBar() {
+        // Thread (Update positionBar & timeLabel)
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mp != null) {
+                    try {
+                        Message msg = new Message();
+                        msg.what = mp.getCurrentPosition();
+                        handler.sendMessage(msg);
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        }).start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int currentPosition = msg.what;
+            // Update positionBar.
+            positionBar.setProgress(currentPosition);
+
+            // Update Labels.
+            String elapsedTime = createTimeLabel(currentPosition);
+            String totalTimeStr = createTimeLabel(totalTime);
+            timeLabel.setText(elapsedTime + "/" + totalTimeStr);
+        }
+    };
+
+    public String createTimeLabel(int time) {
+        String timeLabel = "";
+        int min = time / 1000 / 60;
+        int sec = time / 1000 % 60;
+
+        timeLabel = min + ":";
+        if (sec < 10) timeLabel += "0";
+        timeLabel += sec;
+
+        return timeLabel;
     }
 
     private void shuffleToggle() {
@@ -476,9 +567,16 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void loadTrack_at(int trackIndex) {
+        hideSeekbars();
         loadTrackEffects();
         loadTrack(trackIndex);
         updateCurrentTrackInfo(trackIndex);
+    }
+
+    private void hideSeekbars() {
+        // better error handling , to hide them while loading a track ...
+        // and show when prepared
+        layoutSeekbars.setVisibility(View.GONE);
     }
 
     private boolean noInternet_mp() {
@@ -574,7 +672,8 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         indicatorLoadingBroadcast = rootView.findViewById(R.id.indicatorLoadingBroadcast);
         indicatorLoadingBroadcast.hide(); // hidden on list loading
         // mini player layout & contents
-        layMiniPlayer = rootView.findViewById(R.id.layoutMiniPlayer);
+        layoutSeekbars = rootView.findViewById(R.id.laySeekbars);
+        layoutSeekbars.setVisibility(View.GONE); // hidden until track is prepared to play
         btnPlay = rootView.findViewById(R.id.btnPlayPause_MiniPlayer);
         btnNext = rootView.findViewById(R.id.btnNext_MiniPlayer);
         btnPrev = rootView.findViewById(R.id.btnPrev_MiniPlayer);
