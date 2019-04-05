@@ -130,7 +130,6 @@
 
         <ImageView
             android:id="@+id/btnVolume_MiniPlayer"
-            android:layout_marginTop="@dimen/_10sdp"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_centerVertical="true"
@@ -167,7 +166,7 @@
         <TextView
             android:id="@+id/txtTimeLabel"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_25sdp"
             android:gravity="center"
             android:textSize="@dimen/_10ssp"
             android:layout_centerVertical="true"
@@ -226,7 +225,8 @@
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/_5sdp" />
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp" />
 
             <ImageButton
                 android:id="@+id/btnNext_MiniPlayer"

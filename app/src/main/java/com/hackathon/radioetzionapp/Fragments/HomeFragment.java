@@ -55,6 +55,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 public class HomeFragment extends Fragment implements View.OnTouchListener {
 
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     ImageView btnVolume;
     TextView timeLabel;
     int totalTime;
+    Timer timer;
 
     // media player (aka: mini-player) and related fields  ...
     MediaPlayer mp;
@@ -112,6 +114,13 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 loadTrack_at(currentTrackIndex);
             }
             wasCalledFromOtherFragment = false; // reset to false , for next time ...
+
+            if (mp != null && mp.isPlaying()) {
+                getActivity().findViewById(R.id.laySeekbars).setVisibility(View.VISIBLE);
+            } else {
+                // hidden until track is prepared to play
+                getActivity().findViewById(R.id.laySeekbars).setVisibility(View.GONE);
+            }
         }
     }
 
@@ -500,6 +509,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         updatePositionBar();
     }
 
+
     private void updatePositionBar() {
         // Thread (Update positionBar & timeLabel)
         new Thread(new Runnable() {
@@ -507,9 +517,11 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             public void run() {
                 while (mp != null) {
                     try {
-                        Message msg = new Message();
-                        msg.what = mp.getCurrentPosition();
-                        handler.sendMessage(msg);
+                        if (mp.isPlaying()) { // this solved many crashes ...
+                            Message msg = new Message();
+                            msg.what = mp.getCurrentPosition();
+                            handler.sendMessage(msg);
+                        }
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -674,7 +686,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         indicatorLoadingBroadcast.hide(); // hidden on list loading
         // mini player layout & contents
         layoutSeekbars = rootView.findViewById(R.id.laySeekbars);
-        layoutSeekbars.setVisibility(View.GONE); // hidden until track is prepared to play
         btnPlay = rootView.findViewById(R.id.btnPlayPause_MiniPlayer);
         btnNext = rootView.findViewById(R.id.btnNext_MiniPlayer);
         btnPrev = rootView.findViewById(R.id.btnPrev_MiniPlayer);
