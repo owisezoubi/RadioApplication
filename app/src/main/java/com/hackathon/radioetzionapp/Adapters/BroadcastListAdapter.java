@@ -61,7 +61,6 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
 
         View view;
 
-        //view = getCheckView(position);
 
         view = getBroadcastItemView(position);
 
@@ -129,36 +128,6 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
         }
 
         return returnValue;
-    }
-
-    private View getCheckView(int pos) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_check_broadcast,null);
-
-        TextView txtIndex = v.findViewById(R.id.txtBIndex_Check);
-        TextView txtTitle = v.findViewById(R.id.txtBTitle_Check);
-        TextView txtDesc = v.findViewById(R.id.txtBDesc_Check);
-        TextView txtBroadcasters = v.findViewById(R.id.txtBBroasdcasters_Check);
-        TextView txtGuests = v.findViewById(R.id.txtBGuests_Check);
-        TextView txtFilename = v.findViewById(R.id.txtBFileName_Check);
-
-        v.setBackgroundColor(pos%2==0? Color.WHITE:Color.LTGRAY);
-        v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        v.setTextDirection(View.LAYOUT_DIRECTION_RTL);
-        v.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-
-        BroadcastDataClass current = lst.get(pos);
-
-        //Log.e("index:",current.getIndex()+"");
-
-        txtIndex.setText(new StringBuilder(current.getIndex()+""));
-        txtTitle.setText(current.getTitle());
-        txtDesc.setText(current.getDescription());
-        txtFilename.setText(current.getFilename());
-
-        txtBroadcasters.setText(current.getBroadcastersListFormatted());
-        txtGuests.setText(current.getGuestsListFormatted());
-
-        return v;
     }
 
     @Override
