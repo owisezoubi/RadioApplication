@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             if (wasCalledFromOtherFragment) {
                 loadTrack_at(currentTrackIndex);
             }
-            wasCalledFromOtherFragment = false; // reset to false
+            wasCalledFromOtherFragment = false; // reset to false , for next time ...
         }
     }
 

@@ -76,27 +76,20 @@ public class SearchFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
-                // start playing item in HOME fragment
-                // ONLY AFTER stopping everything else (mp.reset())
-                // check example in 4 - screen fragments app (soccer, brazil photos)
+                // when clicked, loads selected track in HOME & moves to HOME fragment
 
                 // step1
                 // set variable of track index to be the same as the selected item ...
                 HomeFragment.currentTrackIndex = getSelectedItemIndex(position);
-
                 // step 2
-                // the following variable is checked when home fragment is shown
+                // the following variable is checked when home fragment is SHOWN
                 // if TRUE it loads the currentTrackIndex (which was set in step 1)
                 HomeFragment.wasCalledFromOtherFragment = true;
-
                 // step 3
-                // hide this fragment and show home fragment
+                // hide this fragment and SHOW home fragment
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .hide(SearchFrag)
-                        .show(HomeFrag)
-                        .commit();
-
+                        .show(HomeFrag).commit();
                 // step 4
                 // adjust navigation bar below to change selection to home
                 BottomNavigationView navBar = getActivity().findViewById(R.id.navigation);
@@ -107,7 +100,7 @@ public class SearchFragment extends Fragment {
                 // pos: is the order the current SEARCH SUGGESTIONS list
                 // method returns the ORIGINAL index in the Defaults.dataList
                 // which is used to play tracks in home fragment
-                // by matching the track titles ... (basic searching)
+                // by COMPARING the track titles ... (basic searching)
 
 
                 // TODO .. fix issues here ...
