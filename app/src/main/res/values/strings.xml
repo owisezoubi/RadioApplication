@@ -23,4 +23,7 @@
     <string name="dialog_button_share">share</string>
     <string name="dialog_button_download">download</string>
     <string name="dialog_button_cancel">cancel</string>
+    <string name="dialog_subtitle_broadcast_details">broadcast details</string>
+    <string name="dialog_subtitle_broadcasters_participants">broadcasters / participants</string>
+    <string name="dialog_subtitle_guests">guests</string>
 </resources>

@@ -24,4 +24,7 @@
     <string name="dialog_button_share">שתף</string>
     <string name="dialog_button_download">שמור</string>
     <string name="dialog_button_cancel">ביטול</string>
+    <string name="dialog_subtitle_broadcast_details">פרטי שידור</string>
+    <string name="dialog_subtitle_broadcasters_participants">שדרים / משתתפים</string>
+    <string name="dialog_subtitle_guests">אורחים</string>
 </resources>
