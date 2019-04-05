@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -63,8 +64,8 @@ public class SearchFragment extends Fragment {
         super.onStart();
 
         context = getActivity();
-        HomeFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("home");
-        SearchFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag("search");
+        HomeFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
+        SearchFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_SEARCH);
         setSearch();
         setListView();
     }
@@ -80,11 +81,13 @@ public class SearchFragment extends Fragment {
                 // check example in 4 - screen fragments app (soccer, brazil photos)
 
                 // step1
-                // set vari
-
+                // set variable of track index to be the same as the selected item ...
+                HomeFragment.currentTrackIndex = getSelectedItemIndex(position);
 
                 // step 2
-
+                // the following variable is checked when home fragment is shown
+                // if TRUE it loads the currentTrackIndex (which was set in step 1)
+                HomeFragment.wasCalledFromOtherFragment = true;
 
                 // step 3
                 // hide this fragment and show home fragment
@@ -97,8 +100,22 @@ public class SearchFragment extends Fragment {
                 // adjust navigation bar below to change selection to home
                 BottomNavigationView navBar = getActivity().findViewById(R.id.navigation);
                 navBar.setSelectedItemId(R.id.navigation_home);
+            }
 
+            private int getSelectedItemIndex(int pos) {
+                // pos: is the order the current SEARCH SUGGESTIONS list
+                // method returns the ORIGINAL index in the Defaults.dataList
+                // which is used to play tracks in home fragment
+                // by matching the track titles ... (basic searching)
 
+                // using good old for loop to get the index ...
+                for (int index = 0; index < Defaults.dataList.size(); index += 1) {
+                    if (Defaults.dataList.get(index).getTitle().equals(arrayAdapter.getItem(pos))) {
+                        return index;
+                    }
+                }
+
+                return 0; // default return value to play first item in track list
             }
         });
     }

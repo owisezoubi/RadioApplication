@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     public static int currentTrackIndex = -1;
     public static String currentTrackTitle = "";
 
+    public static boolean wasCalledFromOtherFragment = false; // used to communicate between different fragments
 
     ////////////////////////////////////////////////////////////////////
 
@@ -103,6 +104,10 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         if (hidden) {
             //Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
         } else {
+            if (wasCalledFromOtherFragment) {
+                loadTrack_at(currentTrackIndex);
+            }
+            wasCalledFromOtherFragment = false; // reset to false
         }
     }
 

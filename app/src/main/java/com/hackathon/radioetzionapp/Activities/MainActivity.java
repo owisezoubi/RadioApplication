@@ -28,29 +28,36 @@ public class MainActivity extends AppCompatActivity
     CommentsFragment commFrag;
     SearchFragment searchFrag;
 
+    // fragment tags // to identify easily later inside fragments
+    public static final String TAG_HOME = "home";
+    public static final String TAG_FAVORITES = "fav";
+    public static final String TAG_COMMENTS = "comm";
+    public static final String TAG_SEARCH = "search";
 
-    enum frag {HOME, FAVORITES, COMMENTS, SEARCH}
+    // fragments enum ... for easy switching onBackPressed ...
+    enum fragEnum {
+        HOME, FAVORITES, COMMENTS, SEARCH
+    }
 
-    int currentFrag;
+    fragEnum currentFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.context = this;
-
-        navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(
-                (BottomNavigationView.OnNavigationItemSelectedListener) context);
-
-
-        // TODO fix fragments transition in NavBar >> check again when done ! //
-
+        setPointers();
         setFragments(); // initialize
         loadAllFragments(); // load all to view-group
         showFragment(homeFrag); // show only home frag at first
-        currentFrag = frag.HOME.ordinal(); // initial value
+    }
+
+    private void setPointers() {
+        this.context = this;
+        navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(
+                (BottomNavigationView.OnNavigationItemSelectedListener) context);
+        currentFrag = fragEnum.HOME; // initial value
     }
 
     private void setFragments() {
@@ -68,10 +75,10 @@ public class MainActivity extends AppCompatActivity
         // load all fragments to container, adding tags for access later
 
         fm.beginTransaction()
-                .add(R.id.fragment_container, homeFrag, "home")
-                .add(R.id.fragment_container, favFrag, "fav")
-                .add(R.id.fragment_container, commFrag, "comm")
-                .add(R.id.fragment_container, searchFrag, "search")
+                .add(R.id.fragment_container, homeFrag, TAG_HOME)
+                .add(R.id.fragment_container, favFrag, TAG_FAVORITES)
+                .add(R.id.fragment_container, commFrag, TAG_COMMENTS)
+                .add(R.id.fragment_container, searchFrag, TAG_SEARCH)
                 .commit();
     }
 
@@ -84,19 +91,19 @@ public class MainActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 fragment = homeFrag;
-                currentFrag = frag.HOME.ordinal();
+                currentFrag = fragEnum.HOME;
                 break;
             case R.id.navigation_favorites:
                 fragment = favFrag;
-                currentFrag = frag.FAVORITES.ordinal();
+                currentFrag = fragEnum.FAVORITES;
                 break;
             case R.id.navigation_comments:
                 fragment = commFrag;
-                currentFrag = frag.COMMENTS.ordinal();
+                currentFrag = fragEnum.COMMENTS;
                 break;
             case R.id.navigation_search:
                 fragment = searchFrag;
-                currentFrag = frag.SEARCH.ordinal();
+                currentFrag = fragEnum.SEARCH;
                 break;
         }
         //return loadFragment(fragment);
@@ -133,21 +140,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void gotoPrevFrag() {
-        currentFrag = currentFrag == 0 ? 3 : currentFrag - 1; // change order
+        int tmp = currentFrag.ordinal();
+        tmp = tmp == 0 ? fragEnum.values().length - 1 : tmp - 1; // change order
+        currentFrag = fragEnum.values()[tmp]; // set currentFrag according to changed order
         showFragmentByOrder(currentFrag); // goto fragment with this ordinal
     }
 
-    private void showFragmentByOrder(int fragOrder) {
+    private void showFragmentByOrder(fragEnum fragOrder) {
         switch (fragOrder) {
-            case 1:
+            case FAVORITES:
                 showFragment(favFrag);
                 navigation.setSelectedItemId(R.id.navigation_favorites);
                 break;
-            case 2:
+            case COMMENTS:
                 showFragment(commFrag);
                 navigation.setSelectedItemId(R.id.navigation_comments);
                 break;
-            case 3:
+            case SEARCH:
                 showFragment(searchFrag);
                 navigation.setSelectedItemId(R.id.navigation_search);
                 break;
