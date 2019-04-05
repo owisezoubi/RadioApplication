@@ -23,9 +23,10 @@
 
             <ImageView
                 android:id="@+id/btnDialogDetailsCancel"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:background="@drawable/ic_x_black"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/ic_cancel_red"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:backgroundTint="@color/av_red" />
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:id="@+id/details_view_track_title"
                 android:textColor="@color/colorPrimaryDark"
                 android:text="Track Title"
