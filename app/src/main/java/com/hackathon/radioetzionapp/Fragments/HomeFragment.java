@@ -2,7 +2,6 @@ package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -333,64 +331,8 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         listViewBroadcasts.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO clicked track info on dialog
-
-                showTrackInfoDialog(position);
-
+                Utils.showTrackInfoDialog(context, position);
                 return true;  // to make short click work ok ...
-            }
-
-            private void showTrackInfoDialog(int pos) {
-
-                // inflate and set up views ...
-                View v = LayoutInflater.from(context).inflate(R.layout.details_view_for_dialog, null);
-                TextView title = v.findViewById(R.id.details_view_track_title);
-                TextView desc = v.findViewById(R.id.details_view_description);
-                desc.setMovementMethod(new ScrollingMovementMethod());
-                TextView broadcasters = v.findViewById(R.id.details_view_broadcasters);
-                broadcasters.setMovementMethod(new ScrollingMovementMethod());
-
-                // assign data to views ...
-                assignDataToViews(pos, title, desc, broadcasters);
-
-                // dialog
-                final Dialog infoDialog = new Dialog(context);
-                infoDialog.setContentView(v);
-
-                infoDialog.create();
-                infoDialog.show();
-            }
-
-            private void assignDataToViews(int pos, TextView title, TextView desc, TextView broadcasters) {
-                BroadcastDataClass selectedItem = Defaults.dataList.get(pos);
-
-                // title
-                title.setText(selectedItem.getTitle());
-
-                desc.setText("");
-                broadcasters.setText("");
-                // desc
-                StringBuilder descStr = new StringBuilder();
-                if (!selectedItem.getDescription().isEmpty()) {
-                    descStr.append(getString(R.string.dialog_subtitle_broadcast_details))
-                            .append("\n\n").append(selectedItem.getDescription()).append("\n\n");
-                }
-                if (!selectedItem.getGuestsList().isEmpty()) {
-                    descStr.append(getString(R.string.dialog_subtitle_guests))
-                            .append("\n\n").append(selectedItem.getGuestsListFormatted());
-                }
-                desc.setText(descStr);
-
-                // broadcasters
-                if (selectedItem.getBroadcastersList().isEmpty()) {
-                    broadcasters.setText(""); // remove subtitle in layout ...
-                    broadcasters.setHeight(5); // decrease height (because empty!) // better looking
-                } else {
-                    StringBuilder broadcastersStr = new StringBuilder();
-                    broadcastersStr.append(getString(R.string.dialog_subtitle_broadcasters_participants))
-                            .append("\n\n").append(selectedItem.getBroadcastersListFormatted());
-                    broadcasters.setText(broadcastersStr);
-                }
             }
         });
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
 import com.hackathon.radioetzionapp.R;
+import com.hackathon.radioetzionapp.Utils.Utils;
 
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
         return view;
     }
 
-    private View getBroadcastItemView(int position) {
+    private View getBroadcastItemView(final int position) {
         View v = LayoutInflater.from(context).inflate(R.layout.item_broadcast, null);
 
         // link ids to pointers
@@ -81,6 +82,13 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
         txtTitle.setText(lst.get(position).getTitle());
         setFavoritesStatus(imgFav, position);
 
+        // set listener for imgAlbum onClick
+        imgAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.showTrackInfoDialog(context, position);
+            }
+        });
 
         // adjust main view (parent)
         v.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);

@@ -1,11 +1,18 @@
 package com.hackathon.radioetzionapp.Utils;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
+import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
+import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 
 public class Utils {
@@ -29,5 +36,74 @@ public class Utils {
             }
         });
         myMsg.show();
+    }
+
+    public static void showTrackInfoDialog(Context context, int pos) {
+
+        // inflate and set up views ...
+        View v = LayoutInflater.from(context).inflate(R.layout.details_view_for_dialog, null);
+
+        TextView title = v.findViewById(R.id.details_view_track_title);
+        TextView desc = v.findViewById(R.id.details_view_description);
+        desc.setMovementMethod(new ScrollingMovementMethod());
+        TextView broadcasters = v.findViewById(R.id.details_view_broadcasters);
+        broadcasters.setMovementMethod(new ScrollingMovementMethod());
+        ImageView cancel = v.findViewById(R.id.btnDialogDetailsCancel);
+
+        // assign data to views ...
+        assignDataToViews(context, pos, title, desc, broadcasters);
+
+        // dialog
+        final Dialog infoDialog = new Dialog(context);
+        infoDialog.setContentView(v);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoDialog.dismiss();
+            }
+        });
+
+        infoDialog.create();
+        infoDialog.show();
+    }
+
+    // for alert dialog (Accessory method)
+    private static void assignDataToViews(Context context, int pos, TextView title, TextView desc, TextView broadcasters) {
+        BroadcastDataClass selectedItem = Defaults.dataList.get(pos);
+
+        // title
+        title.setText(selectedItem.getTitle());
+
+        desc.setText("");
+        broadcasters.setText("");
+
+        // desc
+        StringBuilder descStr = new StringBuilder();
+        if (!selectedItem.getDescription().isEmpty()) {
+            descStr.append(context.getString(R.string.dialog_subtitle_broadcast_details))
+                    .append("\n\n").append(selectedItem.getDescription()).append("\n\n");
+        }
+        if (!selectedItem.getGuestsList().isEmpty()) {
+            if (!selectedItem.getGuestsList().get(0).isEmpty()) { // to make sure because list !
+                descStr.append(context.getString(R.string.dialog_subtitle_guests))
+                        .append("\n\n").append(selectedItem.getGuestsListFormatted());
+            }
+        }
+        desc.setText(descStr);
+
+        // broadcasters
+        if (!selectedItem.getBroadcastersList().isEmpty()) {
+            if (!selectedItem.getBroadcastersList().get(0).isEmpty()) {  // to make sure because list !
+                StringBuilder broadcastersStr = new StringBuilder();
+                broadcastersStr.append(context.getString(R.string.dialog_subtitle_broadcasters_participants))
+                        .append("\n\n").append(selectedItem.getBroadcastersListFormatted());
+                broadcasters.setText(broadcastersStr);
+            } else {
+                broadcasters.setVisibility(View.GONE); // hide view cause empty content
+            }
+        } else {
+            broadcasters.setVisibility(View.GONE); // hide view cause empty content
+        }
     }
 }
