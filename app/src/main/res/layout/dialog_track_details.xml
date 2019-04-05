@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/dialogTrackInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_trackinfo"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btnDialogDetailsCancel"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:background="@drawable/ic_x_black"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:backgroundTint="@color/av_red" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textAlignment="center"
+                android:id="@+id/details_view_track_title"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Track Title"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:textSize="@dimen/_14ssp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:background="@color/navbar_back_color" />
+
+            <TextView
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarFadeDuration="0"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textColor="@color/navbar_back_color"
+                android:textSize="@dimen/_12ssp"
+                android:scrollbars="vertical"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:text="@string/dialog_subtitle_broadcast_details"
+                android:id="@+id/details_view_description"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:textDirection="rtl"
+
+
+                />
+
+            <LinearLayout
+                android:id="@+id/lineAboveBroadcasters"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/navbar_back_color" />
+
+            <TextView
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarFadeDuration="0"
+                android:textColor="@color/navbar_back_color"
+                android:textSize="@dimen/_12ssp"
+                android:scrollbars="vertical"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:text="@string/dialog_subtitle_broadcasters_participants"
+                android:id="@+id/details_view_broadcasters"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:textDirection="rtl"
+
+
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

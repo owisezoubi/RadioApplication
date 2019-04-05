@@ -10,7 +10,6 @@
     <stroke
         android:width="3dp"
         android:color="@color/navbar_back_color" />
-
     <corners android:radius="16dp" />
 
 </shape>

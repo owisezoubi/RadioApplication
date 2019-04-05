@@ -1,0 +1,92 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textDirection="locale"
+    android:layoutDirection="locale"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_alert_share"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/txtDialogTitle_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_share_download_title"
+            android:gravity="center"
+            android:textStyle="bold|italic"
+            android:textColor="@color/navbar_item_text"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_16ssp" />
+
+        <TextView
+            android:id="@+id/txtDialogMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtDialogTitle_share"
+            android:layout_alignParentStart="true"
+            android:textSize="@dimen/_14ssp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+
+            android:textColor="@color/navbar_item_text"
+            android:text="@string/dialog_share_download_message" />
+
+        <Button
+            android:id="@+id/btnDialogShare"
+            android:layout_below="@id/txtDialogMsg"
+            android:layout_alignStart="@id/txtDialogMsg"
+            android:drawablePadding="@dimen/_10sdp"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_12ssp"
+            android:background="@color/lightPrimaryColor"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="@string/dialog_button_share"
+            android:drawableStart="@drawable/ic_share_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnDialogDownload"
+            android:layout_below="@id/txtDialogMsg"
+            android:layout_alignEnd="@id/txtDialogMsg"
+            android:drawablePadding="@dimen/_10sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textAllCaps="true"
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="@string/dialog_button_download"
+            android:drawableStart="@drawable/ic_file_download_green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnDialogCancel"
+            android:layout_below="@id/btnDialogShare"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawablePadding="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textAllCaps="true"
+            android:background="@color/navbar_back_color"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="@string/dialog_button_cancel"
+            android:drawableStart="@drawable/ic_cancel_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -1,7 +1,7 @@
 package com.hackathon.radioetzionapp.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -389,21 +389,20 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
             private void dialog_ShareOrDownload() {
 
-                View v = LayoutInflater.from(context).inflate(R.layout.alert_share_or_download, null);
+                View v = LayoutInflater.from(context).inflate(R.layout.dialog_share_download, null);
                 Button share = v.findViewById(R.id.btnDialogShare);
                 Button download = v.findViewById(R.id.btnDialogDownload);
                 Button cancel = v.findViewById(R.id.btnDialogCancel);
 
-                final AlertDialog alert = new AlertDialog.Builder(context)
-                        .setView(v)
-                        .setTitle(getString(R.string.dialog_share_download_title))
-                        .setIcon(R.drawable.ic_share_orange)
-                        .create();
+                final Dialog dialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+                dialog.setContentView(v);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                dialog.create();
 
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert.dismiss();
+                        dialog.dismiss();
                         shareURL(Defaults.serverURL + Defaults.dataList.
                                 get(currentTrackIndex).getFilename(), currentTrackTitle);
                     }
@@ -412,7 +411,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert.dismiss();
+                        dialog.dismiss();
                         downloadURL(Defaults.serverURL + Defaults.dataList.
                                 get(currentTrackIndex).getFilename(), currentTrackTitle);
 
@@ -422,12 +421,12 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        alert.dismiss();
+                        dialog.dismiss();
                     }
                 });
 
-                alert.setCanceledOnTouchOutside(false);
-                alert.show();  // show the dialog
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();  // show the dialog
             }
 
             private void shareURL(String url, String name) {

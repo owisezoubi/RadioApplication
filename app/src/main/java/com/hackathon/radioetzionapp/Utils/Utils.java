@@ -41,7 +41,7 @@ public class Utils {
     public static void showTrackInfoDialog(Context context, int pos) {
 
         // inflate and set up views ...
-        View v = LayoutInflater.from(context).inflate(R.layout.details_view_for_dialog, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_track_details, null);
 
         TextView title = v.findViewById(R.id.details_view_track_title);
         TextView desc = v.findViewById(R.id.details_view_description);
@@ -54,8 +54,9 @@ public class Utils {
         assignDataToViews(context, pos, title, desc, broadcasters);
 
         // dialog
-        final Dialog infoDialog = new Dialog(context);
+        final Dialog infoDialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
         infoDialog.setContentView(v);
+        infoDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
