@@ -103,8 +103,6 @@ public class SearchFragment extends Fragment {
                 // by COMPARING the track titles ... (basic searching)
 
 
-                // TODO .. fix issues here ...
-
                 String item = arrayAdapter.getItem(pos);
                 // using good old for loop to get the index ...
                 for (int index = 0; index < Defaults.dataList.size(); index += 1) {
@@ -158,8 +156,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context,
-                        android.R.layout.simple_list_item_1);
+                arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
 
                 if (newText != null && !newText.isEmpty()) {
                     for (String s : Defaults.searchSuggestions) {
