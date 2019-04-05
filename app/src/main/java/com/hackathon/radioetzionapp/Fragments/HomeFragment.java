@@ -26,9 +26,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     AVLoadingIndicatorView indicatorLoadingBroadcast; // progress for track while loading/preparing
     TextView txtLoadingList, txtPlayingNow;
     ImageButton btnRefreshList; // refresh button , shown when no internet connection at startup ..
-    LinearLayout layoutSeekbars;
+    RelativeLayout layoutSeekbars;
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne; // mini-player buttons
     ImageView imgLogo; // logo inside mini-player
     FloatingActionButton btnShare; // floating (& movable) share button
@@ -449,10 +449,12 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     }
 
 
-    private void seekbars_initialize() {
+    private void seekbars_initialize() { // for each track after loading ...
 
-        mp.seekTo(0);
+        layoutSeekbars.setVisibility(View.VISIBLE);
+        mp.seekTo(0); // initial: at start
         mp.setVolume(0.5f, 0.5f);
+        volumeBar.setProgress(volumeBar.getMax() / 2);  // initial: at middle position
         totalTime = mp.getDuration();
         positionBar.setMax(totalTime);
         positionBar.setOnSeekBarChangeListener(
@@ -464,12 +466,10 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                             positionBar.setProgress(progress);
                         }
                     }
-
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
 
                     }
-
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -512,6 +512,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                         handler.sendMessage(msg);
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
             }
