@@ -109,6 +109,7 @@ public class BroadcastListAdapter extends BaseAdapter implements Animation.Anima
 
         // TODO based on saved shared preferences
 
+
         // default
         imgFav.setColorFilter(getAlternateColor(position));
     }

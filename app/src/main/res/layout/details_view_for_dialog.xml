@@ -3,17 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_broadcasts"
+    android:background="@drawable/background_trackinfo"
 
     android:textDirection="rtl"
     android:layoutDirection="rtl"
     android:orientation="vertical">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_4sdp"
-        android:background="@color/navbar_back_color" />
 
 
     <LinearLayout
@@ -23,31 +18,22 @@
 
         <ImageView
             android:id="@+id/btnDialogDetailsCancel"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
             android:background="@drawable/ic_x_black"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:backgroundTint="@color/av_red" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_2sdp"
-        android:background="@color/navbar_back_color" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:textAlignment="center"
             android:id="@+id/details_view_track_title"
-            android:textColor="@color/album_alternate_1"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Track Title"
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"
@@ -56,7 +42,19 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:textSize="@dimen/_14ssp" />
 
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
         <LinearLayout
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_2sdp"
             android:background="@color/navbar_back_color" />
@@ -77,9 +75,14 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:textDirection="rtl"
 
+
             />
 
         <LinearLayout
+            android:id="@+id/lineAboveBroadcasters"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:background="@color/navbar_back_color" />
@@ -91,7 +94,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarFadeDuration="0"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/navbar_back_color"
             android:textSize="@dimen/_12ssp"
             android:scrollbars="vertical"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
@@ -100,13 +103,9 @@
             android:layout_marginBottom="@dimen/_16sdp"
             android:textDirection="rtl"
 
+
             />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_4sdp"
-            android:background="@color/navbar_back_color" />
 
     </LinearLayout>
 

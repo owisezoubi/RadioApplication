@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         // grouped into subgroups for ease of use ....
         mediaPlayerListeners();
         mediaButtonsListeners();
-        //seekbarsListeners();
+        seekbarsListeners();
         listListeners();
         otherListeners();
     }
@@ -292,7 +292,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
         });
     }
-/*
+
     private void seekbarsListeners() {
 
         btnVolume.setOnClickListener(new View.OnClickListener() {
@@ -300,14 +300,16 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             public void onClick(View v) {
                 if (volumeBar.getVisibility() == View.VISIBLE) {
                     volumeBar.setVisibility(View.INVISIBLE);
+                    positionBar.setVisibility(View.VISIBLE);
                 } else {
                     volumeBar.setVisibility(View.VISIBLE);
+                    positionBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
 
-    }*/
+    }
 
 
 
@@ -580,7 +582,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         btnShuffle = rootView.findViewById(R.id.btnShuffle_MiniPlayer);
         btnRepeatOne = rootView.findViewById(R.id.btnRepeatOne_MiniPlayer);
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
-        //volumeBar = rootView.findViewById(R.id.volumeBar);
+        volumeBar = rootView.findViewById(R.id.volumeBar);
         positionBar = rootView.findViewById(R.id.positionBar);
         timeLabel = rootView.findViewById(R.id.txtTimeLabel);
         btnVolume = rootView.findViewById(R.id.btnVolume_MiniPlayer);

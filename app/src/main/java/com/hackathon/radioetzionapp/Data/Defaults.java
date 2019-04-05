@@ -44,5 +44,4 @@ public class Defaults {
     public static String docname = ""; // extra
     public static List<String> notesList = new ArrayList<>(); // extras
 
-
 }

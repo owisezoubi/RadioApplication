@@ -4,13 +4,11 @@
     <gradient
         android:endColor="@color/lightPrimaryColor"
         android:startColor="@color/colorPrimaryDark"
-        android:angle="45" />
-
+        android:angle="0" />
 
     <stroke
-        android:width="3dp"
-        android:color="@color/navbar_back_color" />
+        android:width="2dp"
+        android:color="#ffffff" />
 
-    <corners android:radius="16dp" />
-
+    <corners android:radius="50dp" />
 </shape>

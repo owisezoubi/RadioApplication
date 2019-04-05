@@ -103,8 +103,12 @@ public class Utils {
                 broadcasters.setText(broadcastersStr);
             }
         }
-        if (broadcastersStr.toString().isEmpty())
+        if (broadcastersStr.toString().isEmpty()) {
             broadcasters.setVisibility(View.GONE); // hide view cause empty content
-        else broadcasters.setText(broadcastersStr);
+            // hide the line above also // better looking
+            broadcasters.getRootView().findViewById(R.id.lineAboveBroadcasters).setVisibility(View.GONE);
+        } else {
+            broadcasters.setText(broadcastersStr);
+        }
     }
 }

@@ -114,33 +114,7 @@
             android:backgroundTint="@color/colorPrimaryDark"
             app:rippleColor="@color/lightPrimaryColor"
             android:scaleType="center"
-            android:tint="@color/navbar_item_text"
-
-
-            />
-
-        <!--
-         PROBLEMATIC STUFF
-                <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
-                    android:layout_width="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="@dimen/_12sdp"
-                    android:layout_height="@dimen/_100sdp">
-                    <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                        android:visibility="visible"
-                        android:id="@+id/volumeBar"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_100sdp"
-                        android:background="@color/lightPrimaryColor"
-                        android:progressBackgroundTint="@color/navbar_back_color"
-                        android:progressTint="@color/navbar_item_text"
-                        android:thumbTint="@color/navbar_back_color"
-                        android:splitTrack="false"
-                        app:seekBarRotation="CW90" />
-                </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
-
-            -->
+            android:tint="@color/navbar_item_text" />
 
     </RelativeLayout>
 
@@ -165,16 +139,25 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_14sdp" />
 
+        <SeekBar
+            android:id="@+id/volumeBar"
+            android:layout_toEndOf="@id/btnVolume_MiniPlayer"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:background="@drawable/background_volumebar"
+            android:progressTint="@color/colorPrimaryDark"
+            android:progressBackgroundTint="@color/navbar_item_text"
+            android:thumbTint="@color/navbar_back_color"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_20sdp" />
 
         <SeekBar
+            android:visibility="visible"
             android:id="@+id/positionBar"
-            style="@android:style/Widget.DeviceDefault.Light.SeekBar"
             android:layout_height="@dimen/_25sdp"
-
             android:progressTint="@color/av_orange"
             android:progressBackgroundTint="@color/navbar_item_text"
-            android:thumbTint="@color/colorAccent"
-
+            android:thumbTint="@color/lightPrimaryColor"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/btnVolume_MiniPlayer"
@@ -191,7 +174,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_14sdp"
             android:textColor="@color/navbar_item_text"
-            android:text="00:00/00:00" />
+            android:text="--:--/--:--" />
 
 
     </RelativeLayout>
