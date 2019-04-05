@@ -33,6 +33,10 @@
         android:visibility="visible" />
 
     <RelativeLayout android:id="@+id/layFragBroadcasts"
+
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+
         android:layout_marginBottom="@dimen/_3sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
@@ -114,12 +118,77 @@
 
 
             />
+
+        <SeekBar
+            android:id="@+id/volumeBar"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/_12sdp"
+
+            android:background="@color/lightPrimaryColor"
+            android:progressBackgroundTint="@color/navbar_back_color"
+            android:progressTint="@color/navbar_item_text"
+
+            android:backgroundTintMode="src_over"
+            android:thumbTintMode="src_over"
+            android:thumbTint="@color/navbar_back_color"
+            android:visibility="visible"
+            android:rotation="0" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/laySeekbars"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_5sdp"
-        android:background="@color/navbar_back_color" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:orientation="horizontal"
+        android:background="@color/navbar_back_color">
+
+
+        <ImageView
+            android:id="@+id/btnVolume_MiniPlayer"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_volume_black"
+            android:backgroundTint="@color/lightPrimaryColor"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_14sdp" />
+
+
+        <SeekBar
+            android:id="@+id/positionBar"
+            style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+            android:layout_height="@dimen/_25sdp"
+
+            android:progressTint="@color/av_orange"
+            android:progressBackgroundTint="@color/navbar_item_text"
+            android:thumbTint="@color/colorAccent"
+
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/btnVolume_MiniPlayer"
+            android:layout_toStartOf="@id/txtTimeLabel" />
+
+
+        <TextView
+            android:id="@+id/txtTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="00:00/00:00" />
+
+
+    </RelativeLayout>
 
     <LinearLayout android:id="@+id/layoutMiniPlayer"
         android:layoutDirection="rtl"

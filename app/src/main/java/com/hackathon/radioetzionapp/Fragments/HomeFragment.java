@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.cloudant.sync.documentstore.DocumentNotFoundException;
@@ -78,6 +79,9 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     ImageButton btnPlay, btnNext, btnPrev, btnShuffle, btnRepeatOne; // mini-player buttons
     ImageView imgLogo; // logo inside mini-player
     FloatingActionButton btnShare; // floating (& movable) share button
+    SeekBar positionBar, volumeBar;
+    ImageView btnVolume;
+    TextView timeLabel;
 
     // media player (aka: mini-player) and related fields  ...
     MediaPlayer mp;
@@ -92,10 +96,8 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     float dX, dY;
     int lastAction;
 
-    // TODO mini-player, with all buttons, and list interactions
+    // TODO mini-player: SHUFFLE + REPEAT ONE buttons
     // TODO seekbar + volume bar (vertical, hide, show)
-    // TODO audiotrack image onclick + long click (item) --> show track data (desc + guests ... etc )
-    // >>> in DIALOG
 
 
     @Override
@@ -133,9 +135,11 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         // grouped into subgroups for ease of use ....
         mediaPlayerListeners();
         mediaButtonsListeners();
+        seekbarsListeners();
         listListeners();
         otherListeners();
     }
+
 
 
     private void mediaPlayerListeners() {
@@ -288,6 +292,23 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
         });
     }
+
+    private void seekbarsListeners() {
+
+        btnVolume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (volumeBar.getVisibility() == View.VISIBLE) {
+                    volumeBar.setVisibility(View.INVISIBLE);
+                } else {
+                    volumeBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+    }
+
 
 
     private void listListeners() {
@@ -559,6 +580,10 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         btnShuffle = rootView.findViewById(R.id.btnShuffle_MiniPlayer);
         btnRepeatOne = rootView.findViewById(R.id.btnRepeatOne_MiniPlayer);
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
+        volumeBar = rootView.findViewById(R.id.volumeBar);
+        positionBar = rootView.findViewById(R.id.positionBar);
+        timeLabel = rootView.findViewById(R.id.txtTimeLabel);
+        btnVolume = rootView.findViewById(R.id.btnVolume_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
         // share

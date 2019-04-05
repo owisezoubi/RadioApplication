@@ -90,20 +90,21 @@ public class Utils {
                         .append("\n\n").append(selectedItem.getGuestsListFormatted());
             }
         }
-        desc.setText(descStr);
+        if (descStr.toString().isEmpty())
+            desc.setVisibility(View.GONE); // hide view cause empty content
+        else desc.setText(descStr);
 
         // broadcasters
+        StringBuilder broadcastersStr = new StringBuilder();
         if (!selectedItem.getBroadcastersList().isEmpty()) {
             if (!selectedItem.getBroadcastersList().get(0).isEmpty()) {  // to make sure because list !
-                StringBuilder broadcastersStr = new StringBuilder();
                 broadcastersStr.append(context.getString(R.string.dialog_subtitle_broadcasters_participants))
                         .append("\n\n").append(selectedItem.getBroadcastersListFormatted());
                 broadcasters.setText(broadcastersStr);
-            } else {
-                broadcasters.setVisibility(View.GONE); // hide view cause empty content
             }
-        } else {
-            broadcasters.setVisibility(View.GONE); // hide view cause empty content
         }
+        if (broadcastersStr.toString().isEmpty())
+            broadcasters.setVisibility(View.GONE); // hide view cause empty content
+        else broadcasters.setText(broadcastersStr);
     }
 }
