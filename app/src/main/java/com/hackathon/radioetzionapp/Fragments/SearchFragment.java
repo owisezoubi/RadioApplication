@@ -66,6 +66,7 @@ public class SearchFragment extends Fragment {
         context = getActivity();
         HomeFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
         SearchFrag = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_SEARCH);
+
         setSearch();
         setListView();
     }
@@ -108,9 +109,13 @@ public class SearchFragment extends Fragment {
                 // which is used to play tracks in home fragment
                 // by matching the track titles ... (basic searching)
 
+
+                // TODO .. fix issues here ...
+
+                String item = arrayAdapter.getItem(pos);
                 // using good old for loop to get the index ...
                 for (int index = 0; index < Defaults.dataList.size(); index += 1) {
-                    if (Defaults.dataList.get(index).getTitle().equals(arrayAdapter.getItem(pos))) {
+                    if (Defaults.dataList.get(index).getTitle().equals(item)) {
                         return index;
                     }
                 }
