@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -52,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnTouchListener {
 
     public static int currentTrackIndex = -1; // current playing track index [in datalist: 0 - (last-1)]
     // -1 is initial condition!
@@ -80,6 +81,10 @@ public class HomeFragment extends Fragment {
 
     Context context;
     View rootView;
+
+    // variables used for "share" button to be movable/draggable
+    float dX, dY;
+    int lastAction;
 
     // TODO mini-player, with all buttons, and list interactions
     // TODO seekbar + volume bar (vertical, hide, show)
@@ -310,8 +315,6 @@ public class HomeFragment extends Fragment {
                     }
                 }).start();
             }
-
-
         });
 
 
@@ -326,7 +329,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
 
     private void otherListeners() {
 
@@ -415,6 +417,7 @@ public class HomeFragment extends Fragment {
                 // TODO
             }
         });
+
 
     }
 
@@ -530,6 +533,7 @@ public class HomeFragment extends Fragment {
         txtPlayingNow.setText(getString(R.string.loading_selected_track));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setPointers() {
 
         context = getActivity();
@@ -552,6 +556,7 @@ public class HomeFragment extends Fragment {
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
         // share
         btnShare = rootView.findViewById(R.id.btnShare);
+        btnShare.setOnTouchListener(this); // movable/draggable action
 
         /////////////////////////////////////////
         ////////// load track-list data /////////
@@ -769,5 +774,33 @@ public class HomeFragment extends Fragment {
             mp.stop();
             mp.release();
         }
+    }
+
+
+    // for the SHARE button (floating) to be movable / draggable //
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                dX = v.getX() - event.getRawX();
+                dY = v.getY() - event.getRawY();
+                lastAction = MotionEvent.ACTION_DOWN;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                v.setY(event.getRawY() + dY);
+                v.setX(event.getRawX() + dX);
+                lastAction = MotionEvent.ACTION_MOVE;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (lastAction == MotionEvent.ACTION_DOWN)
+                    btnShare.performClick();
+                break;
+
+            default:
+                return false;
+        }
+        return true;
     }
 }

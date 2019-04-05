@@ -72,6 +72,7 @@ public class SearchFragment extends Fragment {
                 // start playing item in HOME fragment
                 // ONLY AFTER stopping everything else (mp.reset())
                 // check example in 4 - screen fragments app (soccer, brazil photos)
+
             }
         });
     }
