@@ -4,22 +4,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.FavoritesListAdapter;
 import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.Data.FavoritesSharedPref;
 import com.hackathon.radioetzionapp.R;
-import com.hackathon.radioetzionapp.Utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +28,8 @@ public class FavoritesFragment extends Fragment {
     FavoritesListAdapter adapter; // controller
 
     FavoritesSharedPref favoritesSharedPref;
-    Fragment homeFragment, favoritesFragment;
 
-    // TODO
+    // TODO fix errors !
     /*
 
         DONE 1.  on item click >> open track in HOME (same code as in SEARCH)
@@ -54,7 +48,6 @@ public class FavoritesFragment extends Fragment {
             setPointers();
             loadFavoritesList(); // updated every time this fragment is shown !
             resetAdapter();
-            setListListeners();
         }
     }
 
@@ -64,8 +57,6 @@ public class FavoritesFragment extends Fragment {
         lstFavView = rootView.findViewById(R.id.lstFavorites);
         favoritesSharedPref = new FavoritesSharedPref(context);
         lstFavData = new ArrayList<>();
-        homeFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
-        favoritesFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FAVORITES);
     }
 
     private void loadFavoritesList() {
@@ -80,51 +71,6 @@ public class FavoritesFragment extends Fragment {
     private void resetAdapter() {
         adapter = new FavoritesListAdapter(context, lstFavData);
         lstFavView.setAdapter(adapter);
-    }
-
-
-    private void setListListeners() {
-
-        lstFavView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // same steps as in SEARCH FRAGMENT's onItemClick //
-                // when clicked, loads selected track in HOME & moves to HOME fragment
-                HomeFragment.currentTrackIndex = getSelectedItemIndex(position);
-                HomeFragment.wasCalledFromOtherFragment = true;
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .hide(favoritesFragment)
-                        .show(homeFragment).commit();
-                BottomNavigationView navBar = getActivity().findViewById(R.id.navigation);
-                navBar.setSelectedItemId(R.id.navigation_home);
-            }
-        });
-
-        lstFavView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Utils.showTrackInfoDialog(context, getSelectedItemIndex(position));
-                return true;
-            }
-        });
-    }
-
-    private int getSelectedItemIndex(int pos) {
-        // a bit modified version of the method found in SEARCH FRAGMENT
-
-        // pos: is the order in the current FAVORITES list
-        // method returns the ORIGINAL index in the Defaults.dataList [randomized or not .. ]
-        // which is used to play tracks in home fragment
-        // by COMPARING the track titles ... (basic searching)
-
-        BroadcastDataClass item = (BroadcastDataClass) adapter.getItem(pos);
-        String itemTitle = item.getTitle();
-        for (int index = 0; index < Defaults.dataList.size(); index += 1) {
-            if (Defaults.dataList.get(index).getTitle().equals(itemTitle)) {
-                return index;
-            }
-        }
-        return 0; // default return value to play first item in track list
     }
 
 
