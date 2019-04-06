@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
+import com.hackathon.radioetzionapp.Utils.Utils;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class SearchFragment extends Fragment {
@@ -96,24 +97,36 @@ public class SearchFragment extends Fragment {
                 navBar.setSelectedItemId(R.id.navigation_home);
             }
 
-            private int getSelectedItemIndex(int pos) {
-                // pos: is the order the current SEARCH SUGGESTIONS list
-                // method returns the ORIGINAL index in the Defaults.dataList
-                // which is used to play tracks in home fragment
-                // by COMPARING the track titles ... (basic searching)
 
+        });
 
-                String item = arrayAdapter.getItem(pos);
-                // using good old for loop to get the index ...
-                for (int index = 0; index < Defaults.dataList.size(); index += 1) {
-                    if (Defaults.dataList.get(index).getTitle().equals(item)) {
-                        return index;
-                    }
-                }
-
-                return 0; // default return value to play first item in track list
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // position is ordered in the adapter
+                // but may not be in the original list
+                // so we need to use the function to get the true index
+                Utils.showTrackInfoDialog(context, getSelectedItemIndex(position));
+                return true;  // to make short click work ok ...
             }
         });
+    }
+
+    private int getSelectedItemIndex(int pos) {
+        // pos: is the order the current SEARCH SUGGESTIONS list
+        // method returns the ORIGINAL index in the Defaults.dataList [randomized or not .. ]
+        // which is used to play tracks in home fragment
+        // by COMPARING the track titles ... (basic searching)
+
+
+        String item = arrayAdapter.getItem(pos);
+        // using good old for loop to get the index ...
+        for (int index = 0; index < Defaults.dataList.size(); index += 1) {
+            if (Defaults.dataList.get(index).getTitle().equals(item)) {
+                return index;
+            }
+        }
+        return 0; // default return value to play first item in track list
     }
 
     private void setSearch() {
@@ -126,8 +139,8 @@ public class SearchFragment extends Fragment {
         mMaterialSearchView = rootView.findViewById(R.id.searchView);
 
         // add voice search option
-        mMaterialSearchView.setVoiceSearch(true);
-        mMaterialSearchView.setVoiceIcon(context.getDrawable(R.drawable.ic_voice_search_white));
+        //mMaterialSearchView.setVoiceSearch(true);
+        //mMaterialSearchView.setVoiceIcon(context.getDrawable(R.drawable.ic_voice_search_white));
 
 
         listView = rootView.findViewById(R.id.listSearchItems);
