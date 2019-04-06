@@ -9,7 +9,7 @@
 
     <stroke
         android:width="3dp"
-        android:color="@color/navbar_back_color" />
+        android:color="@color/secondaryText" />
 
     <corners android:radius="16dp" />
 

@@ -138,7 +138,7 @@ public class SearchFragment extends Fragment {
     private void setSearchPointers() {
         mMaterialSearchView = rootView.findViewById(R.id.searchView);
 
-        // add voice search option
+        // add voice search option   // FORSAKEN due to time constraints ... for later ...
         //mMaterialSearchView.setVoiceSearch(true);
         //mMaterialSearchView.setVoiceIcon(context.getDrawable(R.drawable.ic_voice_search_white));
 

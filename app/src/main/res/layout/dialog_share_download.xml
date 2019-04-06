@@ -1,3 +1,10 @@
+<!--
+        NOTE:
+        This dialog was forsaken, cause no Download action due to time constraints
+           for later ...
+-->
+
+
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textDirection="locale"

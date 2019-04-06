@@ -10,14 +10,13 @@
 
     <ImageView
         android:id="@+id/img_ItemBroadcast"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_audiotrack"
-        android:tint="@color/album_alternate_1"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp" />
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_music_suggestion"
+        android:tint="@color/album_alternate_1" />
 
     <TextView
         android:id="@+id/txtBroadcastTitle_ItemBroadcast"

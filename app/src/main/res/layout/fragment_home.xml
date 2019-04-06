@@ -71,8 +71,6 @@
             android:id="@+id/lstBroadcasts"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -118,65 +116,6 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/laySeekbars"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        android:orientation="horizontal"
-        android:background="@color/navbar_back_color">
-
-
-        <ImageView
-            android:id="@+id/btnVolume_MiniPlayer"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_volume_middle"
-            android:backgroundTint="@color/lightPrimaryColor"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/_14sdp" />
-
-        <SeekBar
-            android:id="@+id/volumeBar"
-            android:layout_toEndOf="@id/btnVolume_MiniPlayer"
-            android:layout_centerVertical="true"
-            android:visibility="invisible"
-            android:background="@drawable/background_volumebar"
-            android:progressTint="@color/colorPrimaryDark"
-            android:progressBackgroundTint="@color/navbar_item_text"
-            android:thumbTint="@color/navbar_back_color"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_20sdp" />
-
-        <SeekBar
-            android:visibility="visible"
-            android:id="@+id/positionBar"
-            android:layout_height="@dimen/_25sdp"
-            android:progressTint="@android:color/holo_orange_dark"
-            android:progressBackgroundTint="@color/navbar_item_text"
-            android:thumbTint="@color/lightPrimaryColor"
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/btnVolume_MiniPlayer"
-            android:layout_toStartOf="@id/txtTimeLabel" />
-
-
-        <TextView
-            android:id="@+id/txtTimeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_25sdp"
-            android:gravity="center"
-            android:textSize="@dimen/_10ssp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/_14sdp"
-            android:textColor="@color/navbar_item_text"
-            android:text="--:--/--:--" />
-
-
-    </RelativeLayout>
 
     <LinearLayout android:id="@+id/layoutMiniPlayer"
         android:layoutDirection="rtl"
@@ -284,10 +223,78 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/laySeekbars"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_3sdp"
-        android:background="@color/lightPrimaryColor" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:orientation="horizontal"
+        android:background="@color/navbar_back_color">
+
+
+        <ImageView
+            android:id="@+id/btnVolume_MiniPlayer"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_volume_middle"
+            android:backgroundTint="@color/lightPrimaryColor"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_14sdp" />
+
+        <SeekBar
+            android:id="@+id/volumeBar"
+            android:layout_toEndOf="@id/btnVolume_MiniPlayer"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"
+            android:background="@drawable/background_volumebar"
+            android:progressTint="@color/colorPrimaryDark"
+            android:progressBackgroundTint="@color/navbar_item_text"
+            android:thumbTint="@color/navbar_back_color"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_20sdp" />
+
+        <SeekBar
+            android:visibility="visible"
+            android:id="@+id/positionBar"
+            android:layout_height="@dimen/_25sdp"
+            android:progressTint="@android:color/holo_orange_dark"
+            android:progressBackgroundTint="@color/navbar_item_text"
+            android:thumbTint="@color/lightPrimaryColor"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/txtTimeLabelTotal"
+            android:layout_toStartOf="@id/txtTimeLabelCurrent" />
+
+
+        <TextView
+            android:id="@+id/txtTimeLabelCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="--:--" />
+
+        <TextView
+            android:id="@+id/txtTimeLabelTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/btnVolume_MiniPlayer"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:textColor="@color/navbar_item_text"
+            android:text="--:--" />
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

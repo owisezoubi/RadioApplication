@@ -29,7 +29,7 @@
                 android:background="@drawable/ic_cancel_red"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:backgroundTint="@android:color/holo_red_dark" />
+                android:backgroundTint="@color/navbar_item_text" />
 
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2sdp"
-                android:background="@color/navbar_back_color" />
+                android:background="@color/secondaryText" />
 
             <TextView
                 android:layout_margin="@dimen/_10sdp"
@@ -91,7 +91,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:background="@color/navbar_back_color" />
+                android:background="@color/secondaryText" />
 
             <TextView
                 android:layout_margin="@dimen/_10sdp"

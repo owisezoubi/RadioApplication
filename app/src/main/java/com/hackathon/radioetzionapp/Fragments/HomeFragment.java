@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     FloatingActionButton btnShare; // floating (& movable) share button
     SeekBar positionBar, volumeBar;
     ImageView btnVolume;
-    TextView timeLabel;
+    TextView timeLabelTotal, timeLabelCurrent;
     int totalTime;
 
     // media player (aka: mini-player) and related fields  ...
@@ -288,13 +288,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 repeatOneToggle();
             }
         });
-
-        imgLogo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logoColorBlinkEffect();
-            }
-        });
     }
 
     private void listListeners() {
@@ -430,7 +423,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
 
             private void downloadURL(String url, String name) {
-                // TODO DOWNLOAD URL
+                // FOR LATER , forsaken due to time constraints ...
             }
         });
 
@@ -448,10 +441,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         });
 
 
-    }
-
-    private void logoColorBlinkEffect() {
-        // TODO  color blink animation ?!?!
     }
 
 
@@ -544,20 +533,19 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             positionBar.setProgress(currentPosition);
 
             // Update Labels.
-            String elapsedTime = createTimeLabel(currentPosition);
-            String totalTimeStr = createTimeLabel(totalTime);
-            timeLabel.setText(elapsedTime + "/" + totalTimeStr);
+            timeLabelCurrent.setText(createTimeLabel(currentPosition));
+            timeLabelTotal.setText(createTimeLabel(totalTime));
         }
     };
 
-    public String createTimeLabel(int time) {
-        String timeLabel = "";
+    public StringBuilder createTimeLabel(int time) {
+        StringBuilder timeLabel;
         int min = time / 1000 / 60;
         int sec = time / 1000 % 60;
 
-        timeLabel = min + ":";
-        if (sec < 10) timeLabel += "0";
-        timeLabel += sec;
+        timeLabel = new StringBuilder(min + ":");
+        if (sec < 10) timeLabel.append("0");
+        timeLabel.append(sec);
 
         return timeLabel;
     }
@@ -762,7 +750,8 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         imgLogo = rootView.findViewById(R.id.imgLogoStart_MiniPlayer);
         volumeBar = rootView.findViewById(R.id.volumeBar);
         positionBar = rootView.findViewById(R.id.positionBar);
-        timeLabel = rootView.findViewById(R.id.txtTimeLabel);
+        timeLabelTotal = rootView.findViewById(R.id.txtTimeLabelTotal);
+        timeLabelCurrent = rootView.findViewById(R.id.txtTimeLabelCurrent);
         btnVolume = rootView.findViewById(R.id.btnVolume_MiniPlayer);
         // now playing
         txtPlayingNow = rootView.findViewById(R.id.txtPlayingNow);
