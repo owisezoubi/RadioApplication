@@ -427,7 +427,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
 
             private void downloadURL(String url, String name) {
-                // TODO
+                // TODO DOWNLOAD URL
             }
         });
 
@@ -560,8 +560,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void shuffleToggle() {
-        // TODO
-
         // if list is empty , get out
         if (Defaults.dataList.isEmpty()) return;
 
@@ -581,11 +579,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         // adapter refresh
         adapter = new BroadcastListAdapter(context, Defaults.dataList);
         listViewBroadcasts.setAdapter(adapter);
-
-        // syncing with other lists: search & favorites (for play on click to work ok)
-        // TODO sync with other lists ... search, favorites ...
-
-
     }
 
     private List<BroadcastDataClass> getSortedList() {

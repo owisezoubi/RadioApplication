@@ -1,12 +1,24 @@
 package com.hackathon.radioetzionapp.Adapters;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 
+import com.hackathon.radioetzionapp.Data.BroadcastDataClass;
+
+import java.util.List;
+
 public class FavoritesListAdapter extends BaseAdapter implements Animation.AnimationListener {
 
+    Context context;
+    List<BroadcastDataClass> lstData;
+
+    public FavoritesListAdapter(Context context, List<BroadcastDataClass> lstFavData) {
+        this.context = context;
+        this.lstData = lstFavData;
+    }
 
     @Override
     public int getCount() {
