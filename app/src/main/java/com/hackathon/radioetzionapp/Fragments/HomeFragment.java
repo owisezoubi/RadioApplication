@@ -485,7 +485,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                         float volumeNum = progress / 100f;
-                        btnVolume.setImageResource(getVolumeIcon((int) volumeNum));
+                        btnVolume.setBackgroundResource(getVolumeIcon((int) (volumeNum * 100)));
                         mp.setVolume(volumeNum, volumeNum);
                     }
 
