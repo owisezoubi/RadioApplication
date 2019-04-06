@@ -29,7 +29,7 @@
                 android:background="@drawable/ic_cancel_red"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:backgroundTint="@color/av_red" />
+                android:backgroundTint="@android:color/holo_red_dark" />
 
 
             <TextView

@@ -133,7 +133,7 @@
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_volume_black"
+            android:background="@drawable/ic_volume_middle"
             android:backgroundTint="@color/lightPrimaryColor"
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_14sdp" />
@@ -154,7 +154,7 @@
             android:visibility="visible"
             android:id="@+id/positionBar"
             android:layout_height="@dimen/_25sdp"
-            android:progressTint="@color/av_orange"
+            android:progressTint="@android:color/holo_orange_dark"
             android:progressBackgroundTint="@color/navbar_item_text"
             android:thumbTint="@color/lightPrimaryColor"
             android:layout_width="wrap_content"
