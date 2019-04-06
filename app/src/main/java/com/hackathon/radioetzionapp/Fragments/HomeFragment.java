@@ -561,6 +561,68 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
     private void shuffleToggle() {
         // TODO
+
+        // if list is empty , get out
+        if (Defaults.dataList.isEmpty()) return;
+
+        if (isShuffled) // then sort
+        {
+            Defaults.dataList = getSortedList();  // by the INDEX field of BroadcastDataClass ! //
+            isShuffled = false;
+            btnShuffle.setColorFilter(ContextCompat.getColor(context, R.color.lightPrimaryColor));
+        } else // then shuffle / randomize list items ...
+        {
+            Defaults.dataList = getShuffledList();
+            isShuffled = true;
+            btnShuffle.setColorFilter(ContextCompat.getColor(context, R.color.navbar_item_text_selected));
+        }
+
+        // finishing touches ...
+        // adapter refresh
+        adapter = new BroadcastListAdapter(context, Defaults.dataList);
+        listViewBroadcasts.setAdapter(adapter);
+
+        // syncing with other lists: search & favorites (for play on click to work ok)
+        // TODO sync with other lists ... search, favorites ...
+
+
+    }
+
+    private List<BroadcastDataClass> getSortedList() {
+        // sorting is from oldest track to newest, according to the INDEX FIELD of each list-object
+        // NOTE: the order of the item (index) in the list is from 0 to size()-1
+        // BUT the INDEX FIELD value of each object is from 1 to size() !
+
+        List<BroadcastDataClass> tmp = new ArrayList<>();
+        while (!Defaults.dataList.isEmpty()) // repeat until empty
+        {
+            // find the item with the LEAST INDEX
+            BroadcastDataClass smallestIndexItem = Defaults.dataList.get(0);
+            for (BroadcastDataClass item : Defaults.dataList) {
+                if (item.getIndex() < smallestIndexItem.getIndex()) {
+                    smallestIndexItem = item;
+                }
+            }
+            // remove the item from Defaults.datalist and ADD it to tmp
+            tmp.add(smallestIndexItem); // add to tmp list
+            Defaults.dataList.remove(smallestIndexItem); // remove from original list
+        }
+        return tmp;
+    }
+
+    private List<BroadcastDataClass> getShuffledList() {
+        List<BroadcastDataClass> tmp = new ArrayList<>();
+        int maxValue = Defaults.dataList.size(), randomNum;
+        while (!Defaults.dataList.isEmpty()) // repeat until empty
+        {
+            // generate random number from [0..datalist.size()-1]
+            randomNum = (int) (Math.random() * maxValue);
+            //remove the element from Defaults.datalist and add to tmp list
+            tmp.add(Defaults.dataList.remove(randomNum));
+            // re-calc maxValue based on new reduced size
+            maxValue = Defaults.dataList.size();
+        }
+        return tmp;
     }
 
     private void repeatOneToggle() {
