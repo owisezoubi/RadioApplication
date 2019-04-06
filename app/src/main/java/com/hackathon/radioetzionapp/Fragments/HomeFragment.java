@@ -368,7 +368,10 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                     return;
                 }
 
-                dialog_ShareOrDownload();
+                shareURL(Defaults.serverURL + Defaults.dataList.
+                        get(currentTrackIndex).getFilename(), currentTrackTitle);
+
+                // dialog_ShareOrDownload(); // download was FORSAKEN for now due to time constraints !
             }
 
             private void dialog_ShareOrDownload() {
@@ -1004,13 +1007,17 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (lastAction == MotionEvent.ACTION_DOWN)
+                // for NO or little movement , do click event
+                if (lastAction == MotionEvent.ACTION_DOWN ||
+                        (lastAction == MotionEvent.ACTION_MOVE && Math.sqrt(dX * dX + dY * dY) < 150)) {
                     btnShare.performClick();
+                }
                 break;
 
             default:
                 return false;
         }
+        Log.e("xy", "dX: " + dX + " , dY: " + dY + ", distance:" + Math.sqrt(dX * dX + dY * dY) + "\n");
         return true;
     }
 }
