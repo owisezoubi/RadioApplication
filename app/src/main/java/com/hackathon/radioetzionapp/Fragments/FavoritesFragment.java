@@ -29,16 +29,6 @@ public class FavoritesFragment extends Fragment {
 
     FavoritesSharedPref favoritesSharedPref;
 
-    // TODO fix errors !
-    /*
-
-        DONE 1.  on item click >> open track in HOME (same code as in SEARCH)
-        DONE 2.  on item LONG click >> show track info (same same )
-        DONE 3.  INSIDE ADAPTER >> on HEART click >> show also track info
-        DONE 4.  on REMOVE click >> remove from shared pref and refresh adapter for this list
-
-     */
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
