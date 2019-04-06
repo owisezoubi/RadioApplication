@@ -433,9 +433,11 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 if (volumeBar.getVisibility() == View.VISIBLE) {
                     volumeBar.setVisibility(View.INVISIBLE);
                     positionBar.setVisibility(View.VISIBLE);
+                    timeLabelTotal.setVisibility(View.VISIBLE);
                 } else {
                     volumeBar.setVisibility(View.VISIBLE);
                     positionBar.setVisibility(View.INVISIBLE);
+                    timeLabelTotal.setVisibility(View.INVISIBLE);
                 }
             }
         });
