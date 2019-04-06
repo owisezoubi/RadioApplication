@@ -14,7 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_favorite"
-        android:tint="@color/album_alternate_1"
+        android:tint="@android:color/holo_red_dark"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp" />
 
@@ -38,7 +38,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_remove_circle_outline_black"
-        android:tint="@android:color/holo_red_dark"
+        android:tint="@android:color/holo_red_light"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp" />
 
