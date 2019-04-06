@@ -1,5 +1,6 @@
 package com.hackathon.radioetzionapp.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,17 @@ import com.hackathon.radioetzionapp.R;
 
 public class FavoritesFragment extends Fragment {
 
+    Context context;
+    View rootView;
+
+    // TODO
+    /*
+        1.  on item click >> open track in HOME (same code as in SEARCH)
+        2.  on item LONG click >> show track info (same same )
+        3.  INSIDE ADAPTER >> on HEART click >> show also track info
+        4.  on REMOVE click >> remove from shared pref and refresh adapter for this list
+
+     */
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -19,14 +31,23 @@ public class FavoritesFragment extends Fragment {
         if (hidden) {
             //Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
         } else {
-            //Toast.makeText(getActivity(), "showing me", Toast.LENGTH_SHORT).show();
+            setPointers();
+            loadFavoritesList(); // updated every time this fragment is shown !
         }
+    }
+
+    private void setPointers() {
+        this.context = getActivity();
+    }
+
+    private void loadFavoritesList() {
     }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favorites, null);
+        rootView = inflater.inflate(R.layout.fragment_favorites, null);
+        return rootView;
     }
 }
