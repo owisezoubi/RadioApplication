@@ -9,6 +9,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
+        android:scaleType="fitXY"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
         android:id="@+id/img_ItemBroadcast"
         android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_5sdp"

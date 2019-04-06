@@ -8,6 +8,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
+        android:scaleType="fitXY"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
         android:id="@+id/img_ItemFavorite"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"

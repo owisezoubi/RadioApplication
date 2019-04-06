@@ -511,16 +511,12 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             @Override
             public void run() {
                 while (mp != null) {
-                    try {
                         if (mp.isPlaying()) { // this solved many crashes ...
                             Message msg = new Message();
                             msg.what = mp.getCurrentPosition();
                             handler.sendMessage(msg);
                         }
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    SystemClock.sleep(1000);
                 }
             }
         }).start();
