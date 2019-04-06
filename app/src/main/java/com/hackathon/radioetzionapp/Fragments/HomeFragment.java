@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
             }
             wasCalledFromOtherFragment = false; // reset to false , for next time ...
 
-            if (mp != null && mp.isPlaying()) {
+            if (mp != null && isPrepared) {
                 getActivity().findViewById(R.id.laySeekbars).setVisibility(View.VISIBLE);
             } else {
                 // hidden until track is prepared to play
@@ -143,7 +143,6 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
         listListeners();
         otherListeners();
     }
-
 
 
     private void mediaPlayerListeners() {
@@ -609,8 +608,8 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
     private void repeatOneToggle() {
 
-        // if not initialized or is loading , get out
-        if (mp == null || !isPrepared) return;
+        // if not initialized, get out
+        if (mp == null) return;
 
         if (mp.isLooping()) // on
         {   // turn off
@@ -712,6 +711,9 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     private void loadTrack(int pos) {
         mp.reset(); // in any case, reset first , then load
         isPrepared = false;
+        mp.setLooping(false);
+        btnRepeatOne.setColorFilter(ContextCompat.getColor(context, R.color.lightPrimaryColor));
+
         try {
             String url = Defaults.serverURL +
                     URLEncoder.encode(Defaults.dataList.get(pos).getFilename(), "UTF-8");
