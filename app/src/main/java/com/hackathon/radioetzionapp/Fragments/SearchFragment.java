@@ -103,8 +103,8 @@ public class SearchFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // position is ordered in the adapter
-                // but may not be in the original list
+                // position is ordered in the adapter of this search list ... from oldest to newest track
+                // BUT may not be in the original list [might be shuffled!]
                 // so we need to use the function to get the true index
                 Utils.showTrackInfoDialog(context, getSelectedItemIndex(position));
                 return true;  // to make short click work ok ...
@@ -141,7 +141,6 @@ public class SearchFragment extends Fragment {
         // add voice search option
         //mMaterialSearchView.setVoiceSearch(true);
         //mMaterialSearchView.setVoiceIcon(context.getDrawable(R.drawable.ic_voice_search_white));
-
 
         listView = rootView.findViewById(R.id.listSearchItems);
         arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,
