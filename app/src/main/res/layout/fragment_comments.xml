@@ -32,7 +32,7 @@
             android:text="title "
             android:layout_marginTop="@dimen/_5sdp"
             android:textAlignment="center"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_14ssp"
             android:layout_centerVertical="true"
             android:padding="@dimen/_5sdp"
             android:textStyle="bold"
