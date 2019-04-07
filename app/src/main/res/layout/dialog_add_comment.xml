@@ -53,7 +53,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_160sdp"
             android:orientation="vertical">
@@ -74,52 +74,51 @@
 
                 android:gravity="start"
 
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+
                 android:textColor="@color/navbar_back_color"
                 android:textColorHint="@color/secondaryText"
                 android:textSize="@dimen/_12ssp" />
 
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/txtInputCommentUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/_30sdp"
+                android:hint="@string/comment_add_enter_name"
+                android:background="#77ffffff"
 
-                <EditText
-                    android:id="@+id/txtInputCommentUsername"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:hint="@string/comment_add_enter_name"
-                    android:background="#77ffffff"
+                android:scrollbarFadeDuration="0"
+                android:scrollbars="horizontal"
 
-                    android:scrollbarFadeDuration="0"
-                    android:scrollbars="horizontal"
+                android:layout_alignStart="@id/txtInputCommentContent"
+                android:layout_below="@id/txtInputCommentContent"
+                android:layout_toStartOf="@id/btnCommentSubmit"
+                android:layout_marginEnd="@dimen/_3sdp"
 
-                    android:gravity="start"
-                    android:textColor="@color/navbar_back_color"
-                    android:textColorHint="@color/secondaryText"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_weight="1" />
+                android:gravity="start"
+                android:textColor="@color/navbar_back_color"
+                android:textColorHint="@color/secondaryText"
+                android:textSize="@dimen/_12ssp" />
 
-                <Button
-                    android:id="@+id/btnCommentSubmit"
-                    android:layout_gravity="end"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_150sdp"
-                    android:layout_width="match_parent"
-                    android:text="@string/btn_submit_comment"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:background="@color/back_comments"
-                    android:textColor="@color/navbar_item_text"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_weight="3" />
+            <Button
+                android:id="@+id/btnCommentSubmit"
 
-            </LinearLayout>
+                android:layout_below="@id/txtInputCommentContent"
+                android:layout_alignEnd="@id/txtInputCommentContent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:text="@string/btn_submit_comment"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:background="@color/back_comments"
+                android:textColor="@color/navbar_item_text"
+                android:layout_height="@dimen/_35sdp" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
     </LinearLayout>

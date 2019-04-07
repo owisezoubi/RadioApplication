@@ -38,4 +38,5 @@
     <string name="no_comments_found">no comments yet for this broadcast ...</string>
     <string name="dialog_add_comment_empty_fields">please fill up all required fields</string>
     <string name="dialog_add_comment_error_while_updating">error while updating comments data, please check internet connection and try again</string>
+    <string name="see_more">(see more)</string>
 </resources>

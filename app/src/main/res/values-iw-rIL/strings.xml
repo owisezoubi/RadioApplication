@@ -37,4 +37,5 @@
     <string name="no_comments_found">אין עדיין תגובות לשידור זה ...</string>
     <string name="dialog_add_comment_empty_fields">"יש למלא את כל השדות "</string>
     <string name="dialog_add_comment_error_while_updating">שגיאה במהלך עדכון התגובות , נא להתחבר לאינטרנט ולנסות שוב</string>
+    <string name="see_more">(ראה עוד)</string>
 </resources>

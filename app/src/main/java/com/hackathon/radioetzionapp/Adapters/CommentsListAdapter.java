@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CommentsListAdapter extends BaseAdapter {
 
-    final String SUFFIX_STRING = " ... ";
+    String SUFFIX_STRING = " ... ";
     final int MAX_CONTENT_LENGTH = 100;
 
     Context context;
@@ -29,6 +29,7 @@ public class CommentsListAdapter extends BaseAdapter {
         this.context = context;
         this.trackIndex = trackIndex;
         this.commentsList = Defaults.dataList.get(trackIndex).getCommentsList();
+        SUFFIX_STRING += context.getString(R.string.see_more);
     }
 
     @Override
