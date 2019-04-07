@@ -20,24 +20,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cloudant.sync.documentstore.DocumentNotFoundException;
-import com.cloudant.sync.documentstore.DocumentRevision;
-import com.cloudant.sync.documentstore.DocumentStore;
-import com.cloudant.sync.documentstore.DocumentStoreException;
-import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
-import com.cloudant.sync.replication.Replicator;
-import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
-import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
-import com.hackathon.radioetzionapp.Utils.UtilsSetData;
-
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 
 public class CommentsFragment extends Fragment {
@@ -180,7 +167,10 @@ public class CommentsFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+                //submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+
+                // TODO:  Issue with updating comments in cloudant , not solved by now ...!
+                // submit function does not work  ..
 
             }
         });
@@ -188,7 +178,7 @@ public class CommentsFragment extends Fragment {
         addCommentDialog.create();
         addCommentDialog.show();
     }
-
+/*
     private void submitComment(String content, String username) {
 
         // step 1: check content & username validity // for now if not empty fields is enough
@@ -223,7 +213,11 @@ public class CommentsFragment extends Fragment {
         }
 
 
-        // step 1:  get doc from remote // PULL
+        // step 1: add new comment obj to LOCAL data list
+        Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
+
+
+        // step 2:  PULL previous revision from remote
         URI uri = null;
         DocumentStore dsTmp = null;
         try {
@@ -245,7 +239,6 @@ public class CommentsFragment extends Fragment {
         pullReplicator.start();
 
 
-        // 2 // change & update (local)
         DocumentRevision prevRevision = null;
         try {
             prevRevision = dsTmp.database().read(Defaults.BroadcastsDocID);
@@ -259,81 +252,39 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
+        // TODO problem area ...
+        // putting comment object inside the appropriate OBJECT of data (by its index) == trackIndex above
+        // query
 
-        // storing db data into local objects & lists
-        UtilsSetData.setAllData(prevRevision);
+//        Query q = dsTmp.query();
+//
+//
+//        Map<String,Object> query = new HashMap<String,Object>();
+//        Map<String,Object> equalsIndex = new HashMap<String,Object>();
+//        equalsIndex.put()
+//        query.put("data.index",equalsIndex);
+//
+//        // Create an index over the data (array)
+//        try {
+//            Index i = q.createJsonIndex(Arrays.<FieldSort>asList(new FieldSort("data"), new FieldSort("age"), new FieldSort("pet"),
+//                    new FieldSort("basic")), null);
+//        } catch (QueryException e) {
+//
+//        }
+
+
+
+        // step 4: update LOCAL doc store
+
+
+
+        // step 5: PUSH D.S. to remote
+
+
+
+        // reached end and all is ok , return true
         return true;
     }
-        /*
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!! stuck here !! ///////
-        Map<String, Object> tmpMap = prevRevision.getBody().asMap();
-        tmpMap.put(Defaults.BroadcastDoc_Key_dataList,
-        prevRevision.setBody(DocumentBodyFactory.create(tmpMap));
-
-
-        // updating prevRevision with new one
-        DocumentRevision newRevision = null;
-        try {
-            newRevision = dsTmp.database().update(prevRevision);
-        } catch (ConflictException e) {
-            e.printStackTrace();
-        } catch (AttachmentException e) {
-            e.printStackTrace();
-        } catch (DocumentStoreException e) {
-            e.printStackTrace();
-        } catch (DocumentNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if (newRevision == null) {
-            msgFailed("ERROR !  # 3");
-            return;
-        }
-
-        /*
-
-
-
-        // 2 // change & update (local)
-        DocumentRevision prevRevision=null;
-        try {
-            prevRevision = dsTmp.database().read(docID);
-        } catch (DocumentNotFoundException e) { e.printStackTrace(); }
-        catch (DocumentStoreException e) { e.printStackTrace(); }
-
-        if(prevRevision==null) {
-            msgFailed("ERROR !  # 2 ");
-            return;
-        }
-
-        Map<String,Object> tmpMap = prevRevision.getBody().asMap();
-        tmpMap.put("new DATA",txtUpdate.getText().toString().isEmpty()?
-                "N/A":txtUpdate.getText().toString());
-        prevRevision.setBody(DocumentBodyFactory.create(tmpMap));
-
-
-        // updating prevRevision with new one
-        DocumentRevision newRevision = null;
-        try {
-            newRevision = dsTmp.database().update(prevRevision);
-        } catch (ConflictException e) {
-            e.printStackTrace();
-        } catch (AttachmentException e) {
-            e.printStackTrace();
-        } catch (DocumentStoreException e) {
-            e.printStackTrace();
-        } catch (DocumentNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        if(newRevision == null){
-            msgFailed("ERROR !  # 3");
-            return;
-        }
-
-        // 3 // replicate [local-> remote] // PUSH
-        Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
-        replicator.start();
 */
 
 
