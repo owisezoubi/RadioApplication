@@ -55,7 +55,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_160sdp"
             android:orientation="vertical">
 
 
@@ -106,7 +106,7 @@
                     android:layout_gravity="end"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_150sdp"
                     android:layout_width="match_parent"
                     android:text="@string/btn_submit_comment"
                     android:textAllCaps="false"
