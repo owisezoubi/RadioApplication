@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:textDirection="locale"
+    android:layoutDirection="locale"
+
+    android:orientation="vertical"
     android:background="@drawable/background_comments">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comments"
-        android:layout_centerInParent="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+    <RelativeLayout
+        android:id="@+id/layCommentsTop"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/btnPrevTitle_Comments"
+            android:layout_alignParentStart="true"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_chevron_left" />
+
+        <TextView
+            android:id="@+id/txtTitle_Comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_comments_title"
+            android:text="title "
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textAlignment="center"
+            android:textSize="@dimen/_16ssp"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:textColor="@color/album_alternate_2"
+            android:layout_toEndOf="@id/btnPrevTitle_Comments"
+            android:layout_toStartOf="@id/btnNextTitle_Comments" />
+
+        <ImageView
+            android:id="@+id/btnNextTitle_Comments"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/ic_chevron_right" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layCommentsBody"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/lstComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/btnAddComment" />
+
+
+        <ImageView
+            android:id="@+id/btnAddComment"
+            android:background="@drawable/button_add_comment"
+            android:src="@drawable/ic_add"
+            android:tint="@color/navbar_item_text"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

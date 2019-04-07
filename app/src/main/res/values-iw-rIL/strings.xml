@@ -27,4 +27,5 @@
     <string name="dialog_subtitle_broadcast_details">פרטי שידור</string>
     <string name="dialog_subtitle_broadcasters_participants">שדרים / משתתפים</string>
     <string name="dialog_subtitle_guests">אורחים</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a scelerisque magna, congue pretium neque. Fusce eget nunc aliquam, scelerisque nunc bibendum, sagittis augue. Ut in tristique nisi. Vivamus rutrum ut diam id faucibus.</string>
 </resources>

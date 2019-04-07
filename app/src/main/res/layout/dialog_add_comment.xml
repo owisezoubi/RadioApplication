@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/dialogAddComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_dialog_add_comment"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btnCancelDialogAddComment"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/ic_cancel_red"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:backgroundTint="@android:color/holo_green_light" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textAlignment="viewStart"
+                android:id="@+id/txtTitle_DialogAddComment"
+                android:textColor="@color/navbar_item_text"
+                android:text="Track Title"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:textStyle="bold|italic"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:textSize="@dimen/_14ssp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/txtInputCommentContent"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:hint="@string/add_comment_edittxt_content"
+                android:background="#77ffffff"
+
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarFadeDuration="0"
+                android:scrollbars="vertical"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+
+                android:gravity="start"
+
+                android:textColor="@color/navbar_back_color"
+                android:textColorHint="@color/secondaryText"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/txtInputCommentUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:hint="@string/comment_add_enter_name"
+                    android:background="#77ffffff"
+
+                    android:scrollbarFadeDuration="0"
+                    android:scrollbars="horizontal"
+
+                    android:gravity="start"
+                    android:textColor="@color/navbar_back_color"
+                    android:textColorHint="@color/secondaryText"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnCommentSubmit"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:text="@string/btn_submit_comment"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:background="@color/back_comments"
+                    android:textColor="@color/navbar_item_text"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_weight="3" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<RelativeLayout android:id="@+id/layItemCommentParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clear"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:id="@+id/layItemCommentProper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:background="@drawable/back_item_comment"
+        android:backgroundTint="#4E9652"
+        android:layout_toStartOf="@id/commentItemEmptySpace">
+
+        <TextView
+            android:id="@+id/txtCommentContent"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:textSize="@dimen/_12ssp"
+            android:text="@string/dummy_text"
+            android:layout_width="match_parent"
+            android:textColor="@color/navbar_back_color"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txtCommentatorName"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtCommentContent"
+            android:layout_toStartOf="@id/txtTimeStamp_Comment"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:textSize="@dimen/_10ssp"
+            android:text="first name last name"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/txtTimeStamp_Comment"
+            android:layout_below="@id/txtCommentContent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_10ssp"
+            android:text="DD-MM-YYYY hh:mm"
+            android:textColor="@color/secondaryText"
+            android:textStyle="italic"
+            android:paddingStart="@dimen/_5ssp"
+            android:textAlignment="textEnd" />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/commentItemEmptySpace"
+        android:background="@color/clear"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/layItemCommentProper"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+
+
+
