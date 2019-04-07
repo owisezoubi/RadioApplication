@@ -20,27 +20,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cloudant.sync.documentstore.AttachmentException;
-import com.cloudant.sync.documentstore.ConflictException;
-import com.cloudant.sync.documentstore.DocumentBodyFactory;
-import com.cloudant.sync.documentstore.DocumentNotFoundException;
-import com.cloudant.sync.documentstore.DocumentRevision;
-import com.cloudant.sync.documentstore.DocumentStore;
-import com.cloudant.sync.documentstore.DocumentStoreException;
-import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
-import com.cloudant.sync.replication.Replicator;
-import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
-import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
-
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
 
 
 public class CommentsFragment extends Fragment {
@@ -181,15 +165,16 @@ public class CommentsFragment extends Fragment {
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {/*
                 submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+            */
             }
         });
 
         addCommentDialog.create();
         addCommentDialog.show();
     }
-
+/*
     private void submitComment(String content, String username) {
 
         // step 1: check content & username validity // for now if not empty fields is enough
@@ -260,9 +245,9 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!! stuck here !! ///////
         Map<String, Object> tmpMap = prevRevision.getBody().asMap();
-        tmpMap.put("new DATA", txtUpdate.getText().toString().isEmpty() ?
-                "N/A" : txtUpdate.getText().toString());
+        tmpMap.put(Defaults.BroadcastDoc_Key_dataList,
         prevRevision.setBody(DocumentBodyFactory.create(tmpMap));
 
 
@@ -329,9 +314,9 @@ public class CommentsFragment extends Fragment {
         // 3 // replicate [local-> remote] // PUSH
         Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
         replicator.start();
-         */
-    }
 
+    }
+*/
 
     private void showCommentData() {
 
