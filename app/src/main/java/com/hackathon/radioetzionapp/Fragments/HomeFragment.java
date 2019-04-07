@@ -938,23 +938,30 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                     (String) item.get(Defaults.BroadcastDoc_Key_dataListItem_filename),
                     (List<String>) item.get(Defaults.BroadcastDoc_Key_dataListItem_broadcastersList),
                     (List<String>) item.get(Defaults.BroadcastDoc_Key_dataListItem_guestsList),
-                    (List<CommentDataClass>) item.get(Defaults.BroadcastDoc_Key_dataListItem_commentsList)
+                    parseCommentsList((List<Map<String, Object>>) item.get(Defaults.BroadcastDoc_Key_dataListItem_commentsList))
             ));
-
-            // TODO: initialize CommentDataClass inside the map (current item)
-            /*
-            int itemIndex = broadcastsList.size()-1;
-            for(CommentDataClass commentItem: broadcastsList.get(itemIndex).getCommentsList())
-            {
-                commentItem = new CommentDataClass(
-                  broadcastsList.get(itemIndex)
-                );
-            }
-            */
         }
 
         // after done loading data, add titles to searchSuggestions list // "sub-list" //
         setSearchSuggestions();
+    }
+
+    private List<CommentDataClass> parseCommentsList(List<Map<String, Object>> commentsList) {
+
+        // commentsList is a list of Map<String,Object> items
+        // doing the same as done to data-list above
+
+        List<CommentDataClass> result = new ArrayList<>(); // our comments list to fill up & RETURN //
+
+        for (Map<String, Object> item : commentsList) {
+            result.add(new CommentDataClass(
+                    Long.parseLong((String) item.get(Defaults.BroadcastDoc_Key_dataListItem_comments_time)),
+                    (String) item.get(Defaults.BroadcastDoc_Key_dataListItem_comments_username),
+                    (String) item.get(Defaults.BroadcastDoc_Key_dataListItem_comments_content)
+            ));
+        }
+
+        return result;
     }
 
     private void setSearchSuggestions() {

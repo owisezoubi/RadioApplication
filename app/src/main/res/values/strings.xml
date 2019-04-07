@@ -32,4 +32,8 @@
     <string name="add_comment_edittxt_content">enter comment here ...</string>
     <string name="btn_submit_comment">Submit</string>
     <string name="comment_add_enter_name">enter your name ...</string>
+    <string name="loading_comments_list">Loading comments list ...</string>
+    <string name="no_internet_comments">no internet connection, cannot load comments list</string>
+    <string name="toast_comments_datalistempty">nothing to show, please connect to the internet and hit refresh in home screen</string>
+    <string name="no_comments_found">no comments yet for this broadcast ...</string>
 </resources>

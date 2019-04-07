@@ -34,6 +34,11 @@ public class Defaults {
     public static final String BroadcastDoc_Key_dataListItem_guestsList = "guests";
     public static final String BroadcastDoc_Key_dataListItem_commentsList = "comments";
 
+    // BroadcastDocument >> DataList >> commentsList >> Object/Item MapKeys
+    public static final String BroadcastDoc_Key_dataListItem_comments_time = "time";
+    public static final String BroadcastDoc_Key_dataListItem_comments_username = "username";
+    public static final String BroadcastDoc_Key_dataListItem_comments_content = "content";
+
     ///////////////////////////////////////////////////////////////////////////////////////
 
     // GLOBAL Static VARIABLES // which store data cached from cloudAnt db //

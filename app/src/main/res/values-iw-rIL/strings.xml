@@ -31,4 +31,8 @@
     <string name="add_comment_edittxt_content">תוכן תגובה ...</string>
     <string name="btn_submit_comment">שלח</string>
     <string name="comment_add_enter_name">שם מגיב ...</string>
+    <string name="loading_comments_list">טוען רשימת תגובות ...</string>
+    <string name="no_internet_comments">ללא חיבור לאינטרנט ! לא ניתן לטעון את הרשימה!</string>
+    <string name="toast_comments_datalistempty">אין מה להציג, בבקשה להתחבר לאינטרנט וללחוץ על רענון במסך הבית</string>
+    <string name="no_comments_found">אין עדיין תגובות לשידור זה ...</string>
 </resources>

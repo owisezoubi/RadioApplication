@@ -1,8 +1,11 @@
 package com.hackathon.radioetzionapp.Data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CommentDataClass {
 
-    private long timestamp; // UNIX time
+    private long timestamp; // UNIX time // in milliseconds
     private String username; // commentator
     private String content; // text content of comment
 
@@ -16,18 +19,17 @@ public class CommentDataClass {
         return timestamp;
     }
 
-    public String getTimestampFormatted(String format)
+    public String getTimestampFormatted(String formatPattern)
     {
-        // TODO
-        // YYYYMMDD-hhmmss  // or else //
-        return "";
+        Date tm = new Date(this.timestamp);
+        SimpleDateFormat timeFormat = new SimpleDateFormat(formatPattern);
+        return timeFormat.format(tm);
     }
+
 
     public String getTimestampFormatted()
     {
-        // TODO
-        // YYYYMMDD-hhmmss  // default format to pass to above method //
-        return "";
+        return getTimestampFormatted("dd-MM-yyyy\nHH:mm");
     }
 
     public String getUsername() {
