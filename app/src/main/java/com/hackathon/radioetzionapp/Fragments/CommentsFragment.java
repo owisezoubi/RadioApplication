@@ -20,11 +20,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudant.sync.documentstore.AttachmentException;
+import com.cloudant.sync.documentstore.ConflictException;
+import com.cloudant.sync.documentstore.DocumentBodyFactory;
+import com.cloudant.sync.documentstore.DocumentNotFoundException;
+import com.cloudant.sync.documentstore.DocumentRevision;
+import com.cloudant.sync.documentstore.DocumentStore;
+import com.cloudant.sync.documentstore.DocumentStoreException;
+import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
+import com.cloudant.sync.replication.Replicator;
+import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
+import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 
 public class CommentsFragment extends Fragment {
@@ -176,21 +192,144 @@ public class CommentsFragment extends Fragment {
 
     private void submitComment(String content, String username) {
 
-        // step 1: check content & username validity
+        // step 1: check content & username validity // for now if not empty fields is enough
+        if (content.isEmpty() || username.isEmpty()) {
+            Toast.makeText(context, getString(R.string.dialog_add_comment_empty_fields), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // step 2: create tmp Comment object & add timestamp
+        CommentDataClass tmp = new CommentDataClass(System.currentTimeMillis(), username, content);
+
+        // step 3: UPDATE local (Defaults.datalist) & remote db (cloudant) (pull & push to sync)
+        if (!updateCommentsList(tmp)) {
+            Toast.makeText(context, getString(R.string.dialog_add_comment_error_while_updating), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // step 4:  refresh adapter
+        showCommentData();
+    }
+
+    private boolean updateCommentsList(CommentDataClass newCommentObj) {
+
+        // returns true if all is OK & done
+        // false otherwise
 
 
-        // step 2: add timestamp
+        // step 0:  check internet connection
+        if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
+        {
+            return false;
+        }
 
 
-        // step 3: synchronize with local db
+        // step 1:  get doc from remote // PULL
+        URI uri = null;
+        DocumentStore dsTmp = null;
+        try {
+            uri = new URI(Defaults.CloudantURL + "/" + Defaults.RadioDBName);
+            dsTmp = DocumentStore.getInstance(new File(
+                    context.getDir(Defaults.LOCAL_DS_PATH, Context.MODE_PRIVATE),
+                    Defaults.RadioDBName));
+        } catch (URISyntaxException use) {
+            use.printStackTrace();
+        } catch (DocumentStoreNotOpenedException dsnoe) {
+            dsnoe.printStackTrace();
+        }
 
-        // step 4:  push to remote db
+        if (uri == null || dsTmp == null) {
+            return false;
+        }
+
+        Replicator pullReplicator = ReplicatorBuilder.pull().from(uri).to(dsTmp).build();
+        pullReplicator.start();
 
 
-        // step 5:  pull from remote (to sync with another devices)
+        // 2 // change & update (local)
+        DocumentRevision prevRevision = null;
+        try {
+            prevRevision = dsTmp.database().read(Defaults.BroadcastsDocID);
+        } catch (DocumentNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentStoreException e) {
+            e.printStackTrace();
+        }
+
+        if (prevRevision == null) {
+            return false;
+        }
+
+        Map<String, Object> tmpMap = prevRevision.getBody().asMap();
+        tmpMap.put("new DATA", txtUpdate.getText().toString().isEmpty() ?
+                "N/A" : txtUpdate.getText().toString());
+        prevRevision.setBody(DocumentBodyFactory.create(tmpMap));
 
 
-        // step 6: refresh adapter
+        // updating prevRevision with new one
+        DocumentRevision newRevision = null;
+        try {
+            newRevision = dsTmp.database().update(prevRevision);
+        } catch (ConflictException e) {
+            e.printStackTrace();
+        } catch (AttachmentException e) {
+            e.printStackTrace();
+        } catch (DocumentStoreException e) {
+            e.printStackTrace();
+        } catch (DocumentNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (newRevision == null) {
+            msgFailed("ERROR !  # 3");
+            return;
+        }
+
+        /*
+
+
+
+        // 2 // change & update (local)
+        DocumentRevision prevRevision=null;
+        try {
+            prevRevision = dsTmp.database().read(docID);
+        } catch (DocumentNotFoundException e) { e.printStackTrace(); }
+        catch (DocumentStoreException e) { e.printStackTrace(); }
+
+        if(prevRevision==null) {
+            msgFailed("ERROR !  # 2 ");
+            return;
+        }
+
+        Map<String,Object> tmpMap = prevRevision.getBody().asMap();
+        tmpMap.put("new DATA",txtUpdate.getText().toString().isEmpty()?
+                "N/A":txtUpdate.getText().toString());
+        prevRevision.setBody(DocumentBodyFactory.create(tmpMap));
+
+
+        // updating prevRevision with new one
+        DocumentRevision newRevision = null;
+        try {
+            newRevision = dsTmp.database().update(prevRevision);
+        } catch (ConflictException e) {
+            e.printStackTrace();
+        } catch (AttachmentException e) {
+            e.printStackTrace();
+        } catch (DocumentStoreException e) {
+            e.printStackTrace();
+        } catch (DocumentNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(newRevision == null){
+            msgFailed("ERROR !  # 3");
+            return;
+        }
+
+        // 3 // replicate [local-> remote] // PUSH
+        Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
+        replicator.start();
+         */
     }
 
 

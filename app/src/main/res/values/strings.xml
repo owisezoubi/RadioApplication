@@ -36,4 +36,6 @@
     <string name="no_internet_comments">no internet connection, cannot load comments list</string>
     <string name="toast_comments_datalistempty">nothing to show, please connect to the internet and hit refresh in home screen</string>
     <string name="no_comments_found">no comments yet for this broadcast ...</string>
+    <string name="dialog_add_comment_empty_fields">please fill up all required fields</string>
+    <string name="dialog_add_comment_error_while_updating">error while updating comments data, please check internet connection and try again</string>
 </resources>
