@@ -3,7 +3,6 @@
     android:layout_height="wrap_content"
     android:background="@color/clear"
 
-    android:layout_marginTop="@dimen/_10sdp"
 
 
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -13,6 +12,7 @@
         android:id="@+id/layItemCommentProper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layoutDirection="rtl"
         android:textDirection="rtl"
         android:background="@drawable/back_item_comment"

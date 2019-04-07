@@ -78,6 +78,8 @@ public class CommentsFragment extends Fragment {
 
             return -1;
         }
+        layBody.setVisibility(View.VISIBLE);
+        layTop.setVisibility(View.VISIBLE);
         return HomeFragment.currentTrackIndex == -1 ? 0 : HomeFragment.currentTrackIndex;
     }
 

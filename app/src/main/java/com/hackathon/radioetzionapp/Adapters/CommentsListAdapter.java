@@ -18,7 +18,7 @@ import java.util.List;
 public class CommentsListAdapter extends BaseAdapter {
 
     final String SUFFIX_STRING = " ... ";
-    final int MAX_CONTENT_LENGTH = 150;
+    final int MAX_CONTENT_LENGTH = 100;
 
     Context context;
     int trackIndex;
@@ -82,7 +82,7 @@ public class CommentsListAdapter extends BaseAdapter {
         txtContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isExpanded(txtContent.toString())) {
+                if (isExpanded(txtContent.getText().toString())) {
                     // collapse
                     txtContent.setText(getShortContent(item.getContent()));
                 } else {
