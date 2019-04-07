@@ -334,6 +334,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 return true;  // to make short click work ok ...
             }
         });
+
     }
 
     private void otherListeners() {

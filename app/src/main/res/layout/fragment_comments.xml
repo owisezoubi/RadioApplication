@@ -59,12 +59,12 @@
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_12sdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/lstComments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_above="@id/btnAddComment" />
 
 
@@ -76,6 +76,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp" />
 

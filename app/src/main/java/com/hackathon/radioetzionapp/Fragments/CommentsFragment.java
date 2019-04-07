@@ -20,8 +20,17 @@ public class CommentsFragment extends Fragment {
         if (hidden) {
             // Toast.makeText(getActivity(), "hiding me", Toast.LENGTH_SHORT).show();
         } else {
-            //Toast.makeText(getActivity(), "showing me", Toast.LENGTH_SHORT).show();
+            // updated every time this fragment is shown !
+
+            setPointers();
+            setListeners();
         }
+    }
+
+    private void setListeners() {
+    }
+
+    private void setPointers() {
     }
 
     @Nullable
