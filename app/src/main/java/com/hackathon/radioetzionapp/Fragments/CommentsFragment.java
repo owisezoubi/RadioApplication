@@ -1,5 +1,6 @@
 package com.hackathon.radioetzionapp.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -124,6 +127,70 @@ public class CommentsFragment extends Fragment {
                 return true;
             }
         });
+
+        btnAddComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddCommentDialog();
+            }
+        });
+    }
+
+    private void showAddCommentDialog() {
+
+        // inflate and set up views ...
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_add_comment, null);
+
+        ImageView cancel = v.findViewById(R.id.btnCancelDialogAddComment);
+        TextView title = v.findViewById(R.id.txtTitle_DialogAddComment);
+
+        final EditText txtInputContent = v.findViewById(R.id.txtInputCommentContent);
+        final EditText txtInputUsername = v.findViewById(R.id.txtInputCommentUsername);
+        Button btnSubmit = v.findViewById(R.id.btnCommentSubmit);
+
+
+        // dialog
+        final Dialog addCommentDialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+        addCommentDialog.setContentView(v);
+        addCommentDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCommentDialog.dismiss();
+            }
+        });
+
+        title.setText(Defaults.dataList.get(trackIndex).getTitle());
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+            }
+        });
+
+        addCommentDialog.create();
+        addCommentDialog.show();
+    }
+
+    private void submitComment(String content, String username) {
+
+        // step 1: check content & username validity
+
+
+        // step 2: add timestamp
+
+
+        // step 3: synchronize with local db
+
+        // step 4:  push to remote db
+
+
+        // step 5:  pull from remote (to sync with another devices)
+
+
+        // step 6: refresh adapter
     }
 
 
