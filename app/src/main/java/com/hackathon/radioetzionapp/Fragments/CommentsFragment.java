@@ -20,11 +20,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudant.sync.documentstore.DocumentNotFoundException;
+import com.cloudant.sync.documentstore.DocumentRevision;
+import com.cloudant.sync.documentstore.DocumentStore;
+import com.cloudant.sync.documentstore.DocumentStoreException;
+import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
+import com.cloudant.sync.replication.Replicator;
+import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
+import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+import com.hackathon.radioetzionapp.Utils.UtilsSetData;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class CommentsFragment extends Fragment {
@@ -68,6 +81,7 @@ public class CommentsFragment extends Fragment {
         // fragments
         homeFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
         commentsFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_COMMENTS);
+
 
         trackIndex = setTrackIndex();
     }
@@ -165,16 +179,16 @@ public class CommentsFragment extends Fragment {
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {/*
+            public void onClick(View v) {
                 submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
-            */
+
             }
         });
 
         addCommentDialog.create();
         addCommentDialog.show();
     }
-/*
+
     private void submitComment(String content, String username) {
 
         // step 1: check content & username validity // for now if not empty fields is enough
@@ -198,7 +212,7 @@ public class CommentsFragment extends Fragment {
 
     private boolean updateCommentsList(CommentDataClass newCommentObj) {
 
-        // returns true if all is OK & done
+        // returns true if all is OK & done <=> data updated locally and remotely
         // false otherwise
 
 
@@ -245,6 +259,12 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
+
+        // storing db data into local objects & lists
+        UtilsSetData.setAllData(prevRevision);
+        return true;
+    }
+        /*
         // !!!!!!!!!!!!!!!!!!!!!!!!!!! stuck here !! ///////
         Map<String, Object> tmpMap = prevRevision.getBody().asMap();
         tmpMap.put(Defaults.BroadcastDoc_Key_dataList,
@@ -314,9 +334,8 @@ public class CommentsFragment extends Fragment {
         // 3 // replicate [local-> remote] // PUSH
         Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
         replicator.start();
-
-    }
 */
+
 
     private void showCommentData() {
 
@@ -328,7 +347,6 @@ public class CommentsFragment extends Fragment {
         adapter = new CommentsListAdapter(context, trackIndex);
         lstComments.setAdapter(adapter);
     }
-
 
 
     @Nullable
