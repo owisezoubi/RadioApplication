@@ -101,7 +101,7 @@
             android:id="@+id/txtLoadingComments"
             android:textColor="@color/navbar_item_text_selected"
             android:textSize="@dimen/_10ssp"
-            android:textStyle="italic"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loading_comments_list"
