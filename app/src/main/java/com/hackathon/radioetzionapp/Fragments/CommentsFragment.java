@@ -347,20 +347,13 @@ public class CommentsFragment extends Fragment {
         // returns true if all is OK & done <=> data updated locally and remotely
         // false otherwise
 
-
         // step 0:  check internet connection
         if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
         {
             return false;
         }
 
-        // step 1: add new comment obj to LOCAL data list
-        Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
-
-        // step 2: reverse map building from local objects ...
-        Map<String, Object> mappedData = UtilsMapData.getMappedData();
-
-        // step 3:  PULL previous revision from remote (start of sync)
+        // step 1.1:  PULL previous revision from remote (START of sync)
         URI uri = null;
         DocumentStore dsTmp = null;
         try {
@@ -394,6 +387,15 @@ public class CommentsFragment extends Fragment {
         if (prevRevision == null) {
             return false;
         }
+
+        // step 1.2: set/update LOCAL data objects and lists from the NEWLY-pulled revision!
+        UtilsSetData.setAllData(prevRevision);
+
+        // step 2: add a NEW comment obj to LOCAL data list
+        Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
+
+        // step 3: reverse map building from local objects & lists to a MAP<String,Object>
+        Map<String, Object> mappedData = UtilsMapData.getMappedData();
 
         // step 4:  update prev. document revision with newly mapped data
         prevRevision.setBody(DocumentBodyFactory.create(mappedData));
