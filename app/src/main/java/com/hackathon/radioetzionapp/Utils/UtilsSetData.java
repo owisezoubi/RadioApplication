@@ -22,7 +22,6 @@ public class UtilsSetData {
         setExtras(rev);
         setServerURL(rev);
         setDataList(rev);
-
     }
 
     private static void setExtras(DocumentRevision rev) {

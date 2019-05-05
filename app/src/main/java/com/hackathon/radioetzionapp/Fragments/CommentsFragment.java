@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +19,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudant.sync.documentstore.AttachmentException;
+import com.cloudant.sync.documentstore.ConflictException;
+import com.cloudant.sync.documentstore.DocumentBodyFactory;
+import com.cloudant.sync.documentstore.DocumentNotFoundException;
+import com.cloudant.sync.documentstore.DocumentRevision;
+import com.cloudant.sync.documentstore.DocumentStore;
+import com.cloudant.sync.documentstore.DocumentStoreException;
+import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
+import com.cloudant.sync.replication.Replicator;
+import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
+import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+import com.hackathon.radioetzionapp.Utils.UtilsMapData;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 
 public class CommentsFragment extends Fragment {
@@ -66,8 +82,8 @@ public class CommentsFragment extends Fragment {
         layTop = rootView.findViewById(R.id.layCommentsTop);
 
         // fragments
-        homeFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
-        commentsFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_COMMENTS);
+        homeFragment = getFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
+        commentsFragment = getFragmentManager().findFragmentByTag(MainActivity.TAG_COMMENTS);
 
 
         trackIndex = setTrackIndex();
@@ -151,7 +167,7 @@ public class CommentsFragment extends Fragment {
 
 
         // dialog
-        final Dialog addCommentDialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+        final Dialog addCommentDialog = new Dialog(context);
         addCommentDialog.setContentView(v);
         addCommentDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
@@ -167,18 +183,15 @@ public class CommentsFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
-
-                // TODO:  Issue with updating comments in cloudant , not solved by now ...!
-                // submit function does not work  ..
-
+                submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+                addCommentDialog.dismiss();
             }
         });
 
         addCommentDialog.create();
         addCommentDialog.show();
     }
-/*
+
     private void submitComment(String content, String username) {
 
         // step 1: check content & username validity // for now if not empty fields is enough
@@ -200,6 +213,7 @@ public class CommentsFragment extends Fragment {
         showCommentData();
     }
 
+
     private boolean updateCommentsList(CommentDataClass newCommentObj) {
 
         // returns true if all is OK & done <=> data updated locally and remotely
@@ -212,12 +226,13 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
-
         // step 1: add new comment obj to LOCAL data list
         Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
 
+        // step 2: reverse map building from local objects ...
+        Map<String, Object> mappedData = UtilsMapData.getMappedData();
 
-        // step 2:  PULL previous revision from remote
+        // step 3:  PULL previous revision from remote (start of sync)
         URI uri = null;
         DocumentStore dsTmp = null;
         try {
@@ -252,40 +267,32 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
-        // TODO problem area ...
-        // putting comment object inside the appropriate OBJECT of data (by its index) == trackIndex above
-        // query
+        // step 4:  update prev. document revision with newly mapped data
+        prevRevision.setBody(DocumentBodyFactory.create(mappedData));
+        DocumentRevision newRevision = null;
+        try {
+            newRevision = dsTmp.database().update(prevRevision);
+        } catch (ConflictException e) {
+            e.printStackTrace();
+        } catch (AttachmentException e) {
+            e.printStackTrace();
+        } catch (DocumentStoreException e) {
+            e.printStackTrace();
+        } catch (DocumentNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (newRevision == null) {
+            return false;
+        }
 
-//        Query q = dsTmp.query();
-//
-//
-//        Map<String,Object> query = new HashMap<String,Object>();
-//        Map<String,Object> equalsIndex = new HashMap<String,Object>();
-//        equalsIndex.put()
-//        query.put("data.index",equalsIndex);
-//
-//        // Create an index over the data (array)
-//        try {
-//            Index i = q.createJsonIndex(Arrays.<FieldSort>asList(new FieldSort("data"), new FieldSort("age"), new FieldSort("pet"),
-//                    new FieldSort("basic")), null);
-//        } catch (QueryException e) {
-//
-//        }
-
-
-
-        // step 4: update LOCAL doc store
-
-
-
-        // step 5: PUSH D.S. to remote
-
+        // step 5: PUSH the new revision to remote (end of sync)
+        Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
+        replicator.start();
 
 
         // reached end and all is ok , return true
         return true;
     }
-*/
 
 
     private void showCommentData() {

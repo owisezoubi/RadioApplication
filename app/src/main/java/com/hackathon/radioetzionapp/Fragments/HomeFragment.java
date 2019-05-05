@@ -373,7 +373,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 Button download = v.findViewById(R.id.btnDialogDownload);
                 Button cancel = v.findViewById(R.id.btnDialogCancel);
 
-                final Dialog dialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+                final Dialog dialog = new Dialog(context);
                 dialog.setContentView(v);
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.create();
