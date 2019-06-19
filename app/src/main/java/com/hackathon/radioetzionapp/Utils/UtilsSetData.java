@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UtilsSetData {
-    // check change 20190619-1017
+
 
     // a class to collect all setData methods after retrieving data from db
     // methods are mainly used for PARSING received data and storing it in objects
