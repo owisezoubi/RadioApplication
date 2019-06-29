@@ -5,6 +5,7 @@ The competition was about organizing internet radio broadcasts for a special edu
 It was sponsored by IBM, repo-cyber and Beit-Ekstein (the organization for which the school belongs).
 
 Radio broadcasts can be found on: https://www.mixcloud.com/Radio_Etzion2/
+
 further details at: https://www.facebook.com/groups/hackeruha3/
 
 ---------------------------
