@@ -22,4 +22,4 @@ The broadcast files themselves are hosted on repo-cyber servers.
 
 The submitted version could be found in the branch:  "hachathon-submitted-version" , which is "frozen" (i.e. no more updates) to keep record of what was done.
 
-This branch (the ongoing) branch is updated continuously, with bug-fixes and improvements 
+This branch (ongoing) is updated continuously, with bug-fixes and improvements 
