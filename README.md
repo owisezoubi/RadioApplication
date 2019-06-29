@@ -26,8 +26,4 @@ This branch (ongoing) is updated continuously, with bug-fixes and improvements
 
 ----------------------------
 
-<img src="https://user-images.githubusercontent.com/48130426/60389702-667ebb00-9acf-11e9-8a92-381812014630.png" width=250 height=400/>
-<img src="https://user-images.githubusercontent.com/48130426/60389705-6e3e5f80-9acf-11e9-974f-7e5ddc1ed310.png" width=250 height=400/>
-<img src="https://user-images.githubusercontent.com/48130426/60389706-6ed6f600-9acf-11e9-94c1-fabdb3f77e99.png" width=250 height=400/>
-<img src="https://user-images.githubusercontent.com/48130426/60389707-6ed6f600-9acf-11e9-938e-337a02c859e5.png" width=250 height=400/>
-<img src="https://user-images.githubusercontent.com/48130426/60389709-6ed6f600-9acf-11e9-93f9-cb5a2e21c2da.png" width=250 height=400/>
+<img src="https://user-images.githubusercontent.com/48130426/60389702-667ebb00-9acf-11e9-8a92-381812014630.png" width=250 height=400/><img src="https://user-images.githubusercontent.com/48130426/60389705-6e3e5f80-9acf-11e9-974f-7e5ddc1ed310.png" width=250 height=400/><img src="https://user-images.githubusercontent.com/48130426/60389706-6ed6f600-9acf-11e9-94c1-fabdb3f77e99.png" width=250 height=400/><img src="https://user-images.githubusercontent.com/48130426/60389707-6ed6f600-9acf-11e9-938e-337a02c859e5.png" width=250 height=400/><img src="https://user-images.githubusercontent.com/48130426/60389709-6ed6f600-9acf-11e9-93f9-cb5a2e21c2da.png" width=250 height=400/>
