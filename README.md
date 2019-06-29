@@ -26,6 +26,7 @@ This branch (ongoing) is updated continuously, with bug-fixes and improvements
 
 ----------------------------
 
+<img src="https://user-images.githubusercontent.com/48130426/60389702-667ebb00-9acf-11e9-8a92-381812014630.png" width=250 height=250/>
 ![Screenshot_20190630-003342](https://user-images.githubusercontent.com/48130426/60389702-667ebb00-9acf-11e9-8a92-381812014630.png | width=100)
 ![Screenshot_20190630-003354](https://user-images.githubusercontent.com/48130426/60389705-6e3e5f80-9acf-11e9-974f-7e5ddc1ed310.png)
 ![Screenshot_20190630-003404](https://user-images.githubusercontent.com/48130426/60389706-6ed6f600-9acf-11e9-94c1-fabdb3f77e99.png)
