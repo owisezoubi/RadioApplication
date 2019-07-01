@@ -1,13 +1,15 @@
 package com.hackathon.radioetzionapp.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,19 +22,38 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cloudant.sync.documentstore.AttachmentException;
+import com.cloudant.sync.documentstore.ConflictException;
+import com.cloudant.sync.documentstore.DocumentBodyFactory;
+import com.cloudant.sync.documentstore.DocumentNotFoundException;
+import com.cloudant.sync.documentstore.DocumentRevision;
+import com.cloudant.sync.documentstore.DocumentStore;
+import com.cloudant.sync.documentstore.DocumentStoreException;
+import com.cloudant.sync.documentstore.DocumentStoreNotOpenedException;
+import com.cloudant.sync.replication.Replicator;
+import com.cloudant.sync.replication.ReplicatorBuilder;
 import com.hackathon.radioetzionapp.Activities.MainActivity;
 import com.hackathon.radioetzionapp.Adapters.CommentsListAdapter;
+import com.hackathon.radioetzionapp.Data.CommentDataClass;
 import com.hackathon.radioetzionapp.Data.Defaults;
 import com.hackathon.radioetzionapp.R;
 import com.hackathon.radioetzionapp.Utils.Utils;
+import com.hackathon.radioetzionapp.Utils.UtilsMapData;
+import com.hackathon.radioetzionapp.Utils.UtilsSetData;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
 
 
 public class CommentsFragment extends Fragment {
 
     Context context;
     View rootView;
-    TextView txtCommentTitle;
-    ImageView btnAddComment, btnNextTitle, btnPrevTitle;
+    DocumentStore dst;
+    TextView txtCommentTitle, txtLoadingComments;
+    ImageView btnAddComment, btnNextTitle, btnPrevTitle, btnRefreshComments;
     RelativeLayout layTop, layBody;
     ListView lstComments;
     CommentsListAdapter adapter;
@@ -58,7 +79,9 @@ public class CommentsFragment extends Fragment {
     private void setPointers() {
         this.context = getActivity();
         txtCommentTitle = rootView.findViewById(R.id.txtTitle_Comments);
+        txtLoadingComments = rootView.findViewById(R.id.txtLoadingComments);
         btnAddComment = rootView.findViewById(R.id.btnAddComment);
+        btnRefreshComments = rootView.findViewById(R.id.btnRefreshComments);
         btnNextTitle = rootView.findViewById(R.id.btnNextTitle_Comments);
         btnPrevTitle = rootView.findViewById(R.id.btnPrevTitle_Comments);
         lstComments = rootView.findViewById(R.id.lstComments);
@@ -66,8 +89,8 @@ public class CommentsFragment extends Fragment {
         layTop = rootView.findViewById(R.id.layCommentsTop);
 
         // fragments
-        homeFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
-        commentsFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_COMMENTS);
+        homeFragment = getFragmentManager().findFragmentByTag(MainActivity.TAG_HOME);
+        commentsFragment = getFragmentManager().findFragmentByTag(MainActivity.TAG_COMMENTS);
 
 
         trackIndex = setTrackIndex();
@@ -135,7 +158,128 @@ public class CommentsFragment extends Fragment {
                 showAddCommentDialog();
             }
         });
+
+        btnRefreshComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startLoadingEffects();
+                refreshData();
+            }
+
+
+        });
     }
+
+    private void startLoadingEffects() {
+        txtLoadingComments.setVisibility(View.VISIBLE);
+        txtLoadingComments.setText(getString(R.string.loading_comments_list));
+    }
+
+    private void requestInternetConnection() {
+        txtLoadingComments.setText(getString(R.string.request_internet_connection)); // request msg
+    }
+
+    private void finishLoadingEffects() {
+        txtLoadingComments.setVisibility(View.INVISIBLE);
+    }
+
+    private void refreshData() {
+        // pre-check // check if has internet connection //
+        if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
+        {
+            Utils.displayMsg(context.getString(R.string.no_internet_comments), rootView);
+            requestInternetConnection();
+            return;
+        }
+
+        // AsyncTask to get data from database (remote) to DocStore (local)
+        // & set adapter afterwards
+        getDataFromRemote();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void getDataFromRemote() {
+
+        // part 1 // URI & DS instance creation
+        URI uri = null;
+        dst = null;
+        try {
+            uri = new URI(Defaults.CloudantURL + "/" + Defaults.RadioDBName);
+            dst = DocumentStore.getInstance(new File(
+                    context.getDir(Defaults.LOCAL_DS_PATH, Context.MODE_PRIVATE),
+                    Defaults.RadioDBName));
+        } catch (URISyntaxException use) {
+            use.printStackTrace();
+        } catch (DocumentStoreNotOpenedException dsnoe) {
+            dsnoe.printStackTrace();
+        }
+
+        if (uri == null || dst == null) {
+            Utils.displayMsg(context.getString(R.string.error_getting_docstore_1), rootView);
+            return;
+        }
+
+        // part 2
+        // locally: uri & ds are OK .. now we can replicate from remote
+        // inside asyncTask
+
+        // declared final to pass into inner class
+        final URI uriTmp = uri;
+        final Context contextTmp = context;
+
+        new AsyncTask<Void, Void, Replicator.State>() {
+
+            // return true if successful, false otherwise
+            @Override
+            protected Replicator.State doInBackground(Void... voids) {
+
+                Replicator pullReplicator = ReplicatorBuilder.pull().from(uriTmp).to(dst).build();
+                pullReplicator.start();
+
+                // while NOT {COMPLETE or ERROR or else} // stay in background task //
+                // i.e. while replicating , stay in background  task //
+                while (pullReplicator.getState() == Replicator.State.STARTED) {
+                    SystemClock.sleep(100);
+                }
+
+                return pullReplicator.getState();
+            }
+
+            @Override
+            protected void onPostExecute(Replicator.State result) {
+                super.onPostExecute(result);
+                if (result != Replicator.State.COMPLETE) {
+                    Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_2), rootView);
+                } else {
+                    // all is ok, we have local DocStore
+                    // time to set serverURL && fill up data list && extras
+
+                    DocumentRevision retrieved = null;
+                    try {
+                        retrieved = dst.database().read(Defaults.BroadcastsDocID);
+                    } catch (DocumentNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (DocumentStoreException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (retrieved == null) {
+                        Utils.displayMsg(contextTmp.getString(R.string.error_getting_docstore_3), rootView);
+                        return;
+                    }
+
+                    // storing db data into local objects & lists
+                    UtilsSetData.setAllData(retrieved);
+
+                    // data is ready, time to set current comments' list adapter!
+                    showCommentData(); // to refresh adapter !
+                    finishLoadingEffects(); // effects !
+                }
+            }
+        }.execute();
+    }
+
+
 
     private void showAddCommentDialog() {
 
@@ -151,7 +295,7 @@ public class CommentsFragment extends Fragment {
 
 
         // dialog
-        final Dialog addCommentDialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+        final Dialog addCommentDialog = new Dialog(context);
         addCommentDialog.setContentView(v);
         addCommentDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
@@ -167,18 +311,15 @@ public class CommentsFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
-
-                // TODO:  Issue with updating comments in cloudant , not solved by now ...!
-                // submit function does not work  ..
-
+                submitComment(txtInputContent.getText().toString(), txtInputUsername.getText().toString());
+                addCommentDialog.dismiss();
             }
         });
 
         addCommentDialog.create();
         addCommentDialog.show();
     }
-/*
+
     private void submitComment(String content, String username) {
 
         // step 1: check content & username validity // for now if not empty fields is enough
@@ -200,11 +341,11 @@ public class CommentsFragment extends Fragment {
         showCommentData();
     }
 
+
     private boolean updateCommentsList(CommentDataClass newCommentObj) {
 
         // returns true if all is OK & done <=> data updated locally and remotely
         // false otherwise
-
 
         // step 0:  check internet connection
         if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
@@ -212,12 +353,7 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
-
-        // step 1: add new comment obj to LOCAL data list
-        Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
-
-
-        // step 2:  PULL previous revision from remote
+        // step 1.1:  PULL previous revision from remote (START of sync)
         URI uri = null;
         DocumentStore dsTmp = null;
         try {
@@ -252,40 +388,41 @@ public class CommentsFragment extends Fragment {
             return false;
         }
 
-        // TODO problem area ...
-        // putting comment object inside the appropriate OBJECT of data (by its index) == trackIndex above
-        // query
+        // step 1.2: set/update LOCAL data objects and lists from the NEWLY-pulled revision!
+        UtilsSetData.setAllData(prevRevision);
 
-//        Query q = dsTmp.query();
-//
-//
-//        Map<String,Object> query = new HashMap<String,Object>();
-//        Map<String,Object> equalsIndex = new HashMap<String,Object>();
-//        equalsIndex.put()
-//        query.put("data.index",equalsIndex);
-//
-//        // Create an index over the data (array)
-//        try {
-//            Index i = q.createJsonIndex(Arrays.<FieldSort>asList(new FieldSort("data"), new FieldSort("age"), new FieldSort("pet"),
-//                    new FieldSort("basic")), null);
-//        } catch (QueryException e) {
-//
-//        }
+        // step 2: add a NEW comment obj to LOCAL data list
+        Defaults.dataList.get(trackIndex).getCommentsList().add(newCommentObj);
 
+        // step 3: reverse map building from local objects & lists to a MAP<String,Object>
+        Map<String, Object> mappedData = UtilsMapData.getMappedData();
 
+        // step 4:  update prev. document revision with newly mapped data
+        prevRevision.setBody(DocumentBodyFactory.create(mappedData));
+        DocumentRevision newRevision = null;
+        try {
+            newRevision = dsTmp.database().update(prevRevision);
+        } catch (ConflictException e) {
+            e.printStackTrace();
+        } catch (AttachmentException e) {
+            e.printStackTrace();
+        } catch (DocumentStoreException e) {
+            e.printStackTrace();
+        } catch (DocumentNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (newRevision == null) {
+            return false;
+        }
 
-        // step 4: update LOCAL doc store
-
-
-
-        // step 5: PUSH D.S. to remote
-
+        // step 5: PUSH the new revision to remote (end of sync)
+        Replicator replicator = ReplicatorBuilder.push().from(dsTmp).to(uri).build();
+        replicator.start();
 
 
         // reached end and all is ok , return true
         return true;
     }
-*/
 
 
     private void showCommentData() {

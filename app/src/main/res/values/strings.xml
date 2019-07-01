@@ -8,7 +8,7 @@
     <string name="error_getting_docstore_2" >Error in retrieving broadcast list! code:002</string>
     <string name="error_getting_docstore_3" >Error in retrieving broadcast list! code:003</string>
     <string name="loading_broadcasts">loading broadcasts list &#8230;</string>
-    <string name="request_internet_connection">Please, connect to the internet and hit refresh button above to reload</string>
+    <string name="request_internet_connection">Please, connect to the internet and hit refresh to reload</string>
     <string name="track_nowplaying">NOW PLAYING!</string>
     <string name="title_search">Search</string>
     <string name="no_internet_mp"><![CDATA[No Internet! Cannot load broadcast please connect & try again]]></string>

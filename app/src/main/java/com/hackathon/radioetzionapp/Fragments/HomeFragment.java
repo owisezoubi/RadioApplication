@@ -373,7 +373,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
                 Button download = v.findViewById(R.id.btnDialogDownload);
                 Button cancel = v.findViewById(R.id.btnDialogCancel);
 
-                final Dialog dialog = new Dialog(context, R.style.Theme_MaterialComponents_Dialog);
+                final Dialog dialog = new Dialog(context);
                 dialog.setContentView(v);
                 dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 dialog.create();
@@ -784,6 +784,14 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
     private void loadData() {
         // in case data is not loaded yet to list >> load it from remote
         if (Defaults.dataList.isEmpty()) {
+            // pre-check // check if has internet connection //
+            if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
+            {
+                Utils.displayMsg(context.getString(R.string.no_internet), rootView);
+                requestInternetConnection();
+                return;
+            }
+
             // AsyncTask to get data from database (remote) to DocStore (local)
             // & set adapter afterwards
             getDataFromRemote();
@@ -792,16 +800,7 @@ public class HomeFragment extends Fragment implements View.OnTouchListener {
 
 
     @SuppressLint("StaticFieldLeak")
-    private void getDataFromRemote() {
-
-        // part 0 // check if has internet connection //
-        if (!Utils.hasInternet(context)) // if no internet connection, no need to continue
-        {
-            Utils.displayMsg(context.getString(R.string.no_internet), rootView);
-            requestInternetConnection();
-            return;
-        }
-
+    protected void getDataFromRemote() {
 
         // part 1 // URI & DS instance creation
         URI uri = null;
